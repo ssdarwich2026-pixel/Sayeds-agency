@@ -171,5 +171,35 @@ tools:
     best_for: visual workflows, schedules, webhooks, GroupMe reports
     notes: Fine to self-host for own use.
 
+  - name: nemotron-3-ultra-550b
+    provider: NVIDIA (via OpenRouter free tier)
+    type: chat
+    license: open-weights
+    access: free-tier
+    last_verified: 2026-10-07
+    best_for: strategy, hard reasoning (550B MoE)
+    notes: "Verified live 2026-10-07 via agency router (openrouter key, $0). Free-tier: 50 req/day, upstream 429s possible — retry or pick another free model."
+
+  - name: nemotron-3.5-lightning
+    provider: NVIDIA (via OpenRouter free tier)
+    type: chat
+    license: open-weights
+    access: free-tier
+    last_verified: 2026-10-07
+    best_for: fast general chat, drafting
+    notes: Verified live 2026-10-07 via agency router ($0).
+
+  - name: gemma-4-26b
+    provider: Google (via OpenRouter free tier)
+    type: chat
+    license: Gemma license (open)
+    access: free-tier
+    last_verified: 2026-10-07
+    best_for: general chat when available
+    notes: Listed free 2026-10-07 but upstream-shared-pool 429s observed — flaky, use as fallback only.
+
 # Deprecated entries go here with reason + date, never silently deleted.
-deprecated: []
+deprecated:
+  - name: qwen3.8-27b (:free on OpenRouter)
+    reason: no longer offered free on OpenRouter as of 2026-10-07 (API returns 404, paid slug only)
+    date: 2026-10-07

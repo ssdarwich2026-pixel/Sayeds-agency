@@ -27,11 +27,23 @@ def load(name):
     with open(os.path.join(HERE, name)) as f:
         return yaml.safe_load(f)
 
+def openrouter_connected() -> bool:
+    """True when Sayed's OpenRouter key is present in the Secure Vault."""
+    try:
+        sys.path.insert(0, "/opt/hatch/skills/skill-creator/bin")
+        from dynamic_credentials import dynamic_credential_entry
+        dynamic_credential_entry("custom.openrouter")
+        return True
+    except Exception:
+        return False
+
+
 def main():
     task = sys.argv[1] if len(sys.argv) > 1 else "chat"
     route_name = TASK_ROUTE.get(task, "agency-chat")
     cfg = load("litellm-config.yaml")
     reg = load("../registry/models.yaml")
+    or_key = openrouter_connected()
 
     entry = next((m for m in cfg["model_list"] if m["model_name"] == route_name), None)
     if not entry:
@@ -48,7 +60,11 @@ def main():
     if model.startswith("ollama/"):
         status, reason = "degraded", "ollama not installed on this worker — falls back to orchestrator"
     elif model.startswith("openrouter/"):
-        status, reason = "blocked", "needs Sayed's OpenRouter key (his 2-min signup)"
+        if or_key:
+            status, reason = "available → executable", \
+                "OpenRouter key connected in vault; free :free models verified live"
+        else:
+            status, reason = "blocked", "needs Sayed's OpenRouter key (his 2-min signup)"
     else:
         status, reason = "executable", "orchestrator-native"
 
