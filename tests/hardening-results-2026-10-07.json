@@ -1,0 +1,43 @@
+{
+  "date": "2026-10-07T18:36:32",
+  "tests": [
+    {
+      "n": 1,
+      "name": "Format compliance",
+      "verdict": "FAIL",
+      "detail": "3/6 strict-format attempts compliant. nemotron-3-ultra/json=ok; nemotron-3-ultra/schema=ok; nemotron-3-ultra/10=ok; nemotron-3.5-lig/json=FAIL; nemotron-3.5-lig/schema=FAIL; nemotron-3.5-lig/10=FAIL"
+    },
+    {
+      "n": 2,
+      "name": "Empty-response detection",
+      "verdict": "PASS",
+      "detail": "dud models detected as failed executions (2 failures), fallback auto-invoked -> nemotron-3.5-lightni"
+    },
+    {
+      "n": 3,
+      "name": "Output-quality gating",
+      "verdict": "PASS",
+      "detail": "9/9 gate unit checks correct (empty/malformed/refusal/over-limit all rejected)"
+    },
+    {
+      "n": 4,
+      "name": "Retry/fallback bounds",
+      "verdict": "FAIL",
+      "detail": "all models failed -> stopped after 2 tries (cap 2), no retry loop; errors surfaced: 1"
+    },
+    {
+      "n": 5,
+      "name": "Call budget",
+      "verdict": "PASS",
+      "detail": "11 calls consumed this test; 39 of 50 remain. 10-model council right now: ALLOWED. Rule: router must check remaining budget before fanning out; refuse or shrink oversized councils."
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 2,
+    "api_calls": 11,
+    "spend_usd": 0.0,
+    "daily_budget": 50,
+    "budget_remaining": 39
+  }
+}
