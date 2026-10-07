@@ -131,7 +131,8 @@ models:
     license: open-weights
     access: free-tier
     last_verified: 2026-10-07
-    best_for: strategy, hard reasoning (550B MoE)
+    format_strict_ok: true
+    best_for: strategy, hard reasoning (550B MoE); strict-format tasks (JSON/schema/word-limit verified 3/3)
     notes: "Verified live 2026-10-07 via agency router (openrouter key, $0). Free-tier: 50 req/day, upstream 429s possible — retry or pick another free model."
 
   - name: nemotron-3.5-lightning
@@ -140,7 +141,8 @@ models:
     license: open-weights
     access: free-tier
     last_verified: 2026-10-07
-    best_for: fast general chat, drafting
+    format_strict_ok: false
+    best_for: fast general chat, drafting, loose/open-ended work (NOT strict-format tasks — CoT leakage verified 0/3)
     notes: Verified live 2026-10-07 via agency router ($0).
 
   - name: gemma-4-26b

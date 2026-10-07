@@ -21,7 +21,18 @@ TASK_ROUTE = {
     "local": "agency-local",
     "image": "agency-local",   # commercial-safe image via local/SD; see registry
     "video": "agency-local",   # open video drafts via local/demo paths
+    # strict-format tasks resolve dynamically to a format-verified model
+    # (registry format_strict_ok: true) — see resolve_strict_model()
 }
+
+
+def resolve_strict_model(reg):
+    """Rule 1: strict-format tasks go ONLY to format-verified models."""
+    for m in reg["models"]:
+        if m.get("format_strict_ok") is True and m.get("access") in (
+                "free-tier", "open-weights", "local"):
+            return m["name"], m.get("notes", "")
+    return None, "no format-verified model in registry"
 
 def load(name):
     with open(os.path.join(HERE, name)) as f:
@@ -40,10 +51,24 @@ def openrouter_connected() -> bool:
 
 def main():
     task = sys.argv[1] if len(sys.argv) > 1 else "chat"
-    route_name = TASK_ROUTE.get(task, "agency-chat")
     cfg = load("litellm-config.yaml")
     reg = load("../registry/models.yaml")
     or_key = openrouter_connected()
+
+    if task == "strict":
+        name, notes = resolve_strict_model(reg)
+        if name and or_key:
+            print(f"TASK: strict (format-strict)")
+            print(f"ROUTE: registry -> {name}")
+            print(f"STATUS: available → executable")
+            print(f"REASON: format_strict_ok verified; {notes[:80]}")
+            return 0
+        print(f"TASK: strict (format-strict)")
+        print(f"STATUS: blocked")
+        print(f"REASON: {notes if not name else 'needs Sayed\u2019s OpenRouter key'}")
+        return 1
+
+    route_name = TASK_ROUTE.get(task, "agency-chat")
 
     entry = next((m for m in cfg["model_list"] if m["model_name"] == route_name), None)
     if not entry:

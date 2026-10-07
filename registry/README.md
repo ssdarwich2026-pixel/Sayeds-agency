@@ -17,6 +17,11 @@ hand-editing between scout runs (emergency corrections excepted).
    are preferred routes. `paid-api` entries are NEVER default routes without
    Sayed's explicit approval — they sit in the registry as options, gated.
 6. **No loyalty.** The registry serves "best tool for the job," not a provider.
+7. **Format verification.** When you verify a chat model, also record
+   `format_strict_ok: true/false` — can it follow strict output formats
+   (JSON-only, fixed schema, hard word limits) without leaking chain-of-thought?
+   Test with 3 strict tasks like the 2026-10-07 hardening test. Strict-format
+   agency tasks route ONLY to `format_strict_ok: true` models.
 
 ## For workers
 Read this registry (via the router) when choosing a model for a task. If the
