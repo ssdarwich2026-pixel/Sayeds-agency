@@ -22,5 +22,9 @@ Secondary. Muse does not set strategy — ChatGPT (primary) does. Muse runs the 
 - Cost: free weekly tier. Usage is reported against a weekly allowance, not exact tokens.
 - Brain-pack refresh: regenerate sayeds-agency-brain.md when projects, rules, or costs change materially, so the primary (ChatGPT) never goes stale.
 
+## Integrations (operational — 2026-10-07)
+- **OpenRouter: OPERATIONAL.** Key in Secure Vault (custom.openrouter, $0 credit limit, never exposed). Workspace skill `openrouter` (bin/chat.py) executes free-model calls. Router (`router/route.py`) reports `available → executable` for OpenRouter routes. Free tier: 50 req/day, upstream 429s → retry/fallback. Paid routes remain gated behind Sayed's explicit approval. $0 default intact.
+- Architecture freeze (2026-10-07): no further architectural changes without Sayed's explicit approval. Improvement via the scout/registry process.
+
 ## Replacement
 If this worker is replaced, the incoming worker reads the three crew SPECs + this file, runs one supervised cycle per crew, and takes over reporting only after Sayed confirms. Nothing about the agency changes — only the worker.
