@@ -24,6 +24,20 @@ Main chat stays clean; this page is pull (he checks when he wants).
 
 *Architecture freeze in effect (2026-10-07): no further architectural changes without Sayed's explicit approval. Improvement happens through the scout/registry process.*
 
+## Operating directive (2026-10-07)
+
+**Mode: OPERATE.** Infrastructure is built, tested (9/12), and hardened (4/5 + 3/3 regression).
+No more infrastructure stress tests unless a real production task exposes a weakness.
+Priorities, in order:
+
+1. Accomplish actual project goals — crews do real work on their schedules.
+2. Log meaningful failures, model-quality issues, routing problems, and useful
+   improvements here / in `tests/` — that's how the system keeps improving.
+3. No architecture changes without Sayed's approval.
+
+The measure that matters now: *did the agency accomplish something valuable
+better, faster, or cheaper than manual work?*
+
 ---
 
 ## Project status
