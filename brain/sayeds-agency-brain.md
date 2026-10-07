@@ -18,6 +18,13 @@
 - Autonomy model: autonomous by default, gated at the dangerous edges. Research/analyze/draft/monitor = autonomous. Publish = approval gate. Spend money = explicit approval. Sign transactions / handle secrets = never delegated. Change core architecture = human approval.
 - Permanent source of truth: the GitHub repo (Sayeds-agency). This file describes the agency; worker configs describe how a particular service executes it.
 
+## OPERATIONAL STATUS (2026-10-07) — agency is in OPERATE mode
+- **OpenRouter: OPERATIONAL.** Key in secure vault ($0 credit limit, never exposed). Free models verified live through the router (nemotron-3-ultra-550b, nemotron-3.5-lightning). 50 free requests/day; upstream rate limits happen — fallbacks handle them.
+- **Three production hardening rules live:** (1) strict-format tasks route only to format-verified models; (2) quality gate rejects bad model outputs and triggers bounded fallback; (3) budget-aware fan-out refuses oversized parallel calls.
+- **Verified baselines:** multi-model test 9/12 PASS, hardening 4/5, regression 3/3 — all at $0. Full reports in repo `tests/`.
+- **Architecture freeze:** no architectural changes without Sayed's explicit approval. Improvement via the daily scout + registry.
+- **Operating directive:** no more infrastructure stress tests unless real production work exposes a weakness. Measure success by real project outcomes, not plumbing tests.
+
 ## STANDING RULES (never break these)
 1. **Draft-before-send:** nothing posted or messaged in his name (GroupMe, socials, DMs) without his explicit approval of the wording. A loose go-ahead is NOT approval to produce and post.
 2. **Soccer groups:** show him the exact wording first, get approval. Never post Phoenix snack-day info to any team group (private reference only).
