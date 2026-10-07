@@ -4,7 +4,13 @@ One page: every project, every crew, what ran last, what's next — and the only
 things that need Sayed's hands. Regenerated after every crew run.
 Main chat stays clean; this page is pull (he checks when he wants).
 
-*Last updated: 2026-10-06 (genesis — crews still run from the workspace, repo not yet pushed)*
+*Last updated: 2026-10-07 (GroupMe office is LIVE — bot polling every 5 min via GitHub Actions)*
+
+---
+
+## 🚨 Incident log
+
+- **2026-10-07 ~01:00 CDT — poller re-answer spam:** the "commit poll state" workflow step was failing on the runner, so no state persisted between runs and the bot re-answered old messages ("I don't know" spam). Fixed: state now persists via actions/cache; added first-run catch-up (old chatter marked seen without reply, real commands still answered). 51/51 poll tests + 23/23 dry-run tests green. Dead-man's-switch cron `agency-bot-health-watch` (every 6h) now guards the schedule.
 
 ---
 
