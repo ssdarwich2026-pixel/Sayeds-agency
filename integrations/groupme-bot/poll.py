@@ -34,6 +34,7 @@ import urllib.parse
 import urllib.request
 
 from webhook_logic import chunk_message, should_respond
+from agent import is_known_command
 
 MESSAGES_URL = "https://api.groupme.com/v3/groups/{group_id}/messages"
 POST_URL = "https://api.groupme.com/v3/bots/post"
@@ -182,6 +183,7 @@ class Poller:
         """
         group_id, bot_id = str(group_id), str(bot_id)
         state = load_state(self.data_dir)
+        first_run = group_id not in state["groups"]
         gstate = state["groups"].get(group_id, {"last_seen_id": "0", "processed_ids": []})
         last_seen = _to_int(gstate.get("last_seen_id", "0"))
         processed = set(str(x) for x in gstate.get("processed_ids", []))
@@ -200,6 +202,14 @@ class Poller:
                 continue
             if not should_respond(m):
                 advanced = max(advanced, mid)  # seen, never answered
+                continue
+            if first_run and not is_known_command(str(m.get("text") or "")):
+                # First-run catch-up: pre-existing chatter is marked seen but
+                # gets no reply — the group shouldn't wake up to "I don't
+                # know" spam for yesterday's conversation. Genuine commands
+                # (help, status, note, remember) are still answered.
+                processed.add(str(mid))
+                advanced = max(advanced, mid)
                 continue
             if replies >= reply_budget:
                 break  # safety fuse; everything from here waits for next run

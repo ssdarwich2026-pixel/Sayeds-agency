@@ -82,6 +82,17 @@ SKILLS = {
 }
 
 
+def is_known_command(text):
+    """True if text invokes a registered skill.
+
+    The poller uses this for first-run catch-up: pre-existing chatter gets
+    marked seen without a reply, but real commands still get answered.
+    """
+    from webhook_logic import parse_command  # local import: no cycles, testable
+    command, _ = parse_command(text)
+    return command in SKILLS
+
+
 class Agent:
     """The dispatcher. One instance lives for the whole server process."""
 

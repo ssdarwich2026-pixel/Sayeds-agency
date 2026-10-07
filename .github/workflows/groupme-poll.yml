@@ -2,8 +2,10 @@
 # Secrets required (repo Settings → Secrets and variables → Actions):
 #   GROUPME_USER_TOKEN — your GroupMe access token (the ears: reads groups)
 #   GROUPS_JSON        — {"<group_id>": "<bot_id>", ...}  (group_id = number in the web.groupme.com URL)
-# The poll-state.json commit each run keeps the repo active (defeats the 60-day
-# scheduled-workflow disable) and persists "last seen" across runs.
+#
+# State (poll-state.json) persists between runs via the Actions cache, not git:
+# the old "commit state" step failed on the runner and caused re-answers.
+# Cache keys are per-run; restore falls back to the newest poll-state-* entry.
 
 name: GroupMe Poll
 
@@ -15,8 +17,6 @@ on:
 jobs:
   poll:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - name: Check out repo
         uses: actions/checkout@v4
@@ -26,6 +26,14 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Restore poll state
+        uses: actions/cache/restore@v4
+        with:
+          path: integrations/groupme-bot/data/poll-state.json
+          key: poll-state-cache
+          restore-keys: |
+            poll-state-
+
       - name: Poll GroupMe groups
         env:
           GROUPME_USER_TOKEN: ${{ secrets.GROUPME_USER_TOKEN }}
@@ -33,9 +41,8 @@ jobs:
         working-directory: integrations/groupme-bot
         run: python3 poll_once.py
 
-      - name: Commit poll state
-        run: |
-          git config user.name "agency-bot"
-          git config user.email "agency-bot@local"
-          git add integrations/groupme-bot/data/poll-state.json
-          git diff --staged --quiet || (git commit -m "chore: poll state" && git push)
+      - name: Save poll state
+        uses: actions/cache/save@v4
+        with:
+          path: integrations/groupme-bot/data/poll-state.json
+          key: poll-state-${{ github.run_id }}-${{ github.run_attempt }}

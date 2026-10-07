@@ -247,6 +247,42 @@ poller.poll_group("g1", "bot1")
 _, headers, _ = fake.get_calls[0]
 check("X-Access-Token header present", headers.get("X-Access-Token") == "tok-user")
 
+# --- 12. first-run catch-up: old chatter gets no reply, commands still work --
+from agent import is_known_command
+check("is_known_command: 'help' -> True", is_known_command("help") is True)
+check("is_known_command: 'Help me' -> True", is_known_command("Help me") is True)
+check("is_known_command: '!status' -> True", is_known_command("!status") is True)
+check("is_known_command: emoji chatter -> False",
+      is_known_command("\u26a1 some old chatter") is False)
+check("is_known_command: empty -> False", is_known_command("") is False)
+fake = FakeGroupMe()
+fake.add("g1", msg(201, "\u26a1 some old chatter"),
+         msg(202, "help"),
+         msg(203, "just talking here"))
+agent = SilentAgent()
+poller, tmp = fake.poller(agent=agent)
+check("first run answers only the known command",
+      poller.poll_group("g1", "bot1") == 1)
+check("only 'help' was handed to the agent", agent.seen == ["help"])
+check("exactly one post", len(fake.posts) == 1)
+state = load_state(tmp)
+check("state advanced past the chatter too",
+      state["groups"]["g1"]["last_seen_id"] == "203")
+check("all three marked processed",
+      len(state["groups"]["g1"]["processed_ids"]) == 3)
+check("second run is quiet", poller.poll_group("g1", "bot1") == 0)
+
+# --- 13. catch-up applies per group, not globally -----------------------------
+fake = FakeGroupMe()
+fake.add("g1", msg(301, "old chatter"))
+fake.add("g2", msg(302, "old chatter"))
+poller, tmp = fake.poller()
+check("g1 first run: chatter skipped", poller.poll_group("g1", "bot1") == 0)
+check("g2 first run: chatter skipped too", poller.poll_group("g2", "bot2") == 0)
+fake.add("g1", msg(303, "status"))
+check("g1 second run: real command answered",
+      poller.poll_group("g1", "bot1") == 1)
+
 failed = [n for n, c in checks if not c]
 print("\n%d/%d checks passed" % (len(checks) - len(failed), len(checks)))
 sys.exit(1 if failed else 0)
