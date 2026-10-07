@@ -85,11 +85,11 @@ check("unknown command is friendly", "help" in r.lower())
 r = agent.handle("note", sender_name="Sayed")
 check("note without text shows usage", "Usage" in r)
 
-# --- Message chunking -------------------------------------------------------
+# --- Message chunking (bot-posted cap is 1,000 chars, verified) ----------------
 long_text = "x" * 6500
 chunks = chunk_message(long_text)
-check("long reply split into 3 chunks", len(chunks) == 3)
-check("every chunk under the limit", all(len(c) <= 2900 for c in chunks))
+check("long reply split into 7 chunks", len(chunks) == 7)
+check("every chunk under the limit", all(len(c) <= 990 for c in chunks))
 check("chunks reassemble to the original", "".join(chunks) == long_text)
 check("short reply not chunked", chunk_message("hi") == ["hi"])
 

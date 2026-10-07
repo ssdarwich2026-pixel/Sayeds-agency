@@ -5,9 +5,10 @@ Kept in its own file (no FastAPI, no network) so it can be unit-tested
 without installing anything or starting a server.
 """
 
-# GroupMe's web client chokes on very long pastes (~3,000 characters),
-# so we keep every outbound message comfortably under that.
-MAX_MESSAGE_CHARS = 2900
+# Bot-posted messages are capped at 1,000 characters (verified 2026-10-06),
+# so we keep every outbound message comfortably under that. (GroupMe's web
+# client separately chokes on ~3,000-char pastes — a different limit.)
+MAX_MESSAGE_CHARS = 990
 
 
 def should_respond(payload: dict) -> bool:
