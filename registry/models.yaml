@@ -91,7 +91,7 @@ models:
   - name: flux-2-dev
     provider: Black Forest Labs (open weights)
     type: image
-    license: open-weights (dev: non-commercial; klein: check terms)
+    license: "open-weights (dev: non-commercial; klein: check terms)"
     access: open-weights
     last_verified: 2026-10-06
     best_for: product/design mockups Sayed can sell
