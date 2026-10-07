@@ -135,3 +135,8 @@ same brain — just instant instead of every-5-minutes.
   (Claude for writing, DeepSeek for code, Kimi for research…). The skills
   don't change — only the dispatcher gets smarter. See the `PHASE 2 NOTE`
   comment at the top of `agent.py`.
+
+## Field notes (from live setup, 2026-10-06)
+
+- **Callback URL rejected as invalid?** Check for an invisible space. iOS keyboards can insert a space after `https://` — the form then sees `https:// example.com/...` and rejects it with "Callback url must be a valid HTTPS URL." Fix: delete the field entirely and retype `https://example.com/oauth_callback` with no spaces. For the polling design the callback is never actually called — any valid HTTPS URL works as a placeholder.
+- **OAuth token capture:** after hitting Authorize, GroupMe redirects to the callback URL with the token in the address bar. Copy it from there; it never goes in chat — secure form only.
