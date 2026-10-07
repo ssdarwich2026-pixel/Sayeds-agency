@@ -1,0 +1,41 @@
+# Agency poller — asks GroupMe "anything new?" every 5 minutes and replies as the bot.
+# Secrets required (repo Settings → Secrets and variables → Actions):
+#   GROUPME_USER_TOKEN — your GroupMe access token (the ears: reads groups)
+#   GROUPS_JSON        — {"<group_id>": "<bot_id>", ...}  (group_id = number in the web.groupme.com URL)
+# The poll-state.json commit each run keeps the repo active (defeats the 60-day
+# scheduled-workflow disable) and persists "last seen" across runs.
+
+name: GroupMe Poll
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:  # manual "Run workflow" button for testing
+
+jobs:
+  poll:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Poll GroupMe groups
+        env:
+          GROUPME_USER_TOKEN: ${{ secrets.GROUPME_USER_TOKEN }}
+          GROUPS_JSON: ${{ secrets.GROUPS_JSON }}
+        working-directory: integrations/groupme-bot
+        run: python3 poll_once.py
+
+      - name: Commit poll state
+        run: |
+          git config user.name "agency-bot"
+          git config user.email "agency-bot@local"
+          git add integrations/groupme-bot/data/poll-state.json
+          git diff --staged --quiet || (git commit -m "chore: poll state" && git push)
