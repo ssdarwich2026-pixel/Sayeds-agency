@@ -1,0 +1,26 @@
+# systemd service file — keeps the bot running 24/7 on a VPS.
+#
+# Install (on the server, as root):
+#   1. Copy this whole folder to /opt/sayeds-agency/groupme-bot
+#   2. python3 -m venv /opt/sayeds-agency/groupme-bot/.venv
+#   3. /opt/sayeds-agency/groupme-bot/.venv/bin/pip install -r /opt/sayeds-agency/groupme-bot/requirements.txt
+#   4. Create /opt/sayeds-agency/groupme-bot/.env (see .env.example)
+#   5. sudo cp groupme-bot.service /etc/systemd/system/
+#   6. sudo systemctl daemon-reload && sudo systemctl enable --now groupme-bot
+#   7. Check it: sudo systemctl status groupme-bot  /  curl http://127.0.0.1:8000/healthz
+
+[Unit]
+Description=Sayed's Agency GroupMe Bot
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/opt/sayeds-agency/groupme-bot
+EnvironmentFile=/opt/sayeds-agency/groupme-bot/.env
+ExecStart=/opt/sayeds-agency/groupme-bot/.venv/bin/uvicorn server:app --host 127.0.0.1 --port 8000
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

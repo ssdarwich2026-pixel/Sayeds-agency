@@ -1,0 +1,29 @@
+# Crew: Jacson school watch — cross-country + band updates
+# Runs daily. Reports to the MAIN CHAT (standing request from Sayed) —
+# this is the one crew that does not report to a GroupMe group.
+name: jacson-watch
+schedule: daily
+report_to: main chat  # standing request (2026-09-30); NOT a GroupMe group
+
+goal: >
+  Keep Sayed posted on important/critical ParentSquare updates about Jacson
+  (8th grade, Keller Middle School): cross-country meets (coach Shannon Utley,
+  "KMS 26-27 Cross Country" group) and band recitals. Only what matters:
+  cancellations, schedule/location changes, weather calls.
+
+standing_note: >
+  Standing monitors keep the silence rule: report changes, stay quiet
+  otherwise. Game-day watches are different — they earn an explicit all-clear
+  by the time he needs it, not just bad-news alerts.
+
+steps:
+  - Check ParentSquare (session persists via his Google SSO; never ask him to re-authenticate unless the session actually died).
+  - Filter for: cancellations, schedule/location changes, weather calls for cross-country and band.
+  - Report important items to the main chat promptly; stay silent when nothing changed.
+
+standing_rules:
+  - Draft-before-send: anything sent on his behalf needs his approval first.
+  - Never share Jacson's school details outside the main chat and Sayed himself.
+
+needs_sayed:
+  - Re-authentication ONLY if the ParentSquare session actually dies (his tap)

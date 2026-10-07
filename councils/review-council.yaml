@@ -1,0 +1,51 @@
+# Review council — the "1 billion eyes" fine-tune loop (starter config)
+# How it works (the 7-step mechanics every council follows):
+#
+# 1. ARTIFACT: the thing being reviewed lands in the repo as a versioned file
+#    (e.g. projects/nft-launch/drafts/listing-v3.md). Councils never run on chat memory.
+# 2. CONFIG: this file names N models and their critic roles (see example below).
+# 3. FAN-OUT: one parallel job per model via LiteLLM -> OpenRouter (or local Ollama).
+#    Same artifact + same role prompt + same rubric. Free-tier models keep it at $0.
+# 4. VERDICTS: each critic returns structured JSON — score (1-10), top 3 issues,
+#    concrete rewrites. No essays; machine-readable.
+# 5. JUDGE MERGES: keep only changes 2+ critics agree on, plus the single
+#    highest-leverage solo fix. Writes artifact-v(n+1) + a changelog
+#    (what changed, who suggested it, why).
+# 6. HUMAN GATE: anything public-facing goes to Sayed as a DRAFT first.
+#    His approval is the final, non-negotiable council seat. No crew publishes
+#    in his name. Ever.
+# 7. LEARN: every verdict is logged to runs/ with model names and scores, so
+#    over weeks we see which critics are actually good per project and weight
+#    them up — the council improves itself.
+#
+# PHASE 1 (zero signups): the "different models" are parallel workers
+# role-playing the critic seats. Honest label: role-diverse, not model-diverse.
+# Real model diversity starts in Phase 2 with OpenRouter.
+#
+# What "1 billion eyes" really means: dozens of parallel model-workers per
+# project, on a loop, forever — not a literal billion.
+
+council: nft-launch-listing
+artifact: projects/nft-launch/drafts/listing-v3.md
+rubric: >
+  Score the listing as a buyer would: clarity, excitement, trust signals,
+  pricing logic, royalty transparency. Flag IP/trademark risk.
+
+critics:
+  - model: kimi-k3
+    role: skeptical buyer
+  - model: deepseek-v4.1-flash
+    role: copy editor
+  - model: mimo-v2.6-pro
+    role: pricing analyst
+  - model: qwen3.8-27b  # local, free
+    role: ip-risk checker
+
+verdict_schema:
+  score: "integer 1-10"
+  top_issues: "list of 3 strings"
+  rewrites: "list of concrete replacement strings"
+
+merge_rule: keep changes with 2+ critic agreement, plus single highest-leverage solo fix
+human_gate: Sayed approves the merged draft before anything goes live
+log_to: runs/

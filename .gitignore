@@ -1,0 +1,22 @@
+# Secrets — never committed. Sayed pastes these himself.
+.env
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Bot runtime logs
+data/*.log
+
+# macOS
+.DS_Store
+
+# Large binaries stay out of git (art, video) — manifests live here instead
+*.mp4
+*.mov
+*.png
+*.jpg
+*.jpeg

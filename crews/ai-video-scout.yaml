@@ -1,0 +1,47 @@
+# Crew: AI video scout loop — open-source video models + AI character content
+# Runs every 4 hours. Reports to the GroupMe group "AI Video Lab"
+# with a findings report + a fresh sample video each cycle.
+name: ai-video-scout
+schedule: every 4 hours
+report_to: "AI Video Lab"  # GroupMe group (Sayed is sole member)
+
+goal: >
+  Monitor the open-source video-model landscape and feed Sayed's AI video
+  work: findings report + sample video every 4 hours. Direction is original
+  characters, zero Content ID risk — Beast Sports Network commentary with
+  Mack (anchor), Bruno "The Boxer", and Dax "The Feral Striker";
+  UEFA/federation-verified facts; zero game footage.
+
+characters:
+  - 'Bruno "The Boxer": boofy blonde bob, curled moustache, red/white kit (Sayed''s favorite)'
+  - 'Dax "The Feral Striker"'
+  - 'Mack: the anchor'
+
+steps:
+  - Scout new/updated open-source video models (releases, benchmarks, sample quality).
+  - Maintain style bibles: Sayed scouts viral reels → extract the format → rebuild with original characters → he gives pointers.
+  - Produce a sample video per cycle showcasing a model or a character bit.
+  - Track what the frontier closed models (Veo, Kling, Seedance) are doing — for awareness, not for building on.
+
+verification_rule: >
+  HARD RULE for any sports content: confirm the score FIRST at the federation
+  holding the tournament (official website — UEFA.com, FIFA, etc.), with
+  Google's sports score panel as the instant cross-check. Data feeds alone
+  are NEVER trusted. No crew ships unverified scores, ever.
+
+content_rules:
+  - Label AI-generated content on all platforms (no US copyright on purely AI-generated characters — speed and audience are the moat).
+  - Nothing recognizable: no real players, no real footage, no real kits.
+
+models_phase2:
+  model_eval: kimi-k3
+  report_writing: deepseek-v4.1-flash
+  summaries: qwen3.8-27b  # local, free
+
+standing_rules:
+  - Draft-before-send: nothing posted in Sayed's name without his explicit approval.
+  - Surface to Sayed: money/spending, legal/tax/banking, credentials, deletions, anything needing his hands.
+
+needs_sayed:
+  - Pointers on characters and formats (he gives the creative direction)
+  - Approving anything before it publishes to his accounts

@@ -1,0 +1,38 @@
+# Crew: NFT launch — fox-ranger collection
+# Runs every 5 hours. Reports to the GroupMe group "NFT Launch HQ".
+name: nft-launch
+schedule: every 5 hours
+report_to: "NFT Launch HQ"  # GroupMe group (Sayed is sole member)
+
+goal: >
+  Ship the fox-ranger NFT collection on a $0 budget: buyer-pays lazy minting
+  on Rarible (free-minting toggle; creator only signs, buyer pays gas),
+  maximum royalty enforcement. Primary sale price is the real payday;
+  royalties are a bonus.
+
+milestones:
+  - "Oct 7, 6 PM CDT: wallet set up (free MetaMask; 12-word phrase on paper ONLY)"
+  - "Oct 8, 6 PM CDT: collection name + 1/1-vs-edition + pricing locked"
+  - "Oct 9, 6 PM CDT: foxes listed on Rarible"
+  - "Oct 10, 6 PM CDT: launch announcements out"
+
+steps:
+  - Track milestone progress against the dates above; nudge the plan, never the wallet.
+  - Draft listing copy, collection description, and announcement text (drafts only — never publish).
+  - Research comparable fox/animal-character collections: floor prices, edition sizes, what sold.
+  - Keep the launch pack current: name, format, pricing, royalty %, marketplace checklist.
+
+models_phase2:
+  copy: deepseek-v4.1-flash
+  strategy_pricing: kimi-k3
+  market_research: mimo-v2.6-pro
+
+standing_rules:
+  - Draft-before-send: NOTHING is listed, published, or announced in Sayed's name without his explicit approval of the wording.
+  - The 12-word wallet recovery phrase is NEVER written in files, chat, or git. Paper only.
+  - Surface to Sayed: any spending, wallet signing, marketplace submissions, royalty/legal terms.
+
+needs_sayed:
+  - Wallet creation (his hands, his paper)
+  - Approving collection name, edition format, and pricing
+  - Approving every listing and announcement before it goes live
