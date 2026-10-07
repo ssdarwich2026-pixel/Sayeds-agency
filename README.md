@@ -126,6 +126,23 @@ dropshipping.
 
 ---
 
+## The agency brain (provider-agnostic core)
+
+- **`brain/sayeds-agency-brain.md`** — what the agency IS: projects, rules,
+  costs, standing context. Provider-agnostic; this is what ChatGPT (primary)
+  reads.
+- **`brain/worker-config-muse.md`** — how Muse (secondary) executes it.
+  Replaceable per worker.
+- **`crews/*/SPEC.md`** — portable 10-point crew specs. Any worker (Muse, an
+  OpenRouter model worker, a GitHub Action) inherits a crew by implementing
+  its spec. The agency is the specs; workers are interchangeable.
+- **`registry/models.yaml`** — the living model/tool pool, maintained daily
+  by the AI Ecosystem Scout. Free-first, never hard-coded.
+- **`router/`** — LiteLLM config + routing policy: best model for the job,
+  paid routes gated behind Sayed's explicit approval.
+- **`automations/ai-ecosystem-scout/`** — the daily scout that keeps the
+  registry current and recommends architecture changes.
+
 ## Standing rules for every crew
 
 1. **Draft before send.** Anything posted or messaged in Sayed's name —

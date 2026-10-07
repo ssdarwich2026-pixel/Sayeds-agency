@@ -1,0 +1,175 @@
+# Sayed's Agency — Model & Tool Registry
+# MAINTAINED BY the daily AI Ecosystem Scout (automations/ai-ecosystem-scout/).
+# This is a living pool, not a fixed list. The scout ADDS newly verified models,
+# UPDATES last_verified dates, and MARKS entries deprecated — never hard-codes a top-10.
+# Schema per entry: provider, type, license, access, last_verified, best_for, notes.
+# access: free-tier | open-weights | local | paid-api | freemium
+# NEVER add a paid-api entry as a default route without Sayed's explicit approval.
+
+models:
+  - name: kimi-k3
+    provider: Moonshot AI (open weights)
+    type: chat
+    license: open-weights
+    access: open-weights
+    last_verified: 2026-10-06
+    best_for: strategy, pricing analysis, long-context reasoning
+    notes: First open 3T-class model (2026 frontier).
+
+  - name: mimo-v2.6-pro
+    provider: Xiaomi MiMo (open weights)
+    type: chat
+    license: MIT
+    access: open-weights
+    last_verified: 2026-10-06
+    best_for: market research, product/margin analysis
+    notes: "#1 open model on the benchmark index (Oct 2026)."
+
+  - name: deepseek-v4.1-flash
+    provider: DeepSeek (open weights)
+    type: chat
+    license: MIT
+    access: open-weights
+    last_verified: 2026-10-06
+    best_for: copywriting, report writing, trend scans
+    notes: 552B MoE, 8B active/token; API pricing broke the curve.
+
+  - name: qwen3.8-27b
+    provider: Alibaba Qwen (open weights)
+    type: chat
+    license: Apache-2.0
+    access: local
+    last_verified: 2026-10-06
+    best_for: local drafting, critiquing, summarizing (self-hosted)
+    notes: Self-hoster's favorite; runs on a decent home PC via Ollama.
+
+  - name: qwen3-coder-next
+    provider: Alibaba Qwen (open weights)
+    type: code
+    license: Apache-2.0
+    access: local
+    last_verified: 2026-10-06
+    best_for: code generation, repo automation
+    notes: Codes like a 70B, runs like an 8B.
+
+  - name: gemma-3
+    provider: Google (open weights)
+    type: chat
+    license: Gemma license (open)
+    access: local
+    last_verified: 2026-10-06
+    best_for: lightweight local tasks, single-GPU inference
+    notes: Runs on one GPU.
+
+  - name: wan-2.2
+    provider: Alibaba Wan (open weights)
+    type: video
+    license: open-weights
+    access: open-weights
+    last_verified: 2026-10-07
+    best_for: open video-generation baseline
+    notes: Agency's verified open visual baseline (AI Video Lab).
+
+  - name: ltx-2.5
+    provider: Lightricks (open weights)
+    type: video
+    license: LTX-2 community license
+    access: open-weights
+    last_verified: 2026-10-07
+    best_for: multi-shot continuity, native audio video drafts
+    notes: Leading open option; free no-signup HF demo tested. Commercially OK under revenue threshold.
+
+  - name: kandinsky-6.0-video
+    provider: Sberbank AI (open weights)
+    type: video
+    license: open-weights
+    access: open-weights
+    last_verified: 2026-10-07
+    best_for: video drafts, brand-video candidate ($0 path)
+    notes: Adopted Oct 7 as candidate $0 brand-video path; free-GPU fit not yet tested.
+
+  - name: flux-2-dev
+    provider: Black Forest Labs (open weights)
+    type: image
+    license: open-weights (dev: non-commercial; klein: check terms)
+    access: open-weights
+    last_verified: 2026-10-06
+    best_for: product/design mockups Sayed can sell
+    notes: Commercial-safe via klein variant; verify license per use.
+
+  - name: stable-diffusion-4
+    provider: Stability AI (open weights)
+    type: image
+    license: open-weights
+    access: open-weights
+    last_verified: 2026-10-06
+    best_for: image mockups, biggest LoRA ecosystem
+    notes: Open; fine for commercial brand work.
+
+  # --- explicitly NOT for commercial use ---
+  - name: qwen-image-2.1
+    provider: Alibaba Qwen
+    type: image
+    license: Qwen Research License (RESEARCH-ONLY)
+    access: open-weights
+    last_verified: 2026-10-06
+    best_for: NONE for this agency
+    notes: DO NOT USE for anything commercial. Research-only license.
+
+  - name: pixel-umm
+    provider: research release
+    type: image-video
+    license: research-only
+    access: open-weights
+    last_verified: 2026-10-07
+    best_for: NONE for this agency
+    notes: Non-commercial research-only weights. Cannot touch monetized work.
+
+tools:
+  - name: litellm
+    provider: LiteLLM (open source)
+    type: router
+    license: MIT
+    access: free-tier
+    last_verified: 2026-10-06
+    best_for: one OpenAI-style API in front of 100+ providers
+    notes: The router backbone. See router/litellm-config.yaml.
+
+  - name: openrouter
+    provider: OpenRouter
+    type: marketplace
+    license: service
+    access: freemium
+    last_verified: 2026-10-06
+    best_for: one key to 400+ models incl. free tiers
+    notes: Free to use; pay-per-token on paid models; free models $0. Key needs Sayed's signup.
+
+  - name: ollama
+    provider: Ollama (open source)
+    type: local-compute
+    license: MIT
+    access: local
+    last_verified: 2026-10-06
+    best_for: free, unlimited, private local model serving
+    notes: The answer to running models without paying per token.
+
+  - name: crewai
+    provider: CrewAI (open source)
+    type: framework
+    license: MIT
+    access: free-tier
+    last_verified: 2026-10-06
+    best_for: role-based multi-agent crews; maps 1:1 to the agency's crew model
+    notes: Preferred over AutoGen (maintenance mode).
+
+  - name: n8n
+    provider: n8n (fair-code)
+    type: automation
+    license: Sustainable Use License (self-host OK; cannot resell hosting)
+    access: free-tier
+    last_verified: 2026-10-06
+    best_for: visual workflows, schedules, webhooks, GroupMe reports
+    notes: Fine to self-host for own use.
+
+# Deprecated entries go here with reason + date, never silently deleted.
+deprecated: []
