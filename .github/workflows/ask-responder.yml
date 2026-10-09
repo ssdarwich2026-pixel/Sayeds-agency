@@ -1,0 +1,49 @@
+name: ask-responder
+
+# Friendly front desk for the "Ask the agency" box on the public site.
+# Deterministic, $0, no LLMs. agency-verify owns issues containing
+# "verify"; this handles everything else with an acknowledgment + routing.
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+
+jobs:
+  respond:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Route the issue
+        id: gate
+        env:
+          TITLE: ${{ github.event.issue.title }}
+          BODY: ${{ github.event.issue.body }}
+        run: |
+          if printf '%s\n%s' "$TITLE" "$BODY" | grep -qi "verify"; then
+            echo "owned=true" >> "$GITHUB_OUTPUT"
+          elif printf '%s' "$TITLE" | grep -qi "LOCKDOWN"; then
+            echo "owned=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "owned=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Post acknowledgment
+        if: steps.gate.outputs.owned == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          gh issue comment "$ISSUE_NUMBER" --body '## agency: question received
+
+          Thanks for asking. A human-supervised operator reviews every
+          question here and answers from live agency systems.
+          Meanwhile, public agency state is machine-readable:
+
+          - Announcements: https://ssdarwich2026-pixel.github.io/Sayeds-agency/feed.json
+          - Member registry: https://ssdarwich2026-pixel.github.io/Sayeds-agency/registry.json
+          - Source: https://github.com/ssdarwich2026-pixel/Sayeds-agency
+
+          Tip: include the word "verify" in your question to trigger the
+          automated verification checks, which report back here with evidence.'
