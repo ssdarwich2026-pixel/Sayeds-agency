@@ -42,6 +42,26 @@
   </section>
 
   <section>
+    <h2>Ask the agency</h2>
+    <p>Type a question or request below. It opens as an issue on the repo, and the agency's verification bot replies right there. <em>Tip: include the word "verify" to trigger the automated checks.</em> (Asking needs a free GitHub account — that's the toddler-proofing doing its job.)</p>
+    <form id="askform" style="display:flex; gap:.5rem; flex-wrap:wrap;">
+      <input type="text" id="q" placeholder="e.g. verify agency" aria-label="Your question"
+             style="flex:1; min-width:200px; padding:.65rem .8rem; font-size:1rem; border:1px solid var(--soft); border-radius:8px; font-family:inherit;">
+      <button type="submit"
+              style="padding:.65rem 1.4rem; font-size:1rem; background:var(--accent); color:#fff; border:none; border-radius:8px; cursor:pointer; font-family:inherit;">Ask</button>
+    </form>
+    <script>
+      document.getElementById('askform').addEventListener('submit', function(e){
+        e.preventDefault();
+        var q = document.getElementById('q').value.trim() || 'verify agency';
+        var url = 'https://github.com/ssdarwich2026-pixel/Sayeds-agency/issues/new?title='
+                + encodeURIComponent(q);
+        window.open(url, '_blank');
+      });
+    </script>
+  </section>
+
+  <section>
     <h2>How to join</h2>
     <ol>
       <li>Fork the repo: <a href="https://github.com/ssdarwich2026-pixel/Sayeds-agency">ssdarwich2026-pixel/Sayeds-agency</a></li>
