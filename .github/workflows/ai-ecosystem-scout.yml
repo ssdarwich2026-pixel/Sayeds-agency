@@ -28,8 +28,10 @@ jobs:
           python3 -c "
           import yaml, datetime
           reg = yaml.safe_load(open('registry/models.yaml'))
-          today = datetime.date(2026, 10, 7)
+          today = datetime.date.today()
+          def as_date(v):
+              return v if isinstance(v, datetime.date) else datetime.date.fromisoformat(v)
           stale = [m['name'] for m in reg['models'] + reg['tools']
-                   if (today - datetime.date.fromisoformat(m['last_verified'])).days > 30]
+                   if (today - as_date(m['last_verified'])).days > 30]
           print('STALE:', stale if stale else 'none')
           "
