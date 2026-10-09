@@ -1,0 +1,382 @@
+[
+  {
+    "description": "When the watch needs teeth, it calls the Snarl. His glare has ended more standoffs than his fists ever had to.",
+    "file": "3785356837_Create_monster_.png",
+    "name": "The Snarl \u2014 Foxwatch Brute",
+    "price_tier": "standard",
+    "traits": [
+      {
+        "trait_type": "Background",
+        "value": "Ember Peach"
+      },
+      {
+        "trait_type": "Outfit",
+        "value": "Safari Jacket, Brown Tie"
+      },
+      {
+        "trait_type": "Expression",
+        "value": "Bared Fangs"
+      },
+      {
+        "trait_type": "Eyes",
+        "value": "Round Yellow"
+      },
+      {
+        "trait_type": "Mood",
+        "value": "Menacing"
+      },
+      {
+        "trait_type": "Activity",
+        "value": "Intimidation"
+      }
+    ]
+  },
+  {
+    "description": "He never travels alone. The little wisp on his tail has ridden with him through every territory the watch holds.",
+    "file": "3827765277_Add_different_backgrounds_.png",
+    "name": "The Passenger \u2014 Foxwatch Drifter",
+    "price_tier": "standard",
+    "traits": [
+      {
+        "trait_type": "Background",
+        "value": "Rose Polygon"
+      },
+      {
+        "trait_type": "Outfit",
+        "value": "Green Field Jacket, Patterned Shirt"
+      },
+      {
+        "trait_type": "Expression",
+        "value": "Sideways Glance"
+      },
+      {
+        "trait_type": "Companion",
+        "value": "White Tail Wisp"
+      },
+      {
+        "trait_type": "Mood",
+        "value": "Wary"
+      },
+      {
+        "trait_type": "Activity",
+        "value": "Patrol"
+      }
+    ]
+  },
+  {
+    "description": "Goggles on, balloons rigged. The Aeronaut maps the watch's territory from above and never misses a thing.",
+    "file": "3901539990_Create_balloons_near_by.png",
+    "name": "The Aeronaut \u2014 Foxwatch Skyline",
+    "price_tier": "standard",
+    "traits": [
+      {
+        "trait_type": "Background",
+        "value": "Ember Peach"
+      },
+      {
+        "trait_type": "Outfit",
+        "value": "Green Jacket, Red Tie"
+      },
+      {
+        "trait_type": "Expression",
+        "value": "Focused"
+      },
+      {
+        "trait_type": "Accessory",
+        "value": "Dual-Lens Goggles"
+      },
+      {
+        "trait_type": "Companion",
+        "value": "Signal Balloons"
+      },
+      {
+        "trait_type": "Activity",
+        "value": "Aerial Survey"
+      }
+    ]
+  },
+  {
+    "description": "Half his face belongs to the night. The Moonface reads the watch's fortunes in moonlight and keeps a lantern lit for those still out.",
+    "file": "408838569_Add_a_moon_to_this_art_on_the_side_.png",
+    "name": "The Moonface \u2014 Foxwatch Oracle",
+    "price_tier": "premium",
+    "traits": [
+      {
+        "trait_type": "Background",
+        "value": "Ember Peach"
+      },
+      {
+        "trait_type": "Outfit",
+        "value": "Green Jacket, Striped Scarf"
+      },
+      {
+        "trait_type": "Expression",
+        "value": "Solemn"
+      },
+      {
+        "trait_type": "Face Marking",
+        "value": "Moonlit Half-Mask"
+      },
+      {
+        "trait_type": "Eyes",
+        "value": "Gold Coin"
+      },
+      {
+        "trait_type": "Companion",
+        "value": "Tail Lantern"
+      }
+    ]
+  },
+  {
+    "description": "Gold mask, crystal teeth, no mercy. When diplomacy fails, the Geode is who the watch sends through the door.",
+    "file": "4141927625_Create_monster_.png",
+    "name": "The Geode \u2014 Foxwatch Enforcer",
+    "price_tier": "premium",
+    "traits": [
+      {
+        "trait_type": "Background",
+        "value": "Ember Peach"
+      },
+      {
+        "trait_type": "Outfit",
+        "value": "Green Jacket, Fur Trim"
+      },
+      {
+        "trait_type": "Expression",
+        "value": "Bared Crystal Teeth"
+      },
+      {
+        "trait_type": "Accessory",
+        "value": "Gold Geometric Mask"
+      },
+      {
+        "trait_type": "Mood",
+        "value": "Feral"
+      },
+      {
+        "trait_type": "Activity",
+        "value": "Enforcement"
+      }
+    ]
+  },
+  {
+    "description": "He says little and sees everything. The Quiet walks the long borders alone and reports back only what matters.",
+    "file": "4250985850_Add_different_backgrounds_.png",
+    "name": "The Quiet \u2014 Foxwatch Ranger",
+    "price_tier": "standard",
+    "traits": [
+      {
+        "trait_type": "Background",
+        "value": "Dune Shadow"
+      },
+      {
+        "trait_type": "Outfit",
+        "value": "Tan Utility Jacket"
+      },
+      {
+        "trait_type": "Expression",
+        "value": "Calm"
+      },
+      {
+        "trait_type": "Ear Marking",
+        "value": "Silver Tips"
+      },
+      {
+        "trait_type": "Mood",
+        "value": "Steady"
+      },
+      {
+        "trait_type": "Activity",
+        "value": "Border Patrol"
+      }
+    ]
+  },
+  {
+    "description": "No mission, no disguise \u2014 just himself, and that's always been enough. The Wink talks his way past any gate.",
+    "file": "440330537_A_fox_being_himself_.png",
+    "name": "The Wink \u2014 Foxwatch Charmer",
+    "price_tier": "standard",
+    "traits": [
+      {
+        "trait_type": "Background",
+        "value": "Ember Peach"
+      },
+      {
+        "trait_type": "Outfit",
+        "value": "Gray Vest, Brown Tie"
+      },
+      {
+        "trait_type": "Expression",
+        "value": "Wink"
+      },
+      {
+        "trait_type": "Mood",
+        "value": "Smug"
+      },
+      {
+        "trait_type": "Activity",
+        "value": "Negotiation"
+      }
+    ]
+  },
+  {
+    "description": "Keeper of the watch's sweet stores. The Comb's honeycomb coat marks him as the one who feeds the den through winter.",
+    "file": "459695053_Create_honeycomb_.png",
+    "name": "The Comb \u2014 Foxwatch Keeper",
+    "price_tier": "standard",
+    "traits": [
+      {
+        "trait_type": "Background",
+        "value": "Ember Peach"
+      },
+      {
+        "trait_type": "Outfit",
+        "value": "Green Jacket, Patterned Shirt"
+      },
+      {
+        "trait_type": "Expression",
+        "value": "Serene"
+      },
+      {
+        "trait_type": "Fur Pattern",
+        "value": "Honeycomb Weave"
+      },
+      {
+        "trait_type": "Companion",
+        "value": "Honey Pots"
+      },
+      {
+        "trait_type": "Activity",
+        "value": "Harvest"
+      }
+    ]
+  },
+  {
+    "description": "Every legend starts as a rough line. The Sketch is the watch's first draft of itself \u2014 unfinished, unpolished, unstoppable.",
+    "file": "500717788_Create_soccer_ball_near_by.png",
+    "name": "The Sketch \u2014 Foxwatch Draft",
+    "price_tier": "standard",
+    "traits": [
+      {
+        "trait_type": "Background",
+        "value": "Ember Peach"
+      },
+      {
+        "trait_type": "Outfit",
+        "value": "Green Jacket, Red Tie"
+      },
+      {
+        "trait_type": "Expression",
+        "value": "Determined"
+      },
+      {
+        "trait_type": "Art Style",
+        "value": "Rough Sketch"
+      },
+      {
+        "trait_type": "Companion",
+        "value": "Angular Play Ball"
+      },
+      {
+        "trait_type": "Activity",
+        "value": "Training"
+      }
+    ]
+  },
+  {
+    "description": "Cast in honey-gold from the desert sun. The Amber holds the southern dunes where the light never quite fades.",
+    "file": "722115235_Create_honey_.png",
+    "name": "The Amber \u2014 Foxwatch Dunes",
+    "price_tier": "standard",
+    "traits": [
+      {
+        "trait_type": "Background",
+        "value": "Dune Silhouette"
+      },
+      {
+        "trait_type": "Outfit",
+        "value": "Green Jacket, Brown Tie"
+      },
+      {
+        "trait_type": "Expression",
+        "value": "Resolute"
+      },
+      {
+        "trait_type": "Fur Tone",
+        "value": "Honey Gold"
+      },
+      {
+        "trait_type": "Mood",
+        "value": "Warm"
+      },
+      {
+        "trait_type": "Activity",
+        "value": "Desert Watch"
+      }
+    ]
+  },
+  {
+    "description": "Wrapped in his quilted vest against the coldest posts. The Quilt never leaves his station, no matter the weather.",
+    "file": "73668742_Create_blankets_near_by.png",
+    "name": "The Quilt \u2014 Foxwatch Sentry",
+    "price_tier": "standard",
+    "traits": [
+      {
+        "trait_type": "Background",
+        "value": "City Dusk"
+      },
+      {
+        "trait_type": "Outfit",
+        "value": "Quilted Vest, Patterned Scarf"
+      },
+      {
+        "trait_type": "Expression",
+        "value": "Watchful"
+      },
+      {
+        "trait_type": "Mood",
+        "value": "Patient"
+      },
+      {
+        "trait_type": "Companion",
+        "value": "Supply Crate"
+      },
+      {
+        "trait_type": "Activity",
+        "value": "Cold Post"
+      }
+    ]
+  },
+  {
+    "description": "Fastest courier in the watch, with a tiny horse riding his tail for luck. The Rider's messages always arrive first.",
+    "file": "972657920_Add_different_backgrounds_.png",
+    "name": "The Rider \u2014 Foxwatch Outrider",
+    "price_tier": "standard",
+    "traits": [
+      {
+        "trait_type": "Background",
+        "value": "Ember Peach"
+      },
+      {
+        "trait_type": "Outfit",
+        "value": "Tan Safari Jacket, Brown Tie"
+      },
+      {
+        "trait_type": "Expression",
+        "value": "Sharp-Eyed"
+      },
+      {
+        "trait_type": "Fur Marking",
+        "value": "Fluff Ruff"
+      },
+      {
+        "trait_type": "Companion",
+        "value": "Tiny Tail Horse"
+      },
+      {
+        "trait_type": "Activity",
+        "value": "Courier Run"
+      }
+    ]
+  }
+]

@@ -1,0 +1,1658 @@
+[
+ {
+  "description": "Eyes closed, ears up. The Veteran has heard every alarm the treeline can sound and stopped flinching years ago. Foxwatch's steadiest paw on patrol.",
+  "file": "1106973598_scoring_a_goal.png",
+  "name": "The Veteran \u2014 Foxwatch Ranger",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Peach dusk"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Ranger shirt with sleeve patch"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Calm, eyes closed"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Patrol rest"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Steadfast"
+   }
+  ]
+ },
+ {
+  "description": "Wrapped in a road-worn scarf, the Wayfarer walks the far trails between Foxwatch outposts carrying messages no wire can be trusted with.",
+  "file": "1151332596_Create_blankets_all_around_.png",
+  "name": "The Wayfarer \u2014 Foxwatch Traveler",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Plain dusk"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Work shirt and long striped scarf"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Alert, scanning"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Trail walking"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Watchful"
+   }
+  ]
+ },
+ {
+  "description": "He wears the Foxwatch jacket but follows his own map. The Rogue shows up exactly when he's needed and never when he's expected.",
+  "file": "1327899522_A_fox_being_himself_.png",
+  "name": "The Rogue \u2014 Foxwatch Outsider",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Studio peach"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Field jacket, arms crossed"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Sideways smirk"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Lounging on duty"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Mischievous"
+   }
+  ]
+ },
+ {
+  "description": "Image rendered out of focus and unusable. Skipped from the batch.",
+  "file": "1419648857_Looking_super_cool_for_my_haircut.png",
+  "name": "Untitled \u2014 Foxwatch Reject",
+  "price_tier": "skip",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Unknown"
+   },
+   {
+    "trait_type": "Quality",
+    "value": "Blurry, rejected"
+   }
+  ]
+ },
+ {
+  "description": "Muzzled, bug-eyed, and humming to himself. Nobody knows what the Oddball is guarding, but nothing has ever gotten past him.",
+  "file": "1433053916_Eating_a_human.png",
+  "name": "The Oddball \u2014 Foxwatch Outcast",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Studio peach"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Utility vest and muzzle rig"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Dazed, humming"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Standing guard"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Eccentric"
+   }
+  ]
+ },
+ {
+  "description": "Every patrol log, every trail map, every name the Foxwatch has ever carried \u2014 the Archivist keeps them all, and remembers what the rest forgot.",
+  "file": "1463646613_Create_honeycomb_.png",
+  "name": "The Archivist \u2014 Foxwatch Keeper",
+  "price_tier": "premium",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Studio peach"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Suit, tie, and ledger book"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Sharp, amber-eyed"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Record keeping"
+   },
+   {
+    "trait_type": "Companion",
+    "value": "Ledger book"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Commanding"
+   }
+  ]
+ },
+ {
+  "description": "First through the brush, last to leave it. The Striker earned the name on the field and kept it on the trail.",
+  "file": "1624541771_scoring_a_goal.png",
+  "name": "The Striker \u2014 Foxwatch Vanguard",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Ember field"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Open field shirt"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Eyes closed, satisfied"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Post-match rest"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Triumphant"
+   }
+  ]
+ },
+ {
+  "description": "Boots, rations, spare scarves \u2014 if the Foxwatch needs it, the Quartermaster already packed two. Just don't ask where he got them.",
+  "file": "1914191684_Add_different_backgrounds_.png",
+  "name": "The Quartermaster \u2014 Foxwatch Supply",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Studio peach"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Vest, shirt, and tie"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Slight smirk"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Inventory check"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Resourceful"
+   }
+  ]
+ },
+ {
+  "description": "Second in command of the dawn patrol. The Lieutenant doesn't raise his voice; the treeline just listens anyway.",
+  "file": "1923651856_Looking_super_cool_for_my_haircut.png",
+  "name": "The Lieutenant \u2014 Foxwatch Officer",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Studio peach"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Officer jacket and tie"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Serious, direct gaze"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Inspection"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Disciplined"
+   }
+  ]
+ },
+ {
+  "description": "The maps on his shoulder are drawn from memory, and his memory has never been wrong. The Cartographer knows trails that aren't on any chart.",
+  "file": "1936266916_Create_balloons_near_by.png",
+  "name": "The Cartographer \u2014 Foxwatch Scout Corps",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Tall grass"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Jacket, tie, and map scroll"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Wide-eyed, curious"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Charting trails"
+   },
+   {
+    "trait_type": "Companion",
+    "value": "Map scroll"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Inquisitive"
+   }
+  ]
+ },
+ {
+  "description": "Marked by the brush and unbothered by it. The Hunter reads broken twigs like headlines and has never lost a trail.",
+  "file": "194268376_Create_lion.png",
+  "name": "The Hunter \u2014 Foxwatch Tracker",
+  "price_tier": "premium",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Savanna dusk"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Field shirt and tie"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Fierce, yellow-eyed"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Tracking"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Relentless"
+   }
+  ]
+ },
+ {
+  "description": "Head in a book more often than on patrol. The Scholar insists the old field manuals hold answers the Foxwatch hasn't thought to ask for yet.",
+  "file": "1943142706_Create_near_soccer_ball_.png",
+  "name": "The Scholar \u2014 Foxwatch Scribe",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Studio peach"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Shirt and striped tie"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Face buried in book"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Reading"
+   },
+   {
+    "trait_type": "Companion",
+    "value": "Open book"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Absorbed"
+   }
+  ]
+ },
+ {
+  "description": "Sketches every trailhead before the patrol moves. The Draftsman's ink-splattered field drawings have guided more night marches than any compass.",
+  "file": "1952348206_Create_lion.png",
+  "name": "The Draftsman \u2014 Foxwatch Scout",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Ink-splatter dusk"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Patched field shirt"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Intense, yellow-eyed"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Sketching trails"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Focused"
+   }
+  ]
+ },
+ {
+  "description": "Second of the Foxwatch. The Drifter walks the outer patrols alone, fringe over one eye, never in a hurry and never late. Ask him what he's watching for and he'll just smile.",
+  "file": "2129191665_Looking_super_cool_for_my_haircut.png",
+  "name": "The Drifter \u2014 Foxwatch Outrider",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Warm Gradient"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Teal Overshirt"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Cool Side-Eye"
+   },
+   {
+    "trait_type": "Hairstyle",
+    "value": "Emo Fringe"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Confident"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Patrolling"
+   }
+  ]
+ },
+ {
+  "description": "Third of the Foxwatch. The Mosaic is assembled from a thousand colored shards, every one a night the watch held the line. He wears a bow tie because even guardians dress for the occasion.",
+  "file": "2217630029_Create_near_soccer_ball_.png",
+  "name": "The Mosaic \u2014 Foxwatch Artisan",
+  "price_tier": "premium",
+  "traits": [
+   {
+    "trait_type": "Art Style",
+    "value": "Stained-Glass Mosaic"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Bow Tie"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Grinning"
+   },
+   {
+    "trait_type": "Background",
+    "value": "Warm Gradient"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Festive"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Celebrating"
+   }
+  ]
+ },
+ {
+  "description": "Fourth of the Foxwatch. The Overtime has pulled every night shift since the watch began, and it shows. He'll hold the post until relieved, then sleep standing up.",
+  "file": "2251141444_Eating_a_human.png",
+  "name": "The Overtime \u2014 Foxwatch Nightwatch",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Outfit",
+    "value": "Gray Suit"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Weary"
+   },
+   {
+    "trait_type": "Background",
+    "value": "Warm Gradient"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Exhausted"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Night Shift"
+   },
+   {
+    "trait_type": "Companion",
+    "value": "None"
+   }
+  ]
+ },
+ {
+  "description": "Fifth of the Foxwatch. The Hearth keeps the den warm and the blankets folded. Every patrol that comes home cold finds a scarf waiting with their name stitched in.",
+  "file": "2391447560_Create_blankets_near_by.png",
+  "name": "The Hearth \u2014 Foxwatch Keeper",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Outfit",
+    "value": "Striped Scarf"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Serene"
+   },
+   {
+    "trait_type": "Background",
+    "value": "Warm Gradient"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Calm"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Resting"
+   },
+   {
+    "trait_type": "Accessory",
+    "value": "Teal Shawl"
+   }
+  ]
+ },
+ {
+  "description": "Sixth of the Foxwatch. The Sprout is the youngest recruit, all wide eyes and pressed shirts. The veterans tease him; the Sprout just trains harder.",
+  "file": "2439105903_Create_cute_.png",
+  "name": "The Sprout \u2014 Foxwatch Tenderfoot",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Art Style",
+    "value": "Soft Anime"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Checkered Shirt"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Earnest"
+   },
+   {
+    "trait_type": "Background",
+    "value": "Meadow Sprigs"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Hopeful"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Field Training"
+   }
+  ]
+ },
+ {
+  "description": "Seventh of the Foxwatch. The Ranger reads trails the way others read books. Olive tunic, travel cloak, eyes on the horizon \u2014 if he's watching, the den is safe.",
+  "file": "2495087154_Create_near_soccer_ball_.png",
+  "name": "The Ranger \u2014 Foxwatch Pathfinder",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Outfit",
+    "value": "Olive Tunic"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Watchful"
+   },
+   {
+    "trait_type": "Background",
+    "value": "Warm Gradient"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Steady"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Scouting"
+   },
+   {
+    "trait_type": "Accessory",
+    "value": "Travel Cloak"
+   }
+  ]
+ },
+ {
+  "description": "Eighth of the Foxwatch. The Striker settled the great meadow derby with a single impossible goal. He still brings the ball everywhere, just in case.",
+  "file": "2496898075_Create_soccer_ball_near_by.png",
+  "name": "The Forward \u2014 Foxwatch Vanguard",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Outfit",
+    "value": "Green Vest"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Grinning"
+   },
+   {
+    "trait_type": "Companion",
+    "value": "Soccer Ball"
+   },
+   {
+    "trait_type": "Background",
+    "value": "Warm Gradient"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Playful"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Match Day"
+   }
+  ]
+ },
+ {
+  "description": "Ninth of the Foxwatch. Nobody remembers when the Maw joined \u2014 he was just suddenly there, grinning at the mountain passes. Intruders remember him. Briefly.",
+  "file": "2570261231_Create_monster_.png",
+  "name": "The Maw \u2014 Foxwatch Berserker",
+  "price_tier": "premium",
+  "traits": [
+   {
+    "trait_type": "Expression",
+    "value": "Snarling"
+   },
+   {
+    "trait_type": "Background",
+    "value": "Mountain Sketch"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Green Shirt"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Feral"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Ambush"
+   },
+   {
+    "trait_type": "Distinction",
+    "value": "Fanged Grin"
+   }
+  ]
+ },
+ {
+  "description": "Tenth of the Foxwatch. The Siesta guards the quiet hours by example. Her safari patches are earned one nap at a time, and her coffee mug is never, ever empty.",
+  "file": "2630669587_Create_cute_.png",
+  "name": "The Siesta \u2014 Foxwatch Dreamer",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Outfit",
+    "value": "Safari Shirt"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Drowsy"
+   },
+   {
+    "trait_type": "Background",
+    "value": "Mug Sketch"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Sleepy"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Napping"
+   },
+   {
+    "trait_type": "Distinction",
+    "value": "Shoulder Patches"
+   }
+  ]
+ },
+ {
+  "description": "Eleventh of the Foxwatch. The Mane grew his ruff on the high ridges and carries himself like it. Orange scarf, green eyes, zero doubt. Follow him or get out of the way.",
+  "file": "2677382388_Create_lion.png",
+  "name": "The Mane \u2014 Foxwatch Prideleader",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Distinction",
+    "value": "Lion Mane"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Orange Scarf"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Sharp"
+   },
+   {
+    "trait_type": "Background",
+    "value": "Warm Gradient"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Proud"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Leading"
+   }
+  ]
+ },
+ {
+  "description": "Twelfth of the Foxwatch. The Dandy is the watch's envoy to every court and caravan on the desert road. Paisley vest, perfect posture, and a deal for every occasion.",
+  "file": "2716202802_Create_blankets_near_by.png",
+  "name": "The Dandy \u2014 Foxwatch Emissary",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Outfit",
+    "value": "Paisley Vest"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Poised"
+   },
+   {
+    "trait_type": "Background",
+    "value": "Desert Mesas"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Suave"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Diplomacy"
+   },
+   {
+    "trait_type": "Distinction",
+    "value": "Patterned Vest"
+   }
+  ]
+ },
+ {
+  "description": "Thirteenth of the Foxwatch. The Jubilee throws the party after every victory, balloons and all. Someone has to celebrate the wins \u2014 he's made it his whole job.",
+  "file": "2728793858_Create_balloons_near_by.png",
+  "name": "The Jubilee \u2014 Foxwatch Reveler",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Companion",
+    "value": "Balloons"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Pinstripe Vest"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Cheerful"
+   },
+   {
+    "trait_type": "Background",
+    "value": "Warm Gradient"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Festive"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Celebrating"
+   },
+   {
+    "trait_type": "Distinction",
+    "value": "Grand Muzzle"
+   }
+  ]
+ },
+ {
+  "description": "Fresh cut, sharp frames, sharper mind. The Professor plans the patrol routes the rest of the Foxwatch just walks.",
+  "file": "2736731751_Looking_super_cool_for_my_haircut.png",
+  "name": "The Professor \u2014 Foxwatch Strategist",
+  "price_tier": "premium",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Peach Wash"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Safari Shirt and Tie"
+   },
+   {
+    "trait_type": "Accessory",
+    "value": "Scholar Glasses"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Smug"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Planning"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Confident"
+   }
+  ]
+ },
+ {
+  "description": "No orders, no schedule, no problem. The Drifter ranges beyond the marked trails and reports back only when it matters.",
+  "file": "2881327984_A_fox_being_himself_.png",
+  "name": "The Wanderer \u2014 Foxwatch Outrider",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Peach Wash"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Field Jacket and Tie"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Half-Lidded"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Patrolling"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Unbothered"
+   }
+  ]
+ },
+ {
+  "description": "She knows every hive within ten miles and the Foxwatch eats because of it. The 'Honey Honey' tag is her signature on every jar.",
+  "file": "2973512280_Create_honey_.png",
+  "name": "Honey \u2014 Foxwatch Forager",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Peach Wash"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Field Jacket and Tie"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Content"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Foraging"
+   },
+   {
+    "trait_type": "Companion",
+    "value": "None"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Satisfied"
+   }
+  ]
+ },
+ {
+  "description": "Every den needs someone who keeps the canteens full. The Traveler drinks deep and shares deeper.",
+  "file": "3015533207_Eating_a_human.png",
+  "name": "The Traveler \u2014 Foxwatch Quartermaster",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Peach Wash"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Field Jacket and Striped Tie"
+   },
+   {
+    "trait_type": "Accessory",
+    "value": "Canteen"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Content"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Resupplying"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Relaxed"
+   }
+  ]
+ },
+ {
+  "description": "Not a fox, and nobody in the Foxwatch mentions it. When the heavy work starts, the Lion is already there.",
+  "file": "3036550517_Create_lion.png",
+  "name": "The Lion \u2014 Foxwatch Heavy",
+  "price_tier": "premium",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Peach Wash"
+   },
+   {
+    "trait_type": "Species",
+    "value": "Lion"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Field Jacket and Tie"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Watchful"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Guarding"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Steadfast"
+   }
+  ]
+ },
+ {
+  "description": "Mask on, badge out. The Medic has patched up half the Foxwatch and asks for nothing but a quiet corner afterward.",
+  "file": "3061680416_Create_cute_.png",
+  "name": "The Medic \u2014 Foxwatch Corpsman",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Peach Wash"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Field Jacket and Tie"
+   },
+   {
+    "trait_type": "Accessory",
+    "value": "Face Mask"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Alert"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Tending"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Dutiful"
+   }
+  ]
+ },
+ {
+  "description": "Scarf against the evening grass, eyes on the horizon. The Ranger walks point so the column never walks blind.",
+  "file": "3126319483_Create_blankets_all_around_.png",
+  "name": "The Trekker \u2014 Foxwatch Pathfinder",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Grassland Edge"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Field Jacket and Checkered Scarf"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Calm"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Scouting"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Steady"
+   }
+  ]
+ },
+ {
+  "description": "Wrapped tight against the cold, dreaming in patrol patterns. Even asleep, the Sleeper is on watch.",
+  "file": "3265955878_Create_blankets_near_by.png",
+  "name": "The Sleeper \u2014 Foxwatch Dreamer",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Peach Wash"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Wrapped Blanket"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Serene"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Resting"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Peaceful"
+   }
+  ]
+ },
+ {
+  "description": "Number one, ball at her feet, geometric heart. The Captain runs the Foxwatch drills and never loses a scrimmage.",
+  "file": "3506641845_Create_soccer_ball_near_by.png",
+  "name": "The Captain \u2014 Foxwatch Striker",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Peach Wash"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Number 1 Jersey and Tie"
+   },
+   {
+    "trait_type": "Companion",
+    "value": "Soccer Ball"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Focused"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Training"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Determined"
+   }
+  ]
+ },
+ {
+  "description": "Big eyes, clean coat, cleaner record. The Watcher takes the night shift and has never missed a thing.",
+  "file": "3517728014_Eating_a_human.png",
+  "name": "The Watcher \u2014 Foxwatch Sentinel",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Peach Wash"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Field Jacket and Tie"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Attentive"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Standing Watch"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Vigilant"
+   }
+  ]
+ },
+ {
+  "description": "Half-lidded eyes that have seen every season. The Veteran teaches the young ones what the manuals leave out.",
+  "file": "3618691708_Create_near_soccer_ball_.png",
+  "name": "The Veteran \u2014 Foxwatch Old Guard",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Peach Wash"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Field Jacket and Striped Tie"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Weary"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Mentoring"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Grounded"
+   }
+  ]
+ },
+ {
+  "description": "Honeycomb patterned into her very fur. The Beekeeper tends the hives that keep the Foxwatch fed through winter.",
+  "file": "3688848821_Create_honeycomb_.png",
+  "name": "The Beekeeper \u2014 Foxwatch Harvester",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Peach Wash"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Harvest Vest"
+   },
+   {
+    "trait_type": "Marking",
+    "value": "Honeycomb Fur"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Calm"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Harvesting"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Patient"
+   }
+  ]
+ },
+ {
+  "description": "Leaf-wrapped and dapple-furred, gone before you blink. The Ghost scouts the places the patrols can't reach.",
+  "file": "376599890_Create_blankets_all_around_.png",
+  "name": "The Ghost \u2014 Foxwatch Infiltrator",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Peach Wash"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Leaf Wrap and Plaid Scarf"
+   },
+   {
+    "trait_type": "Marking",
+    "value": "Dappled Camo Fur"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Calm"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Infiltrating"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Elusive"
+   }
+  ]
+ },
+ {
+  "description": "When the watch needs teeth, it calls the Snarl. His glare has ended more standoffs than his fists ever had to.",
+  "file": "3785356837_Create_monster_.png",
+  "name": "The Snarl \u2014 Foxwatch Brute",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Ember Peach"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Safari Jacket, Brown Tie"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Bared Fangs"
+   },
+   {
+    "trait_type": "Eyes",
+    "value": "Round Yellow"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Menacing"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Intimidation"
+   }
+  ]
+ },
+ {
+  "description": "He never travels alone. The little wisp on his tail has ridden with him through every territory the watch holds.",
+  "file": "3827765277_Add_different_backgrounds_.png",
+  "name": "The Passenger \u2014 Foxwatch Drifter",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Rose Polygon"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Green Field Jacket, Patterned Shirt"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Sideways Glance"
+   },
+   {
+    "trait_type": "Companion",
+    "value": "White Tail Wisp"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Wary"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Patrol"
+   }
+  ]
+ },
+ {
+  "description": "Goggles on, balloons rigged. The Aeronaut maps the watch's territory from above and never misses a thing.",
+  "file": "3901539990_Create_balloons_near_by.png",
+  "name": "The Aeronaut \u2014 Foxwatch Skyline",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Ember Peach"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Green Jacket, Red Tie"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Focused"
+   },
+   {
+    "trait_type": "Accessory",
+    "value": "Dual-Lens Goggles"
+   },
+   {
+    "trait_type": "Companion",
+    "value": "Signal Balloons"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Aerial Survey"
+   }
+  ]
+ },
+ {
+  "description": "Half his face belongs to the night. The Moonface reads the watch's fortunes in moonlight and keeps a lantern lit for those still out.",
+  "file": "408838569_Add_a_moon_to_this_art_on_the_side_.png",
+  "name": "The Moonface \u2014 Foxwatch Oracle",
+  "price_tier": "premium",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Ember Peach"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Green Jacket, Striped Scarf"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Solemn"
+   },
+   {
+    "trait_type": "Face Marking",
+    "value": "Moonlit Half-Mask"
+   },
+   {
+    "trait_type": "Eyes",
+    "value": "Gold Coin"
+   },
+   {
+    "trait_type": "Companion",
+    "value": "Tail Lantern"
+   }
+  ]
+ },
+ {
+  "description": "Gold mask, crystal teeth, no mercy. When diplomacy fails, the Geode is who the watch sends through the door.",
+  "file": "4141927625_Create_monster_.png",
+  "name": "The Geode \u2014 Foxwatch Enforcer",
+  "price_tier": "premium",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Ember Peach"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Green Jacket, Fur Trim"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Bared Crystal Teeth"
+   },
+   {
+    "trait_type": "Accessory",
+    "value": "Gold Geometric Mask"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Feral"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Enforcement"
+   }
+  ]
+ },
+ {
+  "description": "He says little and sees everything. The Quiet walks the long borders alone and reports back only what matters.",
+  "file": "4250985850_Add_different_backgrounds_.png",
+  "name": "The Quiet \u2014 Foxwatch Ranger",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Dune Shadow"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Tan Utility Jacket"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Calm"
+   },
+   {
+    "trait_type": "Ear Marking",
+    "value": "Silver Tips"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Steady"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Border Patrol"
+   }
+  ]
+ },
+ {
+  "description": "No mission, no disguise \u2014 just himself, and that's always been enough. The Wink talks his way past any gate.",
+  "file": "440330537_A_fox_being_himself_.png",
+  "name": "The Wink \u2014 Foxwatch Charmer",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Ember Peach"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Gray Vest, Brown Tie"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Wink"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Smug"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Negotiation"
+   }
+  ]
+ },
+ {
+  "description": "Keeper of the watch's sweet stores. The Comb's honeycomb coat marks him as the one who feeds the den through winter.",
+  "file": "459695053_Create_honeycomb_.png",
+  "name": "The Comb \u2014 Foxwatch Keeper",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Ember Peach"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Green Jacket, Patterned Shirt"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Serene"
+   },
+   {
+    "trait_type": "Fur Pattern",
+    "value": "Honeycomb Weave"
+   },
+   {
+    "trait_type": "Companion",
+    "value": "Honey Pots"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Harvest"
+   }
+  ]
+ },
+ {
+  "description": "Every legend starts as a rough line. The Sketch is the watch's first draft of itself \u2014 unfinished, unpolished, unstoppable.",
+  "file": "500717788_Create_soccer_ball_near_by.png",
+  "name": "The Sketch \u2014 Foxwatch Draft",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Ember Peach"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Green Jacket, Red Tie"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Determined"
+   },
+   {
+    "trait_type": "Art Style",
+    "value": "Rough Sketch"
+   },
+   {
+    "trait_type": "Companion",
+    "value": "Angular Play Ball"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Training"
+   }
+  ]
+ },
+ {
+  "description": "Cast in honey-gold from the desert sun. The Amber holds the southern dunes where the light never quite fades.",
+  "file": "722115235_Create_honey_.png",
+  "name": "The Amber \u2014 Foxwatch Dunes",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Dune Silhouette"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Green Jacket, Brown Tie"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Resolute"
+   },
+   {
+    "trait_type": "Fur Tone",
+    "value": "Honey Gold"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Warm"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Desert Watch"
+   }
+  ]
+ },
+ {
+  "description": "Wrapped in his quilted vest against the coldest posts. The Quilt never leaves his station, no matter the weather.",
+  "file": "73668742_Create_blankets_near_by.png",
+  "name": "The Quilt \u2014 Foxwatch Sentry",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "City Dusk"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Quilted Vest, Patterned Scarf"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Watchful"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Patient"
+   },
+   {
+    "trait_type": "Companion",
+    "value": "Supply Crate"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Cold Post"
+   }
+  ]
+ },
+ {
+  "description": "Fastest courier in the watch, with a tiny horse riding his tail for luck. The Rider's messages always arrive first.",
+  "file": "972657920_Add_different_backgrounds_.png",
+  "name": "The Rider \u2014 Foxwatch Outrider",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Ember Peach"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Tan Safari Jacket, Brown Tie"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Sharp-Eyed"
+   },
+   {
+    "trait_type": "Fur Marking",
+    "value": "Fluff Ruff"
+   },
+   {
+    "trait_type": "Companion",
+    "value": "Tiny Tail Horse"
+   },
+   {
+    "trait_type": "Activity",
+    "value": "Courier Run"
+   }
+  ]
+ },
+ {
+  "description": "Spectacled and packed for the long route, the Courier delivers Foxwatch orders by paper glider \u2014 faster than any runner, quieter than any drone.",
+  "file": "3579689588_Create_balloons_near_by.png",
+  "name": "The Dispatch \u2014 Foxwatch Courier",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Warm Peach"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Gray Blazer"
+   },
+   {
+    "trait_type": "Eyewear",
+    "value": "Round Spectacles"
+   },
+   {
+    "trait_type": "Companion",
+    "value": "Paper Glider"
+   },
+   {
+    "trait_type": "Gear",
+    "value": "Field Backpack"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Alert"
+   }
+  ]
+ },
+ {
+  "description": "Freckled from seasons in the comb-fields, the Keeper guards the Foxwatch honey stores. The leaf-veined tail marks every keeper since the first hive.",
+  "file": "3644849444_Create_honeycomb_.png",
+  "name": "The Keeper \u2014 Foxwatch Apiary",
+  "price_tier": "premium",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Honeycomb"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Olive Blazer"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Keen"
+   },
+   {
+    "trait_type": "Markings",
+    "value": "Freckled Snout"
+   },
+   {
+    "trait_type": "Companion",
+    "value": "Leaf-vein Tail"
+   },
+   {
+    "trait_type": "Eyes",
+    "value": "Green"
+   }
+  ]
+ },
+ {
+  "description": "Every evening the Sentinel takes the west post as the light turns to honey. Nothing has ever crossed the line on their watch.",
+  "file": "3793062394_Create_honey_.png",
+  "name": "The Golden Hour \u2014 Foxwatch Sentinel",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Amber Glow"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Green Blazer"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Serene"
+   },
+   {
+    "trait_type": "Lighting",
+    "value": "Golden Hour"
+   },
+   {
+    "trait_type": "Pose",
+    "value": "Profile"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Watchful"
+   }
+  ]
+ },
+ {
+  "description": "Cut at hard angles and twice as sharp, the Shard leads the vanguard charge. The blue confetti marks a celebration that hasn't happened yet.",
+  "file": "684769676_Create_soccer_ball_near_by.png",
+  "name": "The Shard \u2014 Foxwatch Vanguard",
+  "price_tier": "standard",
+  "traits": [
+   {
+    "trait_type": "Background",
+    "value": "Abstract Dunes"
+   },
+   {
+    "trait_type": "Outfit",
+    "value": "Dark Field Jacket"
+   },
+   {
+    "trait_type": "Style",
+    "value": "Angular"
+   },
+   {
+    "trait_type": "Accent",
+    "value": "Blue Confetti"
+   },
+   {
+    "trait_type": "Expression",
+    "value": "Focused"
+   },
+   {
+    "trait_type": "Mood",
+    "value": "Bold"
+   }
+  ]
+ }
+]
