@@ -9,24 +9,52 @@ on:
   schedule:
     - cron: '0 13 * * *'   # daily 13:00 UTC
   workflow_dispatch:
+  issues:
+    types: [opened]        # ChatGPT opens an issue containing "verify" -> checks run, result posted back
 
 permissions:
   contents: read   # verify only; never commits
+  issues: write    # post result comment on the triggering issue only
 
 jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
+      - name: Gate issue trigger
+        id: gate
+        env:
+          EVENT: ${{ github.event_name }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: |
+          if [ "$EVENT" = "issues" ]; then
+            if printf '%s\n%s' "$ISSUE_TITLE" "$ISSUE_BODY" | grep -qi "verify"; then
+              echo "run=true" >> "$GITHUB_OUTPUT"
+              echo "comment=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "run=false" >> "$GITHUB_OUTPUT"
+              echo "comment=false" >> "$GITHUB_OUTPUT"
+            fi
+          else
+            echo "run=true" >> "$GITHUB_OUTPUT"
+            echo "comment=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - uses: actions/checkout@v4
+        if: steps.gate.outputs.run == 'true'
 
       - uses: actions/setup-python@v5
+        if: steps.gate.outputs.run == 'true'
         with:
           python-version: '3.11'
 
       - name: Install dependencies
+        if: steps.gate.outputs.run == 'true'
         run: pip install pillow
 
       - name: Secret scan (fail on leaked key material)
+        id: secrets
+        if: steps.gate.outputs.run == 'true'
         run: |
           python3 - << 'EOF'
           import os, re, sys
@@ -58,9 +86,13 @@ jobs:
           EOF
 
       - name: Run Foxwatch test suite
+        id: tests
+        if: steps.gate.outputs.run == 'true'
         run: python foxwatch/pipeline/test_pipeline.py
 
       - name: Validate catalog manifest
+        id: manifest
+        if: steps.gate.outputs.run == 'true'
         run: >
           python foxwatch/pipeline/foxwatch_pipeline.py
           --art-dir foxwatch/artwork
@@ -69,6 +101,8 @@ jobs:
         # pipeline exits 1 on blocking errors -> fails the job
 
       - name: Image integrity check
+        id: images
+        if: steps.gate.outputs.run == 'true'
         run: |
           python3 - << 'EOF'
           import os, sys, hashlib
@@ -96,4 +130,27 @@ jobs:
           EOF
 
       - name: Summary
+        if: steps.gate.outputs.run == 'true'
         run: 'echo "agency-verify OK - secrets clean, tests pass, manifest valid, images intact"'
+
+      - name: Report result to issue
+        if: always() && steps.gate.outputs.comment == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          SHA: ${{ github.sha }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          JOB_STATUS: ${{ job.status }}
+          S_SECRETS: ${{ steps.secrets.outcome }}
+          S_TESTS: ${{ steps.tests.outcome }}
+          S_MANIFEST: ${{ steps.manifest.outcome }}
+          S_IMAGES: ${{ steps.images.outcome }}
+        run: |
+          if [ "$JOB_STATUS" = "success" ]; then
+            LINE="PASS - all checks green"
+          else
+            LINE="FAIL - secrets:$S_SECRETS tests:$S_TESTS manifest:$S_MANIFEST images:$S_IMAGES"
+          fi
+          gh issue comment "$ISSUE_NUMBER" --body "## agency-verify: $LINE
+          Commit: $SHA
+          Run log: $RUN_URL"
