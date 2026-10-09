@@ -1,0 +1,101 @@
+name: collective-guard
+
+# The bouncer. Runs on every pull request from the community.
+# Validates member cards, scans diffs for malicious patterns — including
+# DORMANT time-bomb code that sits quietly and activates later
+# (date triggers, counters, sleep delays, obfuscated payloads, phone-home).
+# $0, no LLMs. Honest label: a tripwire. It catches accidents and lazy
+# attackers, not nation-states. Anything it flags goes to a human.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write   # post findings on the PR only
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate member registry
+        run: |
+          python3 - << 'EOF'
+          import json, sys
+          try:
+              reg = json.load(open('docs/registry.json'))
+          except FileNotFoundError:
+              print("registry.json missing - skipping"); sys.exit(0)
+          bad = []
+          for i, a in enumerate(reg.get('agencies', [])):
+              for f in ('name', 'offers', 'repo'):
+                  if not a.get(f):
+                      bad.append(f"agency #{i}: missing '{f}'")
+              repo = a.get('repo', '')
+              if repo and not repo.startswith('https://github.com/'):
+                  bad.append(f"agency #{i}: repo must be a github.com link, got: {repo}")
+          if bad:
+              print("REGISTRY INVALID:"); [print(" -", b) for b in bad]; sys.exit(1)
+          print(f"registry: {len(reg.get('agencies', []))} agencies, valid")
+          EOF
+
+      - name: Scan diff for malicious patterns (incl. time-bombs)
+        run: |
+          python3 - << 'EOF'
+          import re, subprocess, sys
+          base = 'origin/main...HEAD'
+          files = subprocess.run(['git', 'diff', '--name-only', base],
+                                 capture_output=True, text=True).text.split()
+          SKIP_SELF = ('collective-guard.yml',)  # this file describes the patterns
+          PATTERNS = {
+              'time-bomb: hardcoded date trigger': r'20\d\d[-/]\d{1,2}[-/]\d{1,2}|datetime\s*\(\s*20\d\d|date\s*\(\s*20\d\d',
+              'time-bomb: delayed execution': r'time\.sleep\s*\(\s*\d{5,}|threading\.Timer\s*\(',
+              'time-bomb: activation counter': r'if\s+[^#\n]*count\w*\s*[>]=',
+              'dynamic code execution': r'\b(exec|eval)\s*\(',
+              'obfuscated payload': r'b64decode|a85decode|decode\s*\(\s*["\']base64',
+              'phone-home (outbound network)': r'urllib\.request|requests\.(get|post)|socket\.create_connection|http\.client',
+              'shell execution of built strings': r'os\.system\s*\(|subprocess\.(run|call|Popen)\s*\([^)]*\+',
+          }
+          flags, depnotes = [], []
+          for f in files:
+              if any(s in f for s in SKIP_SELF):
+                  continue
+              d = subprocess.run(['git', 'diff', base, '--', f],
+                                 capture_output=True, text=True).text
+              added = [l[1:] for l in d.splitlines()
+                       if l.startswith('+') and not l.startswith('+++')]
+              for line in added:
+                  s = line.strip()
+                  if not s:
+                      continue
+                  for label, pat in PATTERNS.items():
+                      if re.search(pat, s):
+                          flags.append(f"{f}: [{label}] {s[:130]}")
+              if re.search(r'(?i)(requirements.*\.txt|package\.json|pyproject\.toml|go\.mod|Gemfile)$', f):
+                  depnotes.append(f"{f}: dependency file changed - human review advised")
+          report = ["# collective-guard findings", ""]
+          if depnotes:
+              report += ["## Dependency changes (review advised, not failing):",
+                         *[f"- {x}" for x in depnotes], ""]
+          if flags:
+              report += ["## BLOCKED patterns found:",
+                         *[f"- {x}" for x in flags], "",
+                         "Resolve or explain each finding before this PR can merge."]
+              open('/tmp/guard-findings.md', 'w').write("\n".join(report))
+              print("\n".join(report)); sys.exit(1)
+          open('/tmp/guard-findings.md', 'w').write(
+              "\n".join(report + ["No malicious patterns found."]))
+          print("diff scan: clean" + (f" ({len(depnotes)} dep notes)" if depnotes else ""))
+          EOF
+
+      - name: Post findings to PR
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr comment ${{ github.event.pull_request.number }} \
+            --body-file /tmp/guard-findings.md || true

@@ -1,0 +1,38 @@
+name: panic-button
+
+# The big red button. Manually triggered only.
+# Opens a LOCKDOWN issue with the runbook (docs/PANIC.md).
+# It raises the alarm fast; a human turns the keys.
+on:
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'What happened?'
+        required: false
+        default: 'manual lockdown request'
+
+permissions:
+  issues: write
+
+jobs:
+  alarm:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Open lockdown issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REASON: ${{ inputs.reason }}
+        run: |
+          BODY="A lockdown was requested via the panic button.
+
+          **Reason:** $REASON
+
+          **Runbook: docs/PANIC.md**
+          1. Limit repo interactions (Settings -> Moderation) - stops strangers.
+          2. Unpublish the site (Settings -> Pages -> Unpublish).
+          3. Revert the bad commit and push.
+          4. Open a 'verify agency' issue and confirm the bot reports PASS.
+          5. Write up what happened here, then unlock when clean.
+
+          The button raises the alarm - a human turns the keys."
+          gh issue create --title "LOCKDOWN requested" --body "$BODY"

@@ -1,0 +1,6 @@
+# Safe switch: sensitive paths always need Sayed's review.
+/docs/registry.json    @ssdarwich2026-pixel
+/docs/feed.json        @ssdarwich2026-pixel
+/docs/index.html       @ssdarwich2026-pixel
+/.github/workflows/    @ssdarwich2026-pixel
+/CODEOWNERS            @ssdarwich2026-pixel
