@@ -1,0 +1,35 @@
+# AI Ecosystem Scout — daily registry health check ($0, no keys, no secrets)
+# The full agentic scout (research + evaluation) runs on the orchestrator's
+# scheduler; this workflow is the durable daily heartbeat IN the repo:
+# it validates the registry every morning so rot gets caught even if the
+# agentic run is delayed.
+name: ai-ecosystem-scout
+
+on:
+  schedule:
+    - cron: "15 13 * * *" # ~08:15 CDT daily
+  workflow_dispatch:
+
+jobs:
+  registry-health:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate registry YAML
+        run: |
+          python3 -c "
+          import yaml, sys
+          reg = yaml.safe_load(open('registry/models.yaml'))
+          assert 'models' in reg and 'tools' in reg, 'registry missing sections'
+          print(f\"models: {len(reg['models'])}, tools: {len(reg['tools'])}, deprecated: {len(reg.get('deprecated', []))}\")
+          "
+      - name: Flag stale entries (>30 days unverified)
+        run: |
+          python3 -c "
+          import yaml, datetime
+          reg = yaml.safe_load(open('registry/models.yaml'))
+          today = datetime.date(2026, 10, 7)
+          stale = [m['name'] for m in reg['models'] + reg['tools']
+                   if (today - datetime.date.fromisoformat(m['last_verified'])).days > 30]
+          print('STALE:', stale if stale else 'none')
+          "

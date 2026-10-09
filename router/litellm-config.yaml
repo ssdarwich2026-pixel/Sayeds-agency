@@ -1,0 +1,47 @@
+# Sayed's Agency — Model Router (LiteLLM config)
+# Free-first, provider-agnostic routing. Paid routes are present but GATED:
+# they require Sayed's explicit approval per call (see ROUTING-POLICY.md).
+# Model names here resolve via OpenRouter / local Ollama; the registry
+# (registry/models.yaml) is the source of truth for what's available.
+
+model_list:
+  # --- free / open default routes ---
+  - model_name: agency-chat
+    litellm_params:
+      model: openrouter/mimo-v2.6-pro
+      fallbacks: [openrouter/deepseek-v4.1-flash, ollama/qwen3.8-27b]
+  - model_name: agency-strategy
+    litellm_params:
+      model: openrouter/kimi-k3
+      fallbacks: [openrouter/mimo-v2.6-pro, ollama/qwen3.8-27b]
+  - model_name: agency-copy
+    litellm_params:
+      model: openrouter/deepseek-v4.1-flash
+      fallbacks: [openrouter/mimo-v2.6-pro, ollama/qwen3.8-27b]
+  - model_name: agency-code
+    litellm_params:
+      model: ollama/qwen3-coder-next
+      fallbacks: [openrouter/deepseek-v4.1-flash]
+  - model_name: agency-local
+    litellm_params:
+      model: ollama/qwen3.8-27b
+      fallbacks: [openrouter/deepseek-v4.1-flash]
+  # --- GATED paid routes (approval required, never default) ---
+  - model_name: agency-premium
+    litellm_params:
+      model: openrouter/openai/gpt-5
+      fallbacks: [openrouter/kimi-k3]
+    metadata:
+      gated: true
+      reason: paid-api — Sayed approval required per call
+
+router_settings:
+  routing_strategy: usage-based-routing-v2
+  fallbacks:
+    - {"agency-chat": ["agency-local"]}
+    - {"agency-strategy": ["agency-chat"]}
+  num_retries: 2
+  timeout: 120
+
+general_settings:
+  store_model_in_db: false

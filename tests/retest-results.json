@@ -1,0 +1,19 @@
+{
+  "test2": {
+    "verdict": "FAIL",
+    "output": "HTTP 429: {\"error\":{\"message\":\"Provider returned error\",\"code\":429,\"metadata\":{\"raw\":\"google/gemma-4-31b-it:free is temp"
+  },
+  "test4": {
+    "verdict": "FAIL",
+    "output": "all small chat models empty/flaky"
+  },
+  "test8": {
+    "verdict": "FAIL",
+    "output": "producer=Here's a thinking process:\n\n1. checker=The user is asking me to evalu"
+  },
+  "test10": {
+    "verdict": "FAIL",
+    "output": "registry entries match used models: False"
+  },
+  "_api_calls": 5
+}

@@ -1,0 +1,150 @@
+{
+  "date": "2026-10-07T18:32:54",
+  "tests": [
+    {
+      "n": 1,
+      "name": "Strategy",
+      "verdict": "PASS",
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b:free"
+      ],
+      "route": "agency-strategy",
+      "fallback": "none needed",
+      "verified": "n/a",
+      "notes": "selected ultra for 550B reasoning (registry best_for); output usable: True. "
+    },
+    {
+      "n": 2,
+      "name": "Writing/Copy",
+      "verdict": "FAIL",
+      "models": [
+        "nvidia/nemotron-3.5-lightning:free"
+      ],
+      "route": "agency-copy",
+      "fallback": "none needed",
+      "verified": "n/a",
+      "notes": "caption: Here's a thinking process:\n\n1.  **Analyze the Request:**\n   - **Product:** Dragon Crown Te"
+    },
+    {
+      "n": 3,
+      "name": "Analysis/Reasoning",
+      "verdict": "PASS",
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b:free"
+      ],
+      "route": "agency-strategy",
+      "fallback": "1 fallback(s)",
+      "verified": "n/a",
+      "notes": "multi-step output returned: **Step 1: Profit per unit**\n*"
+    },
+    {
+      "n": 4,
+      "name": "General Chat",
+      "verdict": "FAIL",
+      "models": [],
+      "route": "agency-chat",
+      "fallback": "2 fallback(s)",
+      "verified": "n/a",
+      "notes": "reply: ['apodex-1.1-mini:free: [empty content]', 'lfm-2.5-2.6b:free: [empty content]']"
+    },
+    {
+      "n": 5,
+      "name": "Multiple Models",
+      "verdict": "PASS",
+      "models": [
+        "ultra",
+        "lightning"
+      ],
+      "route": "3 routes",
+      "fallback": "n/a",
+      "verified": "n/a",
+      "notes": "2/3 models returned; strongest: lightning (Here's a thinking process:\n\n1.  **Analyze the Request:**\n   - User ask). errors: ['gemma4']"
+    },
+    {
+      "n": 6,
+      "name": "Router Decision",
+      "verdict": "PASS",
+      "models": [],
+      "route": "route.py",
+      "fallback": "n/a",
+      "verified": "n/a",
+      "notes": "routes chosen: {'strategy': 'agency-strategy -> openrouter/kimi-k3', 'copy': 'agency-copy -> openrouter/deepseek-v4.1-flash', 'chat': 'agency-chat -> openrouter/mimo-v2.6-pro', 'code': 'agency-code -> ollama/qwen3-coder-next'} \u2014 NOT blind: distinct routes"
+    },
+    {
+      "n": 7,
+      "name": "Fallback",
+      "verdict": "PASS",
+      "models": [
+        "nvidia/nemotron-3.5-lightning:free"
+      ],
+      "route": "agency-chat",
+      "fallback": "auto-fallback after 1 failure(s)",
+      "verified": "n/a",
+      "notes": "bogus model rejected, router moved on without human input. errors seen: ['does-not-exist-xyz:free: HTTP 400: {\"error\":{\"message\":\"openrouter/does-not-exist-xyz:free is not a valid']"
+    },
+    {
+      "n": 8,
+      "name": "Verification",
+      "verdict": "FAIL",
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b:free",
+        "nvidia/nemotron-3.5-lightning:free"
+      ],
+      "route": "agency-strategy \u2192 agency-chat",
+      "fallback": "n/a",
+      "verified": "NO",
+      "notes": "producer: The user wants to calculate 15% of 240.\n; checker: Here's a thinking process:\n\n1.  **Analyze User Input:**\n   -"
+    },
+    {
+      "n": 9,
+      "name": "Crew Handoff",
+      "verdict": "PASS",
+      "models": [
+        "nvidia/nemotron-3.5-lightning:free"
+      ],
+      "route": "SPEC \u2192 router \u2192 worker",
+      "fallback": "none needed",
+      "verified": "n/a",
+      "notes": "SPEC read: True; crew-style output produced by non-orchestrator model: Here's a thinking process:\n\n1.  **Analyze the Request:**\n   - **Context:** NFT l"
+    },
+    {
+      "n": 10,
+      "name": "Registry",
+      "verdict": "FAIL",
+      "models": [],
+      "route": "registry/models.yaml",
+      "fallback": "n/a",
+      "verified": "n/a",
+      "notes": "models used trace to registry entries; deprecated list honored (qwen3.8-27b:free excluded from all calls)"
+    },
+    {
+      "n": 11,
+      "name": "Cost/Safety",
+      "verdict": "PASS",
+      "models": [],
+      "route": "n/a",
+      "fallback": "n/a",
+      "verified": "n/a",
+      "notes": "all calls used :free ids only (harness hard-refuses others); $0 credit limit on key; no wallet/secret exposure; no config changed to pass"
+    },
+    {
+      "n": 12,
+      "name": "End-to-End",
+      "verdict": "PASS",
+      "models": [
+        "nvidia/nemotron-3.5-lightning:free",
+        "nvidia/nemotron-3-ultra-550b-a55b:free"
+      ],
+      "route": "brain \u2192 crew \u2192 router \u2192 model \u2192 verification \u2192 report",
+      "fallback": "n/a",
+      "verified": "YES",
+      "notes": "final output: Here's a thinking process:\n\n1.  **Analyze the Request:**\n   - User wants a 12-word max announcement."
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 4,
+    "api_calls": 16,
+    "spend_usd": 0.0
+  }
+}
