@@ -99,7 +99,17 @@ jobs:
       - name: Run Foxwatch test suite
         id: tests
         if: steps.gate.outputs.run == 'true'
-        run: python foxwatch/pipeline/test_pipeline.py
+        run: |
+          # Do not trust the exit code alone: a neutered test runner can
+          # force exit 0 while reporting failures. Fail on either signal.
+          python foxwatch/pipeline/test_pipeline.py > /tmp/test-out.txt 2>&1
+          code=$?
+          cat /tmp/test-out.txt
+          if grep -Eq 'FAILED|ERROR' /tmp/test-out.txt; then
+            echo "test output contains FAILED/ERROR - failing step regardless of exit code"
+            exit 1
+          fi
+          exit $code
 
       - name: Validate catalog manifest
         id: manifest
