@@ -1,0 +1,53 @@
+name: foxwatch-ci
+
+# Ongoing automated reports: validates the catalog on every push and daily.
+# Public repos get free Actions minutes, so this runs at $0 indefinitely.
+
+on:
+  push:
+    paths:
+      - 'foxwatch/**'
+  schedule:
+    - cron: '0 12 * * *'   # daily 12:00 UTC
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pillow
+
+      - name: Run automated tests
+        run: python foxwatch/pipeline/test_pipeline.py
+
+      - name: Validate catalog
+        run: >
+          python foxwatch/pipeline/foxwatch_pipeline.py
+          --art-dir foxwatch/artwork
+          --metadata foxwatch/metadata/foxwatch-batch2-metadata.json
+          --out-dir /tmp/fw-out
+          --exclude 1419648857_Looking_super_cool_for_my_haircut.png
+
+      - name: Archive validation report
+        uses: actions/upload-artifact@v4
+        with:
+          name: foxwatch-validation-report
+          path: /tmp/fw-out/
+
+      - name: Write daily report into repo
+        if: github.event_name == 'schedule'
+        continue-on-error: true   # reporting is best-effort; CI gate above is the requirement
+        run: |
+          mkdir -p foxwatch/reports/daily
+          cp /tmp/fw-out/validation-report.md foxwatch/reports/daily/$(date -u +%F).md
+          git config user.name "foxwatch-ci"
+          git config user.email "foxwatch-ci@local"
+          git add foxwatch/reports/daily/
+          git diff --quiet --cached || (git commit -m "daily foxwatch validation report" && git push)

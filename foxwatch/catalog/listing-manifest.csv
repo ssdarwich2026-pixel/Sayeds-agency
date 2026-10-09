@@ -1,0 +1,55 @@
+id,name,tier,price_eth,supply,royalty_pct,filename,sha256,trait_count,status
+FW-049,The Veteran — Foxwatch Ranger,standard,0.005,100,10.0,1106973598_scoring_a_goal.png,375f56fe2d23e613…,5,ok
+FW-052,The Wayfarer — Foxwatch Traveler,standard,0.005,100,10.0,1151332596_Create_blankets_all_around_.png,676bc0d9ab8f5b80…,5,ok
+FW-037,The Rogue — Foxwatch Outsider,standard,0.005,100,10.0,1327899522_A_fox_being_himself_.png,e68963a30949681e…,5,ok
+SKIP-01,Untitled — Foxwatch Reject,skip,,,,1419648857_Looking_super_cool_for_my_haircut.png,,2,excluded
+FW-029,The Oddball — Foxwatch Outcast,standard,0.005,100,10.0,1433053916_Eating_a_human.png,646a7eeac3eb010f…,5,ok
+FW-001,The Archivist — Foxwatch Keeper,premium,0.01,100,10.0,1463646613_Create_honeycomb_.png,7b692dc6e06b91d0…,6,ok
+FW-045,The Striker — Foxwatch Vanguard,standard,0.005,100,10.0,1624541771_scoring_a_goal.png,2f9fbee95befb4c0…,5,ok
+FW-032,The Quartermaster — Foxwatch Supply,standard,0.005,100,10.0,1914191684_Add_different_backgrounds_.png,a05fd4743f56b589…,5,ok
+FW-026,The Lieutenant — Foxwatch Officer,standard,0.005,100,10.0,1923651856_Looking_super_cool_for_my_haircut.png,7dd4d4808fd11f49…,5,ok
+FW-015,The Cartographer — Foxwatch Scout Corps,standard,0.005,100,10.0,1936266916_Create_balloons_near_by.png,c071abd4d2b9bbf8…,6,ok
+FW-003,The Hunter — Foxwatch Tracker,premium,0.01,100,10.0,194268376_Create_lion.png,23a42831742b908e…,5,ok
+FW-038,The Scholar — Foxwatch Scribe,standard,0.005,100,10.0,1943142706_Create_near_soccer_ball_.png,c93743325a82f083…,6,ok
+FW-019,The Draftsman — Foxwatch Scout,standard,0.005,100,10.0,1952348206_Create_lion.png,0bdb75480b3de1c1…,5,ok
+FW-020,The Drifter — Foxwatch Outrider,standard,0.005,100,10.0,2129191665_Looking_super_cool_for_my_haircut.png,99ccf288a919486b…,6,ok
+FW-008,The Mosaic — Foxwatch Artisan,premium,0.01,100,10.0,2217630029_Create_near_soccer_ball_.png,046daf53df6811ff…,6,ok
+FW-030,The Overtime — Foxwatch Nightwatch,standard,0.005,100,10.0,2251141444_Eating_a_human.png,720b44eb3aaaf11f…,6,ok
+FW-024,The Hearth — Foxwatch Keeper,standard,0.005,100,10.0,2391447560_Create_blankets_near_by.png,c456d5bdc1ed5d6b…,6,ok
+FW-044,The Sprout — Foxwatch Tenderfoot,standard,0.005,100,10.0,2439105903_Create_cute_.png,ed717c244def201d…,6,ok
+FW-035,The Ranger — Foxwatch Pathfinder,standard,0.005,100,10.0,2495087154_Create_near_soccer_ball_.png,ec1dbb8c539a41da…,6,ok
+FW-021,The Forward — Foxwatch Vanguard,standard,0.005,100,10.0,2496898075_Create_soccer_ball_near_by.png,711395fbe53f1e5f…,6,ok
+FW-006,The Maw — Foxwatch Berserker,premium,0.01,100,10.0,2570261231_Create_monster_.png,95f796dd7db8baa4…,6,ok
+FW-040,The Siesta — Foxwatch Dreamer,standard,0.005,100,10.0,2630669587_Create_cute_.png,91b6b8293c047964…,6,ok
+FW-027,The Mane — Foxwatch Prideleader,standard,0.005,100,10.0,2677382388_Create_lion.png,cc74b7b8afce1097…,6,ok
+FW-017,The Dandy — Foxwatch Emissary,standard,0.005,100,10.0,2716202802_Create_blankets_near_by.png,7794cab480a64748…,6,ok
+FW-025,The Jubilee — Foxwatch Reveler,standard,0.005,100,10.0,2728793858_Create_balloons_near_by.png,7a0778c7301ab654…,7,ok
+FW-009,The Professor — Foxwatch Strategist,premium,0.01,100,10.0,2736731751_Looking_super_cool_for_my_haircut.png,f0c0ca7e4154e42b…,6,ok
+FW-050,The Wanderer — Foxwatch Outrider,standard,0.005,100,10.0,2881327984_A_fox_being_himself_.png,b9c9b2a2cbd8df93…,5,ok
+FW-010,Honey — Foxwatch Forager,standard,0.005,100,10.0,2973512280_Create_honey_.png,ade8c258b5b16132…,6,ok
+FW-046,The Traveler — Foxwatch Quartermaster,standard,0.005,100,10.0,3015533207_Eating_a_human.png,7ea3de28cf41b192…,6,ok
+FW-005,The Lion — Foxwatch Heavy,premium,0.01,100,10.0,3036550517_Create_lion.png,dc8da17094e9bc75…,6,ok
+FW-028,The Medic — Foxwatch Corpsman,standard,0.005,100,10.0,3061680416_Create_cute_.png,9fb7719e39625f04…,6,ok
+FW-047,The Trekker — Foxwatch Pathfinder,standard,0.005,100,10.0,3126319483_Create_blankets_all_around_.png,b92f6846d43bbfba…,5,ok
+FW-042,The Sleeper — Foxwatch Dreamer,standard,0.005,100,10.0,3265955878_Create_blankets_near_by.png,e1ed3f4140c0de86…,5,ok
+FW-014,The Captain — Foxwatch Striker,standard,0.005,100,10.0,3506641845_Create_soccer_ball_near_by.png,e6bf9e62c184756c…,6,ok
+FW-051,The Watcher — Foxwatch Sentinel,standard,0.005,100,10.0,3517728014_Eating_a_human.png,0c40d789400ca27c…,5,ok
+FW-048,The Veteran — Foxwatch Old Guard,standard,0.005,100,10.0,3618691708_Create_near_soccer_ball_.png,ea3efa43a3d7e256…,5,ok
+FW-013,The Beekeeper — Foxwatch Harvester,standard,0.005,100,10.0,3688848821_Create_honeycomb_.png,201cb16587e1c51d…,6,ok
+FW-022,The Ghost — Foxwatch Infiltrator,standard,0.005,100,10.0,376599890_Create_blankets_all_around_.png,65fa3a42022c4434…,6,ok
+FW-043,The Snarl — Foxwatch Brute,standard,0.005,100,10.0,3785356837_Create_monster_.png,d14171c68f25c31d…,6,ok
+FW-031,The Passenger — Foxwatch Drifter,standard,0.005,100,10.0,3827765277_Add_different_backgrounds_.png,441d572d2a2f3603…,6,ok
+FW-011,The Aeronaut — Foxwatch Skyline,standard,0.005,100,10.0,3901539990_Create_balloons_near_by.png,e09f6ac80878a844…,6,ok
+FW-007,The Moonface — Foxwatch Oracle,premium,0.01,100,10.0,408838569_Add_a_moon_to_this_art_on_the_side_.png,f9215ccb2fb03481…,6,ok
+FW-002,The Geode — Foxwatch Enforcer,premium,0.01,100,10.0,4141927625_Create_monster_.png,f2f18bbe98ec82cb…,6,ok
+FW-033,The Quiet — Foxwatch Ranger,standard,0.005,100,10.0,4250985850_Add_different_backgrounds_.png,a065565fdc5bea27…,6,ok
+FW-053,The Wink — Foxwatch Charmer,standard,0.005,100,10.0,440330537_A_fox_being_himself_.png,e86d29e9d743cccb…,5,ok
+FW-016,The Comb — Foxwatch Keeper,standard,0.005,100,10.0,459695053_Create_honeycomb_.png,22afffc475500c0e…,6,ok
+FW-041,The Sketch — Foxwatch Draft,standard,0.005,100,10.0,500717788_Create_soccer_ball_near_by.png,c10c218e1152ed0f…,6,ok
+FW-012,The Amber — Foxwatch Dunes,standard,0.005,100,10.0,722115235_Create_honey_.png,cef7d6f63fd17aee…,6,ok
+FW-034,The Quilt — Foxwatch Sentry,standard,0.005,100,10.0,73668742_Create_blankets_near_by.png,4203d87f7181ff82…,6,ok
+FW-036,The Rider — Foxwatch Outrider,standard,0.005,100,10.0,972657920_Add_different_backgrounds_.png,8d3094fa1fc6c0b2…,6,ok
+FW-018,The Dispatch — Foxwatch Courier,standard,0.005,100,10.0,3579689588_Create_balloons_near_by.png,a544ddcc11aed884…,6,ok
+FW-004,The Keeper — Foxwatch Apiary,premium,0.01,100,10.0,3644849444_Create_honeycomb_.png,d62b2c635d13ba23…,6,ok
+FW-023,The Golden Hour — Foxwatch Sentinel,standard,0.005,100,10.0,3793062394_Create_honey_.png,eef1b6dafb0369c5…,6,ok
+FW-039,The Shard — Foxwatch Vanguard,standard,0.005,100,10.0,684769676_Create_soccer_ball_near_by.png,8a796fd098f5594a…,6,ok
