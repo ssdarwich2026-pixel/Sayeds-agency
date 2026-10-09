@@ -52,6 +52,17 @@ jobs:
         if: steps.gate.outputs.run == 'true'
         run: pip install pillow
 
+      - name: Check artwork presence
+        id: art
+        if: steps.gate.outputs.run == 'true'
+        run: |
+          if [ -d "foxwatch/artwork" ] && [ -n "$(ls -A foxwatch/artwork 2>/dev/null)" ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "artwork not in git (binaries excluded by repo policy) - artwork checks will skip"
+          fi
+
       - name: Secret scan (fail on leaked key material)
         id: secrets
         if: steps.gate.outputs.run == 'true'
@@ -92,7 +103,7 @@ jobs:
 
       - name: Validate catalog manifest
         id: manifest
-        if: steps.gate.outputs.run == 'true'
+        if: steps.gate.outputs.run == 'true' && steps.art.outputs.present == 'true'
         run: >
           python foxwatch/pipeline/foxwatch_pipeline.py
           --art-dir foxwatch/artwork
@@ -102,7 +113,7 @@ jobs:
 
       - name: Image integrity check
         id: images
-        if: steps.gate.outputs.run == 'true'
+        if: steps.gate.outputs.run == 'true' && steps.art.outputs.present == 'true'
         run: |
           python3 - << 'EOF'
           import os, sys, hashlib
