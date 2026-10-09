@@ -1,0 +1,99 @@
+name: agency-verify
+
+# Deterministic agency verification. No LLMs, no CrewAI, no API keys, $0.
+# Runs the checks a human reviewer would run: secrets, tests, manifest, images.
+# ChatGPT creates tasks -> Muse builds -> this workflow verifies.
+
+on:
+  push:
+  schedule:
+    - cron: '0 13 * * *'   # daily 13:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read   # verify only; never commits
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pillow
+
+      - name: Secret scan (fail on leaked key material)
+        run: |
+          python3 - << 'EOF'
+          import os, re, sys
+          root = os.getcwd()
+          fails = []
+          # built from parts so this file itself never matches the scan
+          key_block = re.compile('-----BEGIN ' + '.*PRIVATE KEY-----')
+          api_assign = re.compile(r'(?i)(api[_-]?key|secret[_-]?key|private[_-]?key)\s*[:=]\s*[\'"][^\'"]{8,}[\'"]')
+          for dirpath, dirnames, filenames in os.walk(root):
+              if '.git' in dirpath.split(os.sep):
+                  continue
+              for fn in filenames:
+                  # the scanner always excludes itself
+                  if fn == 'agency-verify.yml':
+                      continue
+                  p = os.path.join(dirpath, fn)
+                  try:
+                      with open(p, 'r', errors='strict') as f:
+                          text = f.read()
+                  except Exception:
+                      continue  # binary, skip
+                  if key_block.search(text):
+                      fails.append(f"{p}: private key block")
+                  if not fn.endswith('.md') and api_assign.search(text):
+                      fails.append(f"{p}: possible hardcoded API/secret key")
+          if fails:
+              print("SECRET SCAN FAILED:"); [print(" -", x) for x in fails]; sys.exit(1)
+          print("secret scan: clean")
+          EOF
+
+      - name: Run Foxwatch test suite
+        run: python foxwatch/pipeline/test_pipeline.py
+
+      - name: Validate catalog manifest
+        run: >
+          python foxwatch/pipeline/foxwatch_pipeline.py
+          --art-dir foxwatch/artwork
+          --metadata foxwatch/metadata/foxwatch-batch2-metadata.json
+          --out-dir /tmp/fw-out
+        # pipeline exits 1 on blocking errors -> fails the job
+
+      - name: Image integrity check
+        run: |
+          python3 - << 'EOF'
+          import os, sys, hashlib
+          from PIL import Image
+          art = 'foxwatch/artwork'
+          files = sorted(f for f in os.listdir(art) if f.lower().endswith('.png'))
+          seen, bad = set(), []
+          for fn in files:
+              p = os.path.join(art, fn)
+              try:
+                  with Image.open(p) as im:
+                      im.verify()
+                  h = hashlib.sha256(open(p, 'rb').read()).hexdigest()
+                  if h in seen:
+                      bad.append(f"{fn}: byte-duplicate")
+                  seen.add(h)
+              except Exception as e:
+                  bad.append(f"{fn}: unreadable ({e})")
+          print(f"images: {len(files)} checked, {len(bad)} problems")
+          if bad:
+              [print(" -", b) for b in bad]; sys.exit(1)
+          if len(files) < 53:
+              print(f"WARNING: only {len(files)} images (expected 53)")
+          print("image integrity: clean")
+          EOF
+
+      - name: Summary
+        run: 'echo "agency-verify OK - secrets clean, tests pass, manifest valid, images intact"'
