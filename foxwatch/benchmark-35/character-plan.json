@@ -1,0 +1,152 @@
+{
+ "chef": [
+  [
+   "The Head Chef",
+   "Chef"
+  ],
+  [
+   "The Pastry Fox",
+   "P\u00e2tissier"
+  ],
+  [
+   "The Embergrill",
+   "Grillmaster"
+  ],
+  [
+   "The Spicemonger",
+   "Spicer"
+  ],
+  [
+   "The Stockpot",
+   "Soupmaster"
+  ],
+  [
+   "The Fieldcook",
+   "Fieldcook"
+  ],
+  [
+   "The Feastmaster",
+   "Feastmaster"
+  ]
+ ],
+ "alchemist": [
+  [
+   "The Alchemist",
+   "Alchemist"
+  ],
+  [
+   "The Potionmaker",
+   "Potionmaker"
+  ],
+  [
+   "The Elixirist",
+   "Elixirist"
+  ],
+  [
+   "The Transmuter",
+   "Transmuter"
+  ],
+  [
+   "The Distiller",
+   "Distiller"
+  ],
+  [
+   "The Herbwright",
+   "Herbwright"
+  ],
+  [
+   "The Flaskkeeper",
+   "Flaskkeeper"
+  ]
+ ],
+ "musician": [
+  [
+   "The Fiddler",
+   "Fiddler"
+  ],
+  [
+   "The Drummer",
+   "Drummer"
+  ],
+  [
+   "The Piper",
+   "Piper"
+  ],
+  [
+   "The Lutist",
+   "Lutist"
+  ],
+  [
+   "The Trumpeter",
+   "Trumpeter"
+  ],
+  [
+   "The Songkeeper",
+   "Songkeeper"
+  ],
+  [
+   "The Bellringer",
+   "Bellringer"
+  ]
+ ],
+ "explorer": [
+  [
+   "The Trailblazer",
+   "Trailblazer"
+  ],
+  [
+   "The Navigator",
+   "Navigator"
+  ],
+  [
+   "The Voyager",
+   "Voyager"
+  ],
+  [
+   "The Wayfinder",
+   "Wayfinder"
+  ],
+  [
+   "The Scoutmaster",
+   "Scoutmaster"
+  ],
+  [
+   "The Horizon Fox",
+   "Horizonseeker"
+  ],
+  [
+   "The Mapkeeper",
+   "Mapkeeper"
+  ]
+ ],
+ "craftsman": [
+  [
+   "The Carpenter",
+   "Carpenter"
+  ],
+  [
+   "The Weaver",
+   "Weaver"
+  ],
+  [
+   "The Potter",
+   "Potter"
+  ],
+  [
+   "The Glassblower",
+   "Glassblower"
+  ],
+  [
+   "The Mason",
+   "Mason"
+  ],
+  [
+   "The Tinker",
+   "Tinker"
+  ],
+  [
+   "The Wheelwright",
+   "Wheelwright"
+  ]
+ ]
+}

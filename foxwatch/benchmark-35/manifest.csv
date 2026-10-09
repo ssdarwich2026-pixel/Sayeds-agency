@@ -1,0 +1,36 @@
+filename,character,career,sha256
+bench-chef-01.png,The Head Chef — Foxwatch Chef,chef,3fad8f65189d6ecbe084be32c69587efa4cddda5a2c29ff22c26761d8b99aad2
+bench-chef-02.png,The Pastry Fox — Foxwatch Pâtissier,chef,b5a2cebabb76d7941b2f37dcf104f8d20c2d33243288522010943f02e5673e4a
+bench-chef-03.png,The Embergrill — Foxwatch Grillmaster,chef,85b5c12d083821b60947f2d199f6db78456333268d863f957a0a9a942c92807b
+bench-chef-04.png,The Spicemonger — Foxwatch Spicer,chef,6683d237c0eaa9a4212bf02c91a9aae72d47299fb2ee0ed1595667d8853d489f
+bench-chef-05.png,The Stockpot — Foxwatch Soupmaster,chef,d1311fdb7d32919a26393cb12e28ea1b2c2660394ca112fd45bd41b0d9a1a527
+bench-chef-06.png,The Fieldcook — Foxwatch Fieldcook,chef,833a10512d234c5fbec21957c83b01567c1f286b3a8c9639efaa337f0b89b48b
+bench-chef-07.png,The Feastmaster — Foxwatch Feastmaster,chef,944c8f56cf6dbae4dccb0bae4ec4219ac1cf43a02e42993da33c535131a46dbb
+bench-alchemist-01.png,The Alchemist — Foxwatch Alchemist,alchemist,2242ee03119bf62740af9c8c4ed66f1978492cb51d30ed14fd6c0f96e00b5e3f
+bench-alchemist-02.png,The Potionmaker — Foxwatch Potionmaker,alchemist,b04165f4bb9e2a6d28c1eff8fbdcaacaa9f2d196a70e2a4ba251538f23c39750
+bench-alchemist-03.png,The Elixirist — Foxwatch Elixirist,alchemist,40610516035a2be66e632d430ba05f350d8b911765fe69f8c4e5e351fbfd8892
+bench-alchemist-04.png,The Transmuter — Foxwatch Transmuter,alchemist,4eb352507591cd71f2eb031f38defabd891b15f4c0b9515ae60cbadac3ed49eb
+bench-alchemist-05.png,The Distiller — Foxwatch Distiller,alchemist,582439f5538e78d8f5ffbbde3aac0f1d86e9947fc878b0a0238ccd6f0c102916
+bench-alchemist-06.png,The Herbwright — Foxwatch Herbwright,alchemist,214bc8d16df6e3cc25b26f24caf313b3f8526fa71072aa10ff8ebb7dd90f79e9
+bench-alchemist-07.png,The Flaskkeeper — Foxwatch Flaskkeeper,alchemist,055f4b68cf232be8b6988b6ea03f8bff939796ad620c4bdaa82182aca1c87b41
+bench-musician-01.png,The Fiddler — Foxwatch Fiddler,musician,c927939654f5ed63843b2c1a14c210d451c73b677b60b677a765607c03d63a11
+bench-musician-02.png,The Drummer — Foxwatch Drummer,musician,1fb3a92fa864d0c46d33a0bd42ba5c1d18d5734b736d55f352d9b2e61dc7326f
+bench-musician-03.png,The Piper — Foxwatch Piper,musician,10028318ad84f495ee3c13cd6bcfffb038f2e0da97168303c8ac35849a11e594
+bench-musician-04.png,The Lutist — Foxwatch Lutist,musician,f31f3f18481babd31239f7dfcd097c2144f64e6cee1c1d61f9a59e319879719b
+bench-musician-05.png,The Trumpeter — Foxwatch Trumpeter,musician,f24b36c5d7abed1a13f921e7fcba55e333555fafd8a886baa02a582c6dad8b5d
+bench-musician-06.png,The Songkeeper — Foxwatch Songkeeper,musician,610343da41d1c1eb8411361213ce182f738a7b61d5e50fa108357afbf46d7c05
+bench-musician-07.png,The Bellringer — Foxwatch Bellringer,musician,77374acf8b30e86937b78be34ff86f499b9d3913a87fd7e5f7176de6bb212efb
+bench-explorer-01.png,The Trailblazer — Foxwatch Trailblazer,explorer,76a201086e81a5382db9d989139d158d9aa575f2de62b4388b0dc4404bdd0505
+bench-explorer-02.png,The Navigator — Foxwatch Navigator,explorer,f5265bc872f38cbd1568d086176c97bb50cbe5ea05330205dbc6c52bf7acf15a
+bench-explorer-03.png,The Voyager — Foxwatch Voyager,explorer,e92ea5a653b9057360542ff8eb937d5d78e3f31db2f2f32999fece477a36ddfe
+bench-explorer-04.png,The Wayfinder — Foxwatch Wayfinder,explorer,445b74f3a9f0ba16c066a6f50e5b9235df6cb907ff98674464d02a5ce7d31ff4
+bench-explorer-05.png,The Scoutmaster — Foxwatch Scoutmaster,explorer,cae4e6098939abd94bde3d1ac6b2f1ae409a9a08e2e98aebf3ee53b9e23c205a
+bench-explorer-06.png,The Horizon Fox — Foxwatch Horizonseeker,explorer,0985fdf6e3f470f59c6847ae3586a8397064cd115ee21617cc9d894d6cef507c
+bench-explorer-07.png,The Mapkeeper — Foxwatch Mapkeeper,explorer,8d13683d3aa409a6e1c56673c8fd97bff1acf4497ab4e8522a9a2563d197748c
+bench-craftsman-01.png,The Carpenter — Foxwatch Carpenter,craftsman,9b33b46ed409ffad1a7c6589316af9c697b41d36726b9b76c9d0995d4cf1d2d8
+bench-craftsman-02.png,The Weaver — Foxwatch Weaver,craftsman,64fa32bdc59026fefa8cdc24ce32faa56cc0922feee1eed042d3c492db633655
+bench-craftsman-03.png,The Potter — Foxwatch Potter,craftsman,ed1e93c85c24130494ae383e68feebf1df4e580003d2db1fcfe116965a2b4897
+bench-craftsman-04.png,The Glassblower — Foxwatch Glassblower,craftsman,92ed6c59aab68bafb530aa2ec6927b89e8a5e82ce437bc41a6694d819d678973
+bench-craftsman-05.png,The Mason — Foxwatch Mason,craftsman,697b25f8847c6b52ed7222b75aad8c93bb63b726ddaeaf6bc572be797a22d583
+bench-craftsman-06.png,The Tinker — Foxwatch Tinker,craftsman,d460570774450f0bedbc48a6a2401cc6bbe0711b46f28f5e8410264a458c835d
+bench-craftsman-07.png,The Wheelwright — Foxwatch Wheelwright,craftsman,b728758354c8bd68b9f0190ae6a9a1001c36e8a32fc1fe9506490376cbf3534b

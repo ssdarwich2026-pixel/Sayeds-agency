@@ -1,0 +1,250 @@
+{
+ "template": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: '{name}', {desc}. 3/4 portrait view, character fills the frame, square composition.",
+ "entries": [
+  {
+   "file": "bench-chef-01.png",
+   "name": "The Head Chef \u2014 Foxwatch Chef",
+   "career": "chef",
+   "ref": "artwork/1463646613_Create_honeycomb_.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Head Chef \u2014 Foxwatch Chef', a fox head chef in a tall white chef's hat and double-breasted white coat, holding a wooden spoon like a baton, proud confident expression. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-chef-02.png",
+   "name": "The Pastry Fox \u2014 Foxwatch P\u00e2tissier",
+   "career": "chef",
+   "ref": "artwork/1463646613_Create_honeycomb_.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Pastry Fox \u2014 Foxwatch P\u00e2tissier', a fox patissier in a flour-dusted apron and headscarf, presenting a faceted berry tart on a small plate, delighted expression. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-chef-03.png",
+   "name": "The Embergrill \u2014 Foxwatch Grillmaster",
+   "career": "chef",
+   "ref": "artwork/1463646613_Create_honeycomb_.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Embergrill \u2014 Foxwatch Grillmaster', a fox grillmaster in a sleeveless jerkin and heavy gloves, holding long iron tongs, warm grill glow on the faceted fur, focused grin. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-chef-04.png",
+   "name": "The Spicemonger \u2014 Foxwatch Spicer",
+   "career": "chef",
+   "ref": "artwork/1463646613_Create_honeycomb_.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Spicemonger \u2014 Foxwatch Spicer', a fox spice merchant in a vest and headwrap, holding a small bowl of vivid red spice, shrewd twinkle in the eye. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-chef-05.png",
+   "name": "The Stockpot \u2014 Foxwatch Soupmaster",
+   "career": "chef",
+   "ref": "artwork/1463646613_Create_honeycomb_.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Stockpot \u2014 Foxwatch Soupmaster', a fox soupmaster in a rolled-sleeve shirt and apron, stirring with a large ladle, steam curling, content expression. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-chef-06.png",
+   "name": "The Fieldcook \u2014 Foxwatch Fieldcook",
+   "career": "chef",
+   "ref": "artwork/1463646613_Create_honeycomb_.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Fieldcook \u2014 Foxwatch Fieldcook', a fox fieldcook in a travel cloak and bandana, holding a skewer of roasted vegetables, cheerful trail-worn smile. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-chef-07.png",
+   "name": "The Feastmaster \u2014 Foxwatch Feastmaster",
+   "career": "chef",
+   "ref": "artwork/1463646613_Create_honeycomb_.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Feastmaster \u2014 Foxwatch Feastmaster', a fox feastmaster in a formal dark coat with gold trim, gesturing grandly toward an unseen banquet, theatrical flourish. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-alchemist-01.png",
+   "name": "The Alchemist \u2014 Foxwatch Alchemist",
+   "career": "alchemist",
+   "ref": "artwork/408838569_Add_a_moon_to_this_art_on_the_side_.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Alchemist \u2014 Foxwatch Alchemist', a fox alchemist in deep violet robes, holding a bubbling round flask, knowing smile. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-alchemist-02.png",
+   "name": "The Potionmaker \u2014 Foxwatch Potionmaker",
+   "career": "alchemist",
+   "ref": "artwork/408838569_Add_a_moon_to_this_art_on_the_side_.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Potionmaker \u2014 Foxwatch Potionmaker', a fox potionmaker in a leather apron, holding two vials of amber and teal liquid, careful concentrated frown. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-alchemist-03.png",
+   "name": "The Elixirist \u2014 Foxwatch Elixirist",
+   "career": "alchemist",
+   "ref": "artwork/408838569_Add_a_moon_to_this_art_on_the_side_.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Elixirist \u2014 Foxwatch Elixirist', a fox elixirist in a high-collared coat, holding a single glowing vial up to the light, expression of wonder. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-alchemist-04.png",
+   "name": "The Transmuter \u2014 Foxwatch Transmuter",
+   "career": "alchemist",
+   "ref": "artwork/408838569_Add_a_moon_to_this_art_on_the_side_.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Transmuter \u2014 Foxwatch Transmuter', a fox transmuter in ash-grey robes with gold circles, hand extended over a glowing ring, intense focus. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-alchemist-05.png",
+   "name": "The Distiller \u2014 Foxwatch Distiller",
+   "career": "alchemist",
+   "ref": "artwork/408838569_Add_a_moon_to_this_art_on_the_side_.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Distiller \u2014 Foxwatch Distiller', a fox distiller in a work shirt with goggles on forehead, copper coil apparatus at the edge of frame, satisfied grin. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-alchemist-06.png",
+   "name": "The Herbwright \u2014 Foxwatch Herbwright",
+   "career": "alchemist",
+   "ref": "artwork/408838569_Add_a_moon_to_this_art_on_the_side_.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Herbwright \u2014 Foxwatch Herbwright', a fox herbwright in a green cloak, holding a bundle of herbs and a small mortar, gentle knowledgeable eyes. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-alchemist-07.png",
+   "name": "The Flaskkeeper \u2014 Foxwatch Flaskkeeper",
+   "career": "alchemist",
+   "ref": "artwork/408838569_Add_a_moon_to_this_art_on_the_side_.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Flaskkeeper \u2014 Foxwatch Flaskkeeper', a fox flaskkeeper in a scholar's coat, faceted bottles on a shelf behind, protective pride in expression. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-musician-01.png",
+   "name": "The Fiddler \u2014 Foxwatch Fiddler",
+   "career": "musician",
+   "ref": "artwork/3506641845_Create_soccer_ball_near_by.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Fiddler \u2014 Foxwatch Fiddler', a fox fiddler in a burgundy coat, faceted violin and bow caught mid-stroke, joyful closed-eye smile. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-musician-02.png",
+   "name": "The Drummer \u2014 Foxwatch Drummer",
+   "career": "musician",
+   "ref": "artwork/3506641845_Create_soccer_ball_near_by.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Drummer \u2014 Foxwatch Drummer', a fox drummer in a sleeveless vest, drumsticks raised high, energetic grin. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-musician-03.png",
+   "name": "The Piper \u2014 Foxwatch Piper",
+   "career": "musician",
+   "ref": "artwork/3506641845_Create_soccer_ball_near_by.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Piper \u2014 Foxwatch Piper', a fox piper in a forest-green tunic, playing a long wooden flute, serene sideways glance. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-musician-04.png",
+   "name": "The Lutist \u2014 Foxwatch Lutist",
+   "career": "musician",
+   "ref": "artwork/3506641845_Create_soccer_ball_near_by.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Lutist \u2014 Foxwatch Lutist', a fox lutist in a ruffled-collar shirt, cradling a faceted lute, romantic half-smile. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-musician-05.png",
+   "name": "The Trumpeter \u2014 Foxwatch Trumpeter",
+   "career": "musician",
+   "ref": "artwork/3506641845_Create_soccer_ball_near_by.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Trumpeter \u2014 Foxwatch Trumpeter', a fox trumpeter in a brass-buttoned uniform, trumpet raised high, triumphant puffed cheeks. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-musician-06.png",
+   "name": "The Songkeeper \u2014 Foxwatch Songkeeper",
+   "career": "musician",
+   "ref": "artwork/3506641845_Create_soccer_ball_near_by.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Songkeeper \u2014 Foxwatch Songkeeper', a fox songkeeper in a shawl, holding a songbook with one paw to heart, tender expression. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-musician-07.png",
+   "name": "The Bellringer \u2014 Foxwatch Bellringer",
+   "career": "musician",
+   "ref": "artwork/3506641845_Create_soccer_ball_near_by.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Bellringer \u2014 Foxwatch Bellringer', a fox bellringer in a rope-belted tunic, hand on a bell rope, bright laughing eyes. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-explorer-01.png",
+   "name": "The Trailblazer \u2014 Foxwatch Trailblazer",
+   "career": "explorer",
+   "ref": "artwork/194268376_Create_lion.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Trailblazer \u2014 Foxwatch Trailblazer', a fox trailblazer in a duster coat and wide-brim hat, sheathed machete at hip, confident smirk. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-explorer-02.png",
+   "name": "The Navigator \u2014 Foxwatch Navigator",
+   "career": "explorer",
+   "ref": "artwork/194268376_Create_lion.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Navigator \u2014 Foxwatch Navigator', a fox navigator in a navy peacoat, holding a brass sextant in one paw, sharp calculating gaze. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-explorer-03.png",
+   "name": "The Voyager \u2014 Foxwatch Voyager",
+   "career": "explorer",
+   "ref": "artwork/194268376_Create_lion.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Voyager \u2014 Foxwatch Voyager', a fox voyager in a weatherproof cloak with pack straps, gazing toward the horizon, hopeful eyes. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-explorer-04.png",
+   "name": "The Wayfinder \u2014 Foxwatch Wayfinder",
+   "career": "explorer",
+   "ref": "artwork/194268376_Create_lion.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Wayfinder \u2014 Foxwatch Wayfinder', a fox wayfinder in layered travel robes, a faintly glowing compass pendant at the chest, calm certain expression. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-explorer-05.png",
+   "name": "The Scoutmaster \u2014 Foxwatch Scoutmaster",
+   "career": "explorer",
+   "ref": "artwork/194268376_Create_lion.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Scoutmaster \u2014 Foxwatch Scoutmaster', a fox scoutmaster in a khaki uniform with neckerchief, holding a spyglass in one paw, encouraging smile. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-explorer-06.png",
+   "name": "The Horizon Fox \u2014 Foxwatch Horizonseeker",
+   "career": "explorer",
+   "ref": "artwork/194268376_Create_lion.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Horizon Fox \u2014 Foxwatch Horizonseeker', a fox horizon-seeker in a windblown scarf with goggles pushed up on forehead, pointing forward, exhilarated expression. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-explorer-07.png",
+   "name": "The Mapkeeper \u2014 Foxwatch Mapkeeper",
+   "career": "explorer",
+   "ref": "artwork/194268376_Create_lion.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Mapkeeper \u2014 Foxwatch Mapkeeper', a fox mapkeeper in a scholar's vest, holding a half-unrolled faceted map scroll, studious squint. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-craftsman-01.png",
+   "name": "The Carpenter \u2014 Foxwatch Carpenter",
+   "career": "craftsman",
+   "ref": "candidates/blacksmith.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Carpenter \u2014 Foxwatch Carpenter', a fox carpenter in a canvas apron, holding a hand plane with wood shavings hinted, steady warm smile. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-craftsman-02.png",
+   "name": "The Weaver \u2014 Foxwatch Weaver",
+   "career": "craftsman",
+   "ref": "candidates/blacksmith.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Weaver \u2014 Foxwatch Weaver', a fox weaver in a shawl with thread spools at the shoulder, holding a shuttle in one paw, patient gentle focus. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-craftsman-03.png",
+   "name": "The Potter \u2014 Foxwatch Potter",
+   "career": "craftsman",
+   "ref": "candidates/blacksmith.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Potter \u2014 Foxwatch Potter', a fox potter in a clay-speckled smock, cradling a faceted clay vase in both paws, absorbed calm expression. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-craftsman-04.png",
+   "name": "The Glassblower \u2014 Foxwatch Glassblower",
+   "career": "craftsman",
+   "ref": "candidates/blacksmith.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Glassblower \u2014 Foxwatch Glassblower', a fox glassblower in a heat-darkened apron, holding a blowpipe with a glowing glass bulb, breath-held concentration. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-craftsman-05.png",
+   "name": "The Mason \u2014 Foxwatch Mason",
+   "career": "craftsman",
+   "ref": "candidates/blacksmith.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Mason \u2014 Foxwatch Mason', a fox mason in a stone-dusted tunic, holding a chisel and mallet, solid dependable squint. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-craftsman-06.png",
+   "name": "The Tinker \u2014 Foxwatch Tinker",
+   "career": "craftsman",
+   "ref": "candidates/blacksmith.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Tinker \u2014 Foxwatch Tinker', a fox tinker in oil-stained coveralls, holding gears and a wrench, mischievous clever grin. 3/4 portrait view, character fills the frame, square composition."
+  },
+  {
+   "file": "bench-craftsman-07.png",
+   "name": "The Wheelwright \u2014 Foxwatch Wheelwright",
+   "career": "craftsman",
+   "ref": "candidates/blacksmith.png",
+   "prompt": "Use the attached fox illustration as the strict style reference: faceted low-poly geometric shading with visible angular planes, warm solid peach background, anthropomorphic fox upper-body portrait, dark angular contour strokes, earthy palette with jewel-tone accents. Create a NEW character in exactly this style: 'The Wheelwright \u2014 Foxwatch Wheelwright', a fox wheelwright in a leather vest, holding a wooden wheel rim section, proud craftsman nod. 3/4 portrait view, character fills the frame, square composition."
+  }
+ ]
+}
