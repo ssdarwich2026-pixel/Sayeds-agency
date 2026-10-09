@@ -100,7 +100,8 @@ class TestEndToEnd(unittest.TestCase):
                  "--out-dir", out],
                 capture_output=True, text=True)
             self.assertEqual(r.returncode, 0, r.stderr)
-            rows = list(csv.DictReader(open(os.path.join(out, "listing-manifest.csv"))))
+            with open(os.path.join(out, "listing-manifest.csv")) as f:
+                rows = list(csv.DictReader(f))
             self.assertEqual(len(rows), 2)
             by_name = {x["name"]: x for x in rows}
             # premium-first deterministic numbering
