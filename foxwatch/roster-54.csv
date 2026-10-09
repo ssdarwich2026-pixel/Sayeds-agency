@@ -1,0 +1,55 @@
+id,listing_name,filename,character,role,story
+FW-001,001 The Archivist,001 The Archivist.png,The Archivist,Foxwatch Keeper,"Every patrol log, every trail map, every name the Foxwatch has ever carried — the Archivist keeps them all, and remembers what the rest forgot."
+FW-002,002 The Hunter,002 The Hunter.png,The Hunter,Foxwatch Tracker,Marked by the brush and unbothered by it. The Hunter reads broken twigs like headlines and has never lost a trail.
+FW-003,003 The Mosaic,003 The Mosaic.png,The Mosaic,Foxwatch Artisan,"Assembled from a thousand colored shards, every one a night the watch held the line. He wears a bow tie because even guardians dress for the occasion."
+FW-004,004 The Maw,004 The Maw.png,The Maw,Foxwatch Berserker,"Nobody remembers when the Maw joined — he was just suddenly there, grinning at the mountain passes. Intruders remember him. Briefly."
+FW-005,005 The Professor,005 The Professor.png,The Professor,Foxwatch Strategist,"Fresh cut, sharp frames, sharper mind. The Professor plans the patrol routes the rest of the Foxwatch just walks."
+FW-006,006 The Lion,006 The Lion.png,The Lion,Foxwatch Heavy,"Not a fox, and nobody in the Foxwatch mentions it. When the heavy work starts, the Lion is already there."
+FW-007,007 The Moonface,007 The Moonface.png,The Moonface,Foxwatch Oracle,Half his face belongs to the night. The Moonface reads the watch's fortunes in moonlight and keeps a lantern lit for those still out.
+FW-008,008 The Geode,008 The Geode.png,The Geode,Foxwatch Enforcer,"Gold mask, crystal teeth, no mercy. When diplomacy fails, the Geode is who the watch sends through the door."
+FW-009,009 The Keeper,009 The Keeper.png,The Keeper,Foxwatch Apiary,"Freckled from seasons in the comb-fields, the Keeper guards the Foxwatch honey stores. The leaf-veined tail marks every keeper since the first hive."
+FW-010,010 The Captain,010 The Captain.png,The Captain,Foxwatch Striker,"Number one, ball at her feet, geometric heart. The Captain runs the Foxwatch drills and never loses a scrimmage."
+FW-011,011 The Finisher,011 The Finisher.png,The Finisher,Foxwatch Forward,"Scores first, celebrates second, apologizes never."
+FW-012,012 The Hearthkeeper,012 The Hearthkeeper.png,The Hearthkeeper,Foxwatch Quartermaster,Keeps the den warm and the blankets accounted for. Nobody sleeps cold on her watch.
+FW-013,013 The Authentic,013 The Authentic.png,The Authentic,Foxwatch Standard,"No costume, no act. The benchmark every fox measures himself against."
+FW-014,014 The Gourmand,014 The Gourmand.png,The Gourmand,Foxwatch Chef,"A legendary appetite — for adventure, for dinner, for everything. The den's best cook and its loudest eater."
+FW-015,015 The Equalizer,015 The Equalizer.png,The Equalizer,Foxwatch Closer,Brought in when the match is on the line. Has never known a lost cause.
+FW-016,016 The Drifter,016 The Drifter.png,The Drifter,Foxwatch Pathfinder,At home in every background. The watch sends him where the map goes blank.
+FW-017,017 The Dandy,017 The Dandy.png,The Dandy,Foxwatch Charmer,Sharpest cut in the watch. Wins negotiations before saying a word.
+FW-018,018 The Celebrant,018 The Celebrant.png,The Celebrant,Foxwatch Herald,Every victory needs a witness. He brings the balloons.
+FW-019,019 The Playmaker,019 The Playmaker.png,The Playmaker,Foxwatch Midfielder,Sees the pass three moves before it happens.
+FW-020,020 The Roar,020 The Roar.png,The Roar,Foxwatch Sentinel,His roar isn't the loudest. It's the one the enemy remembers.
+FW-021,021 The Stylist,021 The Stylist.png,The Stylist,Foxwatch Imagekeeper,Responsible for every great haircut in the watch. Takes full credit.
+FW-022,022 The Feastmaster,022 The Feastmaster.png,The Feastmaster,Foxwatch Provisioner,"No patrol marches hungry. The stores are always full, somehow."
+FW-023,023 The Nestbuilder,023 The Nestbuilder.png,The Nestbuilder,Foxwatch Homesteader,Turns any cave into a home by nightfall.
+FW-024,024 The Sweetheart,024 The Sweetheart.png,The Sweetheart,Foxwatch Emissary,Disarms with a smile. Negotiates like a hug.
+FW-025,025 The Trainer,025 The Trainer.png,The Trainer,Foxwatch Coach,Runs the drills the Captain designs. Harder.
+FW-026,026 The Goalkeeper,026 The Goalkeeper.png,The Goalkeeper,Foxwatch Last Line,Nothing gets past. Ever.
+FW-027,027 The Mascot,027 The Mascot.png,The Mascot,Foxwatch Morale,The watch's lucky charm. Morale rises wherever he trots.
+FW-028,028 The Pride,028 The Pride.png,The Pride,Foxwatch Lieutenant,Leads from the front. The watch follows because he'd never ask them to go where he won't.
+FW-029,029 The Dreamweaver,029 The Dreamweaver.png,The Dreamweaver,Foxwatch Nightwatch,Guards the sleeping den. The night shift's quiet hero.
+FW-030,030 The Juggler,030 The Juggler.png,The Juggler,Foxwatch Entertainer,Keeps spirits up and balloons aloft. Sometimes at the same time.
+FW-031,031 The Individual,031 The Individual.png,The Individual,Foxwatch Maverick,Follows the patrol route in his own way. Arrives first anyway.
+FW-032,032 The Sweettooth,032 The Sweettooth.png,The Sweettooth,Foxwatch Forager,"Finds the sweetest spots in the territory. Shares, mostly."
+FW-033,033 The Foodie,033 The Foodie.png,The Foodie,Foxwatch Taster,Tastes everything first. For safety. Mostly for safety.
+FW-034,034 The Heartthrob,034 The Heartthrob.png,The Heartthrob,Foxwatch Favorite,Voted most huggable three years running. Accepts the title gracefully.
+FW-035,035 The Comforter,035 The Comforter.png,The Comforter,Foxwatch Medic,"First to the injured, blanket in paw. The den's gentle hands."
+FW-036,036 The Napper,036 The Napper.png,The Napper,Foxwatch Dreamer,Rests hardest so he can run farthest. Do not wake.
+FW-037,037 The Picnicker,037 The Picnicker.png,The Picnicker,Foxwatch Outdoorsman,Every patrol ends with a picnic. His rule.
+FW-038,038 The Skywatcher,038 The Skywatcher.png,The Skywatcher,Foxwatch Signaler,"Reads the wind, flies the colors. The watch's flags are his."
+FW-039,039 The Referee,039 The Referee.png,The Referee,Foxwatch Arbiter,Settles every dispute on the pitch. His whistle is law.
+FW-040,040 The Architect,040 The Architect.png,The Architect,Foxwatch Builder,Designed the den's honeycomb stores. Every angle load-bearing.
+FW-041,041 The Knitter,041 The Knitter.png,The Knitter,Foxwatch Crafter,Every blanket in the den passed through her paws.
+FW-042,042 The Gargoyle,042 The Gargoyle.png,The Gargoyle,Foxwatch Warden,Perches where intruders look up last.
+FW-043,043 The Alchemist,043 The Alchemist.png,The Alchemist,Foxwatch Brewer,"Turns honey into everything: medicine, mead, morale."
+FW-044,044 The Painter,044 The Painter.png,The Painter,Foxwatch Artist,Paints the backgrounds the watch patrols through. Claims it's just decoration.
+FW-045,045 The Pilot,045 The Pilot.png,The Pilot,Foxwatch Aviator,Takes the high view. Reports what the ground can't see.
+FW-046,046 The Cartographer,046 The Cartographer.png,The Cartographer,Foxwatch Mapmaker,"Every background mapped, every trail inked. The watch never gets lost."
+FW-047,047 The Explorer,047 The Explorer.png,The Explorer,Foxwatch Voyager,First paw into every new background. Sends postcards.
+FW-048,048 The Philosopher,048 The Philosopher.png,The Philosopher,Foxwatch Thinker,"Being himself, deliberately. The watch's quietest wisdom."
+FW-049,049 The Engineer,049 The Engineer.png,The Engineer,Foxwatch Smith,Builds what the Architect draws. The honeycomb holds because he says so.
+FW-050,050 The Veteran,050 The Veteran.png,The Veteran,Foxwatch Elder,Played every position. Now teaches the young ones where to stand.
+FW-051,051 The Rookie,051 The Rookie.png,The Rookie,Foxwatch Prospect,Newest paws on the pitch. Fastest learner the Coach has seen.
+FW-052,052 The Gardener,052 The Gardener.png,The Gardener,Foxwatch Tender,Grows what the foragers find. The territory blooms where he walks.
+FW-053,053 The Storyteller,053 The Storyteller.png,The Storyteller,Foxwatch Bard,Every blanket has a tale. He tells them all by firelight.
+FW-054,054 The Dreamer,054 The Dreamer.png,The Dreamer,Foxwatch Visionary,Sees backgrounds that don't exist yet. The watch follows.

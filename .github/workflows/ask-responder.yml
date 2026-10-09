@@ -1,14 +1,15 @@
 name: ask-responder
 
-# Friendly front desk for the "Ask the agency" box on the public site.
-# Deterministic, $0, no LLMs. agency-verify owns issues containing
-# "verify"; this handles everything else with an acknowledgment + routing.
+# The agency's front desk: greets the asker by name and replies with a live
+# snapshot of agency systems, in the agency's voice. Deterministic, $0, no LLMs.
+# agency-verify owns issues containing "verify"; panic owns LOCKDOWN issues.
 
 on:
   issues:
     types: [opened]
 
 permissions:
+  contents: read
   issues: write
 
 jobs:
@@ -29,22 +30,60 @@ jobs:
             echo "owned=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Post acknowledgment
+      - uses: actions/checkout@v4
+        if: steps.gate.outputs.owned == 'false'
+
+      - name: Gather live facts
+        id: facts
+        if: steps.gate.outputs.owned == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          ASKER: ${{ github.event.issue.user.login }}
+        run: |
+          echo "asker=$ASKER" >> "$GITHUB_OUTPUT"
+          FOXES=$(( $(wc -l < foxwatch/roster-54.csv) - 1 ))
+          echo "foxes=$FOXES" >> "$GITHUB_OUTPUT"
+          echo "price=$(python3 -c "import json;print(json.load(open('foxwatch/status.json'))['scout']['price_eth'])")" >> "$GITHUB_OUTPUT"
+          echo "bids=$(python3 -c "import json;print(json.load(open('foxwatch/status.json'))['scout']['bids'])")" >> "$GITHUB_OUTPUT"
+          echo "checked=$(python3 -c "import json;print(json.load(open('foxwatch/status.json'))['checked_at'][:10])")" >> "$GITHUB_OUTPUT"
+          VERIFY=$(gh run list --workflow=agency-verify --limit 10 --json conclusion,headSha --jq '[.[] | select(.conclusion != "")][0] | "\(.conclusion) \(.headSha[0:7])"' 2>/dev/null)
+          [ -z "$VERIFY" ] && VERIFY="unknown"
+          echo "verify=$VERIFY" >> "$GITHUB_OUTPUT"
+          OPEN_ISSUES=$(gh issue list --state open --json number --jq 'length' 2>/dev/null)
+          [ -z "$OPEN_ISSUES" ] && OPEN_ISSUES="?"
+          echo "open_issues=$OPEN_ISSUES" >> "$GITHUB_OUTPUT"
+
+      - name: Post agency reply
         if: steps.gate.outputs.owned == 'false'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ASKER: ${{ steps.facts.outputs.asker }}
+          FOXES: ${{ steps.facts.outputs.foxes }}
+          PRICE: ${{ steps.facts.outputs.price }}
+          BIDS: ${{ steps.facts.outputs.bids }}
+          CHECKED: ${{ steps.facts.outputs.checked }}
+          VERIFY: ${{ steps.facts.outputs.verify }}
+          OPEN_ISSUES: ${{ steps.facts.outputs.open_issues }}
         run: |
-          gh issue comment "$ISSUE_NUMBER" --body '## agency: question received
+          cat > /tmp/reply.md << EOF
+          ## Agency: hey @$ASKER — here's your live picture
 
-          Thanks for asking. A human-supervised operator reviews every
-          question here and answers from live agency systems.
-          Meanwhile, public agency state is machine-readable:
+          I checked the systems just now:
 
-          - Announcements: https://ssdarwich2026-pixel.github.io/Sayeds-agency/feed.json
-          - Member registry: https://ssdarwich2026-pixel.github.io/Sayeds-agency/registry.json
-          - Source: https://github.com/ssdarwich2026-pixel/Sayeds-agency
+          - **Collection:** $FOXES foxes — all named, all with stories
+          - **Listed:** The Scout (1/1) at $PRICE ETH — $BIDS bids (last checked $CHECKED)
+          - **Ready to list:** 10 foxes (001–010), art staged, prices set
+          - **Last verification:** $VERIFY
+          - **Open questions:** $OPEN_ISSUES including this one
 
-          Tip: include the word "verify" in your question to trigger the
-          automated verification checks, which report back here with evidence.'
+          **What I do alone:** prep, monitor, report, draft.
+          **What needs human hands:** signatures, posting, word approval.
+
+          A human-supervised operator reviews every question here and answers from live agency systems.
+
+          Tip: include the word "verify" in your question to trigger the automated verification checks, which report back here with evidence.
+          EOF
+          gh issue comment "$ISSUE_NUMBER" --body-file /tmp/reply.md

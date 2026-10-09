@@ -1,0 +1,19 @@
+{
+  "scout": {
+    "name": "The Scout — First of the Foxwatch",
+    "price_eth": 0.05,
+    "price_usd": 124,
+    "bids": 0,
+    "likes": 0,
+    "days_left": 27,
+    "royalty_pct": 10
+  },
+  "batch10": {
+    "status": "staged",
+    "items": 10,
+    "supply_per_item": 5000
+  },
+  "checked_at": "2026-10-10T05:50:00+09:00",
+  "checked_by": "operator",
+  "note": "Rarible API now requires a key; live listing facts are operator-verified and refreshed here. Get a free key at api.rarible.org/dashboard to automate."
+}
