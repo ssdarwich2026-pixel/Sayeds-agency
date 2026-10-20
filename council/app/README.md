@@ -1,9 +1,13 @@
-# Jury of Five App — Room 1
+# Jury of Five App — Room 1 + Room 2 Intake
 
 A small, phone-first web app that wraps the Jury of Five engine
 (`council/jury.py`) so Sayed can ask questions and read verdicts without a
 terminal. Single Python service, standard library only (`http.server`) —
 no new dependencies, no build step, no database.
+
+Room 2 (the "Jury of 45+" tab) serves the **intake stage** of the
+In-Depth Crew: an intake assessment runs *first*, and the full 45+ run
+does **not** start — see below.
 
 ## Run it (one command)
 
@@ -56,8 +60,38 @@ JURY_APP_PASSCODE="pick-a-passcode" \
   date); in mock mode it also lists `council/mock-runs/*.md`. Read-only:
   the app never edits or deletes run logs. Tapping an entry opens the
   same verdict view.
-- **Jury of 45+ tab** — placeholder only ("In the works"). Its engine
-  is a later brief.
+- **Jury of 45+ tab (Room 2) — intake stage.** Type a question for the
+  In-Depth Crew and an intake assessment runs first (background job +
+  polling, same pattern as Ask):
+  - **Complexity score** — 1–10 with a band (Simple / Moderate /
+    Complex / Major) and the signals behind it.
+  - **Departments it would route to** — the five studio departments
+    (Strategy, Creative, Legal / IP, Market, Money), each shown with the
+    registry pool tagged for it in `registry/models.yaml` (parsed
+    stdlib-only from the file's `models:` section; research-only
+    "NONE for this agency" entries excluded).
+  - **Time estimate for the full run** — a rough range from a per-band
+    base, calibrated by past Jury of Five runs under `council/runs/`:
+    run logs carry no duration, but their OpenRouter request counts show
+    how congested the free pool was, so the scale is avg-requests ÷ 6,
+    clamped to ×0.80–×1.25. The basis line on the result says exactly
+    which history was used (or that none was found).
+  - Assessments are logged like run logs — `council/intake-runs/*.md`
+    (mock mode: `council/mock-intake-runs/*.md`) — and past assessments
+    are listed on the Room 2 page, read-only.
+  - **Modes.** Mock mode (same flags as Room 1): a deterministic
+    heuristic scorer, offline, $0, labeled MOCK. Live mode: **one**
+    budget-checked OpenRouter `:free` call (the `judge` model from
+    `council/config.yaml`, credential via the same connector surrogate
+    helper `jury.py` uses; `budget.py check 1` before, `record` for the
+    attempt) asked for a strict-JSON assessment. If the live call can't
+    run — budget refused, pool busy, unparseable — intake falls back to
+    the same heuristic scorer and the result page says so. Intake never
+    fails silently and never spends more than 1 request.
+  - **Full run: NOT YET WIRED.** The result page states this plainly
+    and its "Start full run" button is disabled. The full 45+ engine
+    (department rounds: draft → critique → refine → IP screen →
+    synthesis) is a later phase; intake never starts or fakes one.
 
 ## Budget line
 
@@ -85,13 +119,21 @@ python3 council/app/smoke_test.py
 
 Boots the app in mock mode on a scratch port with a test passcode and
 checks: passcode gate (including wrong-passcode refusal), Ask page,
-budget line, Jury of 45+ placeholder, a full mock Ask → poll → verdict
+budget line, Jury of 45+ intake form, a full mock Ask → poll → verdict
 with **all** sections present (a launch/contract question, so the
-escalation packet is exercised), History listing, and opening a past
-verdict. Exit 0 = PASS. Makes no live calls and spends no budget.
+escalation packet is exercised), History listing, opening a past
+verdict, and the Room 2 intake flow — a complex money/legal/launch
+question scoring ≥7 with routed departments (including Legal / IP and
+Money) and a time estimate, a simple question scoring Simple, the
+NOT-YET-WIRED full-run state with its disabled button, and proof that
+intake created no jury run logs (no full run started or faked). Mock
+intake logs written by the test are cleaned up afterwards. Exit 0 =
+PASS. Makes no live calls and spends no budget.
 
 ## Files
 
-- `server.py` — the whole service (server + inline UI).
+- `server.py` — the whole service (server + inline UI + Room 2 intake).
 - `smoke_test.py` — the test above.
 - No changes to `council/jury.py` or `council/config.yaml`.
+- Intake logs are runtime output, written to `council/intake-runs/` /
+  `council/mock-intake-runs/` (created on first use), like `runs/`.

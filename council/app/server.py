@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
-"""Jury of Five — Room 1 web app.
+"""Jury of Five — Room 1 web app, plus Room 2 (Jury of 45+) intake.
 
 A single stdlib http.server service that wraps council/jury.py (or the
 mock engine) so one non-technical user can ask questions and read verdicts
 from a phone. No dependencies, no database, no build step.
+
+Room 2 serves the Jury of 45+ INTAKE stage only: a question gets a
+complexity score, the studio departments it would route to, and a rough
+time estimate for the full run. The full 45+ engine is a later phase —
+intake never starts one, and its result page says NOT YET WIRED.
 
 Env vars:
   JURY_APP_PASSCODE  If set, a passcode gate protects the app (form + cookie).
@@ -40,6 +45,9 @@ REPO_ROOT = os.path.dirname(COUNCIL_DIR)
 CONFIG_PATH = os.path.join(COUNCIL_DIR, "config.yaml")
 RUNS_DIR = os.path.join(COUNCIL_DIR, "runs")
 MOCK_RUNS_DIR = os.path.join(COUNCIL_DIR, "mock-runs")
+INTAKE_RUNS_DIR = os.path.join(COUNCIL_DIR, "intake-runs")
+MOCK_INTAKE_RUNS_DIR = os.path.join(COUNCIL_DIR, "mock-intake-runs")
+REGISTRY_PATH = os.path.join(REPO_ROOT, "registry", "models.yaml")
 
 PASSCODE = os.environ.get("JURY_APP_PASSCODE", "")
 PORT = int(os.environ.get("JURY_APP_PORT", "8765"))
@@ -116,6 +124,548 @@ def budget_html():
                 "but please go easy.")
     return (f"Today&rsquo;s free-request budget: "
             f"<strong>{n} requests left</strong>")
+
+# ------------------------------------------------------- Room 2: intake ---
+# The Jury of 45+ (In-Depth Crew) starts with an INTAKE assessment, never
+# with the full run. Intake scores the question, names the studio
+# departments it would route to, and gives a rough time estimate for the
+# full run. The full-run engine is a LATER phase: nothing in this section
+# starts one, and the result page says so plainly ("NOT YET WIRED").
+#
+# Modes, following the Room 1 pattern:
+#   mock      (JURY_APP_MOCK=1 / mock engine) — deterministic heuristic,
+#             offline, $0, labeled MOCK, logs to mock-intake-runs/.
+#   live      — ONE budget-checked OpenRouter :free call (the config's
+#             judge model) asked for a strict-JSON assessment; the raw
+#             credential is resolved by the connector surrogate helper,
+#             exactly as council/jury.py does — never seen by this app.
+#   heuristic — the same scoring code as mock mode, used as the live
+#             fallback whenever the live call cannot run (budget refused,
+#             pool busy, unparseable answer). Labeled as a fallback.
+
+# The five studio departments (canonical list — the same five named in
+# council/mock_jury.py's escalation packet and the tier-2 design:
+# strategy, creative, legal/IP, market, money). q_words route a question;
+# reg_words / reg_types tag registry models (registry/models.yaml,
+# best_for + type fields) as examples of the pool a department draws on.
+DEPARTMENTS = [
+    {"key": "strategy", "name": "Strategy",
+     "brief": "Direction, sequencing, trade-offs, and the final synthesis.",
+     "q_words": ("strategy", "decide", "decision", "should we", "plan",
+                 "priority", "priorities", "roadmap", "choose", "choice",
+                 "direction", "launch", "expand", "pivot", "grow"),
+     "reg_words": ("strategy", "reasoning", "decision", "long-context",
+                   "planning"),
+     "reg_types": ()},
+    {"key": "creative", "name": "Creative",
+     "brief": "Design, brand, content, and anything the audience sees.",
+     "q_words": ("design", "brand", "logo", "video", "content", "shirt",
+                 "creative", "name for", "naming", "copy", "image", "art",
+                 "photo", "story", "campaign", "look and feel", "style"),
+     "reg_words": ("copywriting", "design", "mockup", "brand", "speech",
+                   "trend scan"),
+     "reg_types": ("image", "video", "audio")},
+    {"key": "legal-ip", "name": "Legal / IP",
+     "brief": "Contracts, trademark / copyright, licensing, and risk of "
+              "getting told to stop.",
+     "q_words": ("contract", "legal", "trademark", "copyright", "licence",
+                 "license", "licensing", "patent", "intellectual property",
+                 " terms", "privacy", "compliance", "sue", "lawsuit",
+                 "rights to", "permission to use", " ip "),
+     "reg_words": ("legal", "licence", "license"),
+     "reg_types": ()},
+    {"key": "market", "name": "Market",
+     "brief": "Customers, audience, competitors, demand, and channels.",
+     "q_words": ("market", "customer", "audience", "competitor",
+                 "competition", "sell", "sales", "demand", "niche",
+                 "trend", "research", "survey", "who would buy",
+                 "target market"),
+     "reg_words": ("market", "trend", "research", "audience", "margin "
+                   "analysis"),
+     "reg_types": ()},
+    {"key": "money", "name": "Money",
+     "brief": "Price, cost, budget, revenue, margin, and whether the "
+              "numbers survive contact with reality.",
+     "q_words": ("money", "price", "pricing", "cost", "budget", "revenue",
+                 "profit", "margin", "invest", "loan", "finance",
+                 "financial", "spend", "spending", "$", "afford", "charge"),
+     "reg_words": ("pricing", "margin", "finance", "money", "revenue",
+                   "cost"),
+     "reg_types": ()},
+]
+DEPT_BY_NAME = {d["name"].lower(): d for d in DEPARTMENTS}
+
+HIGH_RISK_WORDS = ("contract", "legal", "trademark", "copyright", "spend",
+                   "money", "invest", "loan", "hire", "launch", "lawsuit",
+                   "irreversible", "sign a", "sign the", "$", "borrow")
+
+# Rough working-time ranges (minutes) for a full 45+ run, by band. The
+# full crew design is several rounds (draft, critique, refine, IP screen,
+# synthesis) across every routed department on a shared free pool where
+# 429 retries are routine — so even a "simple" crew run is not quick.
+ETA_BASE_MINUTES = {"Simple": (20, 40), "Moderate": (40, 80),
+                    "Complex": (75, 150), "Major": (150, 300)}
+
+
+def load_registry_models():
+    """Parse registry/models.yaml with a small line parser (the app is
+    stdlib-only, so no PyYAML). Returns usable models only: entries whose
+    best_for marks them NONE / research-only for this agency are excluded.
+    Returns [] when the registry cannot be read."""
+    try:
+        with open(REGISTRY_PATH) as f:
+            text = f.read()
+    except Exception:
+        return []
+    # Only the top-level `models:` section counts — the registry also
+    # lists tools: and deprecated: entries at the same indent, and a
+    # router or an automation tool is not a crew model.
+    sec = re.search(r"(?ms)^models:\s*\n(.*?)(?=^\S|\Z)", text)
+    if sec:
+        text = sec.group(1)
+    models = []
+    chunks = re.split(r"(?m)^  - name:\s*", text)
+    for chunk in chunks[1:]:
+        lines = chunk.splitlines()
+        name = lines[0].strip().strip("'\"") if lines else ""
+        fields = {}
+        for ln in lines[1:]:
+            m = re.match(r"^\s{4}(\w+):\s*(.*)$", ln)
+            if m:
+                fields[m.group(1)] = m.group(2).strip().strip("'\"")
+        best_for = fields.get("best_for", "")
+        if not name or best_for.upper().startswith("NONE"):
+            continue
+        models.append({"name": name, "type": fields.get("type", ""),
+                       "best_for": best_for,
+                       "access": fields.get("access", "")})
+    return models
+
+
+def department_pool(dept, models):
+    """Registry models tagged (best_for / type) for one department."""
+    out = []
+    for m in models:
+        hay = (m["best_for"] + " " + m["type"]).lower()
+        if m["type"].lower() in dept["reg_types"] or \
+                any(w in hay for w in dept["reg_words"]):
+            out.append(m)
+    return out
+
+
+def complexity_band(score):
+    if score <= 3:
+        return "Simple"
+    if score <= 6:
+        return "Moderate"
+    if score <= 8:
+        return "Complex"
+    return "Major"
+
+
+def run_history_calibration():
+    """Calibrate the ETA from past Jury of Five runs under council/runs/.
+
+    Run logs carry no wall-clock duration (the log is written at the end
+    of a run), but they do record the OpenRouter request count, and pool
+    congestion — retries and recalls — is what stretches real time. So:
+    scale = average requests per past run / 6 (a clean run), clamped.
+    With no usable history, scale is 1.0 and the basis says so."""
+    counts = []
+    if os.path.isdir(RUNS_DIR):
+        for name in os.listdir(RUNS_DIR):
+            if not name.endswith(".md"):
+                continue
+            try:
+                with open(os.path.join(RUNS_DIR, name)) as f:
+                    m = re.search(r"OpenRouter requests used:\s*(\d+)",
+                                  f.read())
+                if m:
+                    counts.append(int(m.group(1)))
+            except Exception:
+                continue
+    if not counts:
+        return 1.0, ("No past Jury of Five runs found under council/runs/, "
+                      "so this estimate uses the uncalibrated base range.")
+    avg = sum(counts) / len(counts)
+    scale = min(1.25, max(0.8, avg / 6.0))
+    return scale, (f"Calibrated from {len(counts)} past Jury of Five "
+                   f"run(s) under council/runs/ (average {avg:.1f} "
+                   f"requests per run vs 6 for a clean run; busier pools "
+                   f"mean more retries, so the range is scaled x{scale:.2f}).")
+
+
+def fmt_minutes(m):
+    m = int(round(m / 5.0) * 5) or 5
+    if m < 60:
+        return f"{m} minutes"
+    h = m / 60.0
+    hs = f"{h:.1f}".rstrip("0").rstrip(".")
+    return f"{hs} hour" + ("" if hs == "1" else "s")
+
+
+def estimate_eta(score, n_departments):
+    band = complexity_band(score)
+    lo, hi = ETA_BASE_MINUTES[band]
+    scale, basis = run_history_calibration()
+    return (f"about {fmt_minutes(lo * scale)} to {fmt_minutes(hi * scale)}",
+            basis)
+
+
+def heuristic_intake(question):
+    """Deterministic complexity scoring + department routing. Used for
+    mock mode and as the live-mode fallback. Returns an assessment dict
+    (departments hold registry-pool info, added by the caller)."""
+    q = " " + question.lower() + " "
+    signals = []
+    score = 2
+    words = len(question.split())
+    if words >= 20:
+        score += 1
+        signals.append(f"A long question ({words} words) — more moving "
+                       f"parts to untangle.")
+    if words >= 45:
+        score += 1
+        signals.append("A very detailed question — the crew would need "
+                       "several passes to cover it all.")
+    if words >= 80:
+        score += 1
+    routed = []
+    for dept in DEPARTMENTS:
+        hits = [w for w in dept["q_words"] if w in q]
+        if hits:
+            routed.append(dept)
+            signals.append(f"{dept['name']} territory: the question "
+                           f"mentions {', '.join(sorted(set(h.strip() for h in hits))[:3])}.")
+    if len(routed) >= 2:
+        score += 1
+    if len(routed) >= 4:
+        score += 1
+        signals.append(f"It spans {len(routed)} departments — cross-"
+                       f"department questions are the heavy ones.")
+    risk_hits = sorted({w for w in HIGH_RISK_WORDS if w in q})
+    if risk_hits:
+        score += 1
+        signals.append("Money / legal / commitment signals: "
+                       + ", ".join(risk_hits[:4]) + ".")
+    if len(risk_hits) >= 3:
+        score += 1
+    clauses = q.count(",") + q.count(";") + q.count(" and ")
+    if clauses >= 3:
+        score += 1
+        signals.append("Several linked sub-questions in one — each one "
+                       "needs its own pass.")
+    if not routed:
+        routed = [DEPARTMENTS[0]]
+        signals.append("No single department stands out — Strategy would "
+                       "take the first pass and route from there.")
+    if not signals:
+        signals.append("A short, single-topic question with no money, "
+                       "legal, or launch signals.")
+    score = max(1, min(10, score))
+    watch = ["Free-tier reality: the full crew shares the ~50-request/day "
+             "free pool, so a full run may queue across more than one "
+             "day. The estimate is working time once the run starts, "
+             "not queue time."]
+    if risk_hits:
+        watch.insert(0, "This question carries money / legal / commitment "
+                        "signals — that is exactly what the 45+ crew "
+                        "exists to check before anyone acts.")
+    return {"score": score, "band": complexity_band(score),
+            "departments": routed, "signals": signals, "watch_outs": watch,
+            "source": "heuristic"}
+
+
+def live_intake(question):
+    """One budget-checked OpenRouter :free call for a JSON assessment,
+    following council/jury.py's patterns (config-driven, surrogate
+    credential helper, budget check + record). Returns (assessment,
+    None) on success or (None, short_reason) — the caller falls back to
+    the heuristic either way, so intake always answers."""
+    try:
+        with open(CONFIG_PATH) as f:
+            cfg_text = f.read()
+    except Exception:
+        return None, "council config could not be read"
+
+    def cfg1(pattern):
+        m = re.search(pattern, cfg_text)
+        return m.group(1).strip() if m else ""
+
+    api_url = cfg1(r"api_url:\s*(\S+)")
+    credential = cfg1(r"credential:\s*(\S+)")
+    referer = cfg1(r"referer:\s*(\S+)")
+    title = cfg1(r"(?m)^\s*title:\s*(.+)$")
+    budget_py = cfg1(r"budget_py:\s*(\S+)")
+    m = re.search(r"(?ms)^judge:\s*\n\s*id:\s*(\S+)", cfg_text)
+    model_id = m.group(1).strip() if m else ""
+    if not model_id.endswith(":free"):
+        return None, "configured intake model is not a :free model"
+    if not (api_url and credential and budget_py):
+        return None, "council config is incomplete for a live call"
+
+    def budget(*args):
+        return subprocess.run([sys.executable, budget_py, *args],
+                              capture_output=True, text=True, timeout=15)
+
+    try:
+        chk = budget("check", "1")
+        if chk.returncode != 0:
+            return None, "the free-request budget check refused the call"
+    except Exception:
+        return None, "the free-request budget could not be checked"
+
+    helper = None
+    for p in ("/opt/muse/skills/custom-connector-setup/bin",
+              "/opt/muse/skills/custom-connector-setup/templates/skill/bin"):
+        if os.path.exists(os.path.join(p, "dynamic_credentials.py")):
+            helper = p
+            break
+    if not helper:
+        return None, "the credential helper is unavailable"
+    if helper not in sys.path:
+        sys.path.insert(0, helper)
+    try:
+        from dynamic_credentials import (add_surrogate_to_request,
+                                         read_json_response)
+    except Exception:
+        return None, "the credential helper could not be loaded"
+
+    dept_names = ", ".join(d["name"] for d in DEPARTMENTS)
+    prompt = (
+        "You are the intake assessor for a 45-model executive crew with "
+        f"these studio departments: {dept_names}. Assess the question "
+        "below for a full crew run. Reply with ONLY a JSON object, no "
+        "other text, in exactly this shape:\n"
+        '{"complexity_score": <integer 1-10>, "departments": [<department '
+        'names from the list above>], "rationale": "<one or two sentences>", '
+        '"watch_outs": "<one sentence, or empty>"}\n'
+        "Score 1-3 = simple single-topic; 4-6 = moderate, a few angles; "
+        "7-8 = complex, several departments or real money/legal risk; "
+        "9-10 = major launch-scale commitment.\n\n"
+        f"QUESTION: {question}")
+    body = json.dumps({"model": model_id,
+                       "messages": [{"role": "user", "content": prompt}],
+                       "max_tokens": 700}).encode()
+    import urllib.error
+    import urllib.request
+    try:
+        budget("record")
+        req = urllib.request.Request(api_url, data=body, method="POST")
+        req.add_header("Content-Type", "application/json")
+        if referer:
+            req.add_header("HTTP-Referer", referer)
+        if title:
+            req.add_header("X-Title", title)
+        add_surrogate_to_request(req, credential,
+                                 allowed_hosts=("openrouter.ai",))
+        with urllib.request.urlopen(req, timeout=120) as resp:
+            data = read_json_response(resp)
+        if "choices" not in data:
+            return None, "the free pool returned an error body"
+        msg = data["choices"][0]["message"]
+        text = (msg.get("content") or msg.get("reasoning_content") or "")
+        jm = re.search(r"\{.*\}", text, re.S)
+        parsed = json.loads(jm.group(0)) if jm else None
+        if not parsed:
+            return None, "the live answer could not be parsed"
+        score = max(1, min(10, int(parsed.get("complexity_score", 0))))
+        routed = []
+        for name in parsed.get("departments") or []:
+            dept = DEPT_BY_NAME.get(str(name).strip().lower())
+            if dept and dept not in routed:
+                routed.append(dept)
+        if not routed:
+            routed = heuristic_intake(question)["departments"]
+        signals = []
+        if parsed.get("rationale"):
+            signals.append(str(parsed["rationale"]).strip())
+        signals.append(f"Live intake by {model_id} (1 free request, "
+                       f"budget-checked before the call).")
+        watch = []
+        if parsed.get("watch_outs"):
+            watch.append(str(parsed["watch_outs"]).strip())
+        watch.append("Free-tier reality: the full crew shares the "
+                     "~50-request/day free pool, so a full run may queue "
+                     "across more than one day. The estimate is working "
+                     "time once the run starts, not queue time.")
+        return {"score": score, "band": complexity_band(score),
+                "departments": routed, "signals": signals,
+                "watch_outs": watch, "source": "live"}, None
+    except Exception:
+        return None, "the free pool did not answer"
+
+
+def assess_intake(question):
+    """Run one intake assessment (mock / live / heuristic fallback),
+    enrich it with registry pools + the calibrated ETA, persist it as a
+    run-log-style markdown file, and return (assessment, intake_id)."""
+    started = time.time()
+    if is_mock_mode():
+        a = heuristic_intake(question)
+        a["source"] = "mock"
+        a["mode_label"] = "MOCK — heuristic assessment, no live calls, $0"
+    else:
+        live, reason = live_intake(question)
+        if live is not None:
+            a = live
+            a["mode_label"] = "Live intake (1 budget-checked free request)"
+        else:
+            a = heuristic_intake(question)
+            a["mode_label"] = ("Heuristic assessment — live intake was "
+                               f"unavailable ({reason}), so the built-in "
+                               "scorer answered instead. No budget spent.")
+    models = load_registry_models()
+    a["pools"] = {d["key"]: department_pool(d, models)
+                  for d in a["departments"]}
+    a["registry_count"] = len(models)
+    a["eta"], a["eta_basis"] = estimate_eta(a["score"],
+                                            len(a["departments"]))
+    a["question"] = question
+    a["when"] = time.strftime("%Y-%m-%d %H:%M:%S")
+    a["elapsed_s"] = round(time.time() - started, 1)
+    intake_id = write_intake_log(a)
+    return a, intake_id
+
+
+def intake_slug(text, n=6):
+    words = re.findall(r"[a-z0-9]+", text.lower())[:n]
+    return "-".join(words) or "intake"
+
+
+def write_intake_log(a):
+    mock = a["source"] == "mock"
+    d = MOCK_INTAKE_RUNS_DIR if mock else INTAKE_RUNS_DIR
+    os.makedirs(d, exist_ok=True)
+    stamp = time.strftime("%Y-%m-%d-%H%M%S")
+    name = f"{stamp}-{'MOCK-' if mock else ''}{intake_slug(a['question'])}.md"
+    dept_lines = []
+    for dept in a["departments"]:
+        pool = a["pools"].get(dept["key"], [])
+        examples = ", ".join(m["name"] for m in pool[:3])
+        dept_lines.append(
+            f"- **{dept['name']}** — {dept['brief']} "
+            f"(registry pool tagged for this department: {len(pool)} "
+            f"model(s){': ' + examples if examples else ' — none tagged yet, routing is by department brief'})")
+    lines = [
+        "# Jury of 45+ — intake assessment" + (" [MOCK]" if mock else ""),
+        f"- When: {a['when']} (local)",
+        f"- Question: {a['question']}",
+        f"- Mode: {a['mode_label']}",
+        f"- Complexity score: {a['score']} / 10 ({a['band']})",
+        f"- Departments: {', '.join(d['name'] for d in a['departments'])}",
+        f"- Time estimate for the full run: {a['eta']}",
+        f"- Estimate basis: {a['eta_basis']}",
+        f"- Intake took: {a['elapsed_s']}s",
+        "",
+        "## Why this score",
+        "",
+        *[f"- {s}" for s in a["signals"]],
+        "",
+        "## Departments it would route to",
+        "",
+        *dept_lines,
+        "",
+        "## Watch-outs",
+        "",
+        *[f"- {w}" for w in a["watch_outs"]],
+        "",
+        "## Full run status",
+        "",
+        "NOT YET WIRED — the full 45+ engine is a later phase. This "
+        "intake assessment does not start a full run, and no crew run "
+        "has been queued.",
+        "",
+    ]
+    with open(os.path.join(d, name), "w") as f:
+        f.write("\n".join(lines))
+    label = "mock-intake-runs" if mock else "intake-runs"
+    return f"{label}/{name}"
+
+
+def parse_intake_text(text):
+    out = {"question": "", "when": "", "mode": "", "score": "",
+           "band": "", "departments_line": "", "eta": "", "basis": "",
+           "mock": "[MOCK]" in text[:200], "raw": text, "sections": {}}
+    for line in text.splitlines():
+        for label, key in (("- Question:", "question"), ("- When:", "when"),
+                           ("- Mode:", "mode"), ("- Time estimate for the "
+                            "full run:", "eta"),
+                           ("- Estimate basis:", "basis"),
+                           ("- Departments:", "departments_line")):
+            if line.startswith(label):
+                out[key] = line.split(":", 1)[1].strip()
+        m = re.match(r"- Complexity score:\s*(\d+)\s*/\s*10\s*\(([^)]+)\)",
+                     line)
+        if m:
+            out["score"], out["band"] = m.group(1), m.group(2)
+    secs = re.split(r"(?m)^##\s+(.+)$", text)
+    for i in range(1, len(secs) - 1, 2):
+        out["sections"][secs[i].strip()] = secs[i + 1].strip()
+    return out
+
+
+def list_intakes():
+    """Past intake assessments, newest first. Mock intakes are included
+    in mock mode (same convention as Room 1 history)."""
+    entries = []
+    dirs = [("intake-runs", INTAKE_RUNS_DIR)]
+    if is_mock_mode():
+        dirs.append(("mock-intake-runs", MOCK_INTAKE_RUNS_DIR))
+    for label, d in dirs:
+        if not os.path.isdir(d):
+            continue
+        for name in os.listdir(d):
+            if not name.endswith(".md"):
+                continue
+            path = os.path.join(d, name)
+            try:
+                with open(path) as f:
+                    parsed = parse_intake_text(f.read())
+                entries.append({"id": f"{label}/{name}",
+                                "question": parsed["question"] or name,
+                                "when": parsed["when"],
+                                "score": parsed["score"],
+                                "band": parsed["band"],
+                                "eta": parsed["eta"],
+                                "mock": parsed["mock"] or label.startswith("mock"),
+                                "mtime": os.path.getmtime(path)})
+            except Exception:
+                continue
+    entries.sort(key=lambda e: e["mtime"], reverse=True)
+    return entries
+
+
+def load_intake(intake_id):
+    """Load one intake log by id. Read-only; traversal refused."""
+    label, _, name = (intake_id or "").partition("/")
+    base = {"intake-runs": INTAKE_RUNS_DIR,
+            "mock-intake-runs": MOCK_INTAKE_RUNS_DIR}.get(label)
+    if not base or not name or "/" in name or "\\" in name \
+            or not name.endswith(".md"):
+        return None
+    path = os.path.join(base, name)
+    if not os.path.isfile(path):
+        return None
+    with open(path) as f:
+        return parse_intake_text(f.read())
+
+
+INTAKE_JOBS = {}
+
+
+def run_intake_job(job_id, question):
+    def upd(**kw):
+        with JOBS_LOCK:
+            INTAKE_JOBS[job_id].update(kw)
+    upd(status="running", stage="Intake is assessing…")
+    try:
+        _, intake_id = assess_intake(question)
+        upd(status="done", stage="Intake assessment", intake_id=intake_id)
+    except Exception:
+        upd(status="error", stage="",
+            error="Intake could not assess that question this time. "
+                  "Please try again in a little while.")
 
 # ------------------------------------------------------------- run logs ---
 
@@ -231,6 +781,9 @@ textarea{width:100%;box-sizing:border-box;font-size:1.1rem;padding:12px;
 border:2px solid #ccc;border-radius:10px;min-height:130px}
 button.ask{width:100%;font-size:1.2rem;font-weight:700;padding:16px;margin-top:12px;
 border:0;border-radius:12px;background:#166b3a;color:#fff}
+button.ask:disabled{background:#9a9a94;cursor:not-allowed}
+.score{font-size:2.2rem;font-weight:800;line-height:1.1}
+.eta{font-size:1.3rem;font-weight:700}
 button.copy{font-size:1rem;padding:10px 16px;border:0;border-radius:8px;
 background:#1c1c1a;color:#fff}
 .budget{font-size:1rem;color:#444}.warn{background:#fff3cd;border-radius:10px;padding:10px}
@@ -448,12 +1001,102 @@ class Handler(BaseHTTPRequestHandler):
                     f"Past questions</h2>{items or '<p>No runs yet.</p>'}</div>")
             return self.send_html(page("Jury of Five — History", body, "history"))
         if u.path == "/room2":
-            body = ("<div class='card'><h2 style='margin-top:0'>Jury of 45+</h2>"
-                    "<p><strong>In the works.</strong></p>"
-                    "<p>The In-Depth Crew — the full 45-model deep review — "
-                    "is being built. When a Jury of Five verdict says "
-                    "&ldquo;escalate&rdquo;, its packet will go here.</p></div>")
+            past = "".join(
+                f"<div><a href='/room2/intake?f={urllib.parse.quote(e['id'])}'>"
+                f"{html.escape(e['question'])}</a>"
+                f"<span class='small'>{html.escape(e['when'])}"
+                f"{' · score ' + html.escape(e['score']) + '/10 (' + html.escape(e['band']) + ')' if e['score'] else ''}"
+                f"{' · MOCK' if e['mock'] else ''}</span></div>"
+                for e in list_intakes()[:10])
+            body = (
+                f"<p class='budget'>{budget_html()}</p>"
+                "<div class='card'><h2 style='margin-top:0'>Jury of 45+ — "
+                "intake first</h2>"
+                "<p>The In-Depth Crew never starts cold. Type a question "
+                "and a small <strong>intake assessment</strong> runs "
+                "first: it scores how complex the question is, names the "
+                "studio departments it would route to, and gives a rough "
+                "time estimate for the full run — <em>before</em> anything "
+                "big is started.</p>"
+                "<form id='intakeform'>"
+                "<label for='iq'><strong>What do you want the 45+ crew "
+                "to dig into?</strong></label>"
+                "<textarea id='iq' name='question' "
+                "placeholder='Type your question here…'></textarea>"
+                "<button class='ask' type='submit'>Run intake "
+                "assessment</button></form>"
+                "<p id='istatus' class='small'></p></div>"
+                f"<div class='card hist'><h2 style='margin-top:0'>Past "
+                f"intake assessments</h2>"
+                f"{past or '<p>No intake assessments yet.</p>'}</div>"
+                "<script>"
+                "let ipoll=null;"
+                "document.getElementById('intakeform').onsubmit=async e=>{"
+                "e.preventDefault();"
+                "const question=document.getElementById('iq').value.trim();"
+                "const st=document.getElementById('istatus');"
+                "if(!question){st.textContent='Type a question first.';return;}"
+                "st.textContent='Intake is assessing…';"
+                "const r=await fetch('/api/intake',{method:'POST',"
+                "headers:{'Content-Type':'application/json'},"
+                "body:JSON.stringify({question})});"
+                "const j=await r.json();"
+                "if(j.error){st.textContent=j.error;return;}"
+                "if(j.note){st.textContent=j.note;}"
+                "clearInterval(ipoll);"
+                "ipoll=setInterval(async()=>{"
+                "const s=await (await fetch('/api/intake-job/'+j.job_id)).json();"
+                "st.textContent=s.stage||s.status;"
+                "if(s.status==='done'){clearInterval(ipoll);"
+                "location.href='/room2/intake?f='+encodeURIComponent(s.intake_id);}"
+                "if(s.status==='error'){clearInterval(ipoll);"
+                "st.textContent=s.error||'Something went wrong.';}"
+                "},1500);};"
+                "</script>")
             return self.send_html(page("Jury of 45+", body, "room2"))
+        if u.path == "/room2/intake":
+            p = load_intake(q.get("f", [""])[0])
+            if p is None:
+                return self.send_html(page("Not found",
+                    "<div class='card'><p>That intake assessment could "
+                    "not be found.</p></div>"), status=404)
+            secs = p["sections"]
+            dept_html = md_html(secs.get("Departments it would route to", ""))
+            mock = (" <span class='small'>[MOCK assessment — test "
+                    "content]</span>" if p["mock"] else "")
+            body = (
+                f"<p class='small'>{html.escape(p['when'])}{mock}</p>"
+                f"<div class='card'><h2 style='margin-top:0'>The question"
+                f"</h2><p>{html.escape(p['question'])}</p>"
+                f"<p class='small'>{html.escape(p['mode'])}</p></div>"
+                f"<div class='card'><h2 style='margin-top:0'>Complexity</h2>"
+                f"<p class='score'>{html.escape(p['score'])} / 10 "
+                f"<span style='font-size:1.2rem'>({html.escape(p['band'])})"
+                f"</span></p>{md_html(secs.get('Why this score', ''))}</div>"
+                f"<div class='card'><h2 style='margin-top:0'>Departments "
+                f"it would route to</h2>{dept_html}</div>"
+                f"<div class='card'><h2 style='margin-top:0'>Time "
+                f"estimate for the full run</h2>"
+                f"<p class='eta'>{html.escape(p['eta'])}</p>"
+                f"<p class='small'>{html.escape(p['basis'])}</p></div>"
+                f"<div class='card'><h2 style='margin-top:0'>Watch-outs</h2>"
+                f"{md_html(secs.get('Watch-outs', ''))}</div>"
+                f"<div class='card'><h2 style='margin-top:0'>Full run</h2>"
+                f"{md_html(secs.get('Full run status', ''))}"
+                "<button class='ask' type='button' disabled>Start full "
+                "run — NOT YET WIRED</button>"
+                "<p class='small'>The full 45+ engine is a later phase. "
+                "This button is disabled on purpose: intake never starts "
+                "a full run by itself.</p></div>")
+            return self.send_html(page("Jury of 45+ — Intake", body, "room2"))
+        if u.path.startswith("/api/intake-job/"):
+            job_id = u.path.rsplit("/", 1)[-1]
+            with JOBS_LOCK:
+                job = dict(INTAKE_JOBS.get(job_id) or {})
+            if not job:
+                return self.send_json({"error": "That job was not found."}, 404)
+            return self.send_json({k: job.get(k) for k in
+                                   ("status", "stage", "intake_id", "error")})
         if u.path == "/verdict":
             p = load_run(q.get("f", [""])[0])
             if p is None:
@@ -521,6 +1164,31 @@ class Handler(BaseHTTPRequestHandler):
                                 "started": time.time(), "run_id": None,
                                 "error": None}
             threading.Thread(target=run_job, args=(job_id, question),
+                             daemon=True).start()
+            return self.send_json({"job_id": job_id})
+        if u.path == "/api/intake":
+            try:
+                question = (json.loads(raw or b"{}").get("question") or "").strip()
+            except Exception:
+                question = ""
+            if not question:
+                return self.send_json({"error": "Type a question first."})
+            with JOBS_LOCK:
+                active = [j for j in INTAKE_JOBS.values()
+                          if j["status"] == "running"]
+                if active:
+                    return self.send_json(
+                        {"job_id": active[0]["id"],
+                         "note": "An intake assessment is already "
+                                 "running — one at a time, so here is "
+                                 "its progress."})
+                job_id = hashlib.sha256(
+                    f"intake-{time.time()}-{question}".encode()).hexdigest()[:12]
+                INTAKE_JOBS[job_id] = {"id": job_id, "status": "queued",
+                                       "stage": "Intake is assessing…",
+                                       "started": time.time(),
+                                       "intake_id": None, "error": None}
+            threading.Thread(target=run_intake_job, args=(job_id, question),
                              daemon=True).start()
             return self.send_json({"job_id": job_id})
         return self.send_json({"error": "Not found."}, 404)
