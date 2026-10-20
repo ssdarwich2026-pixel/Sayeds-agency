@@ -1,0 +1,112 @@
+# Jury of Five — tier-1 executive council config.
+# Everything the runner needs lives here: models, judge, prompts, limits.
+# $0 RULE: only :free OpenRouter model IDs may ever appear in this file.
+# Registry: ~/workspace/agency/registry/models.yaml (source pool).
+
+council: jury-of-five
+version: 1
+
+openrouter:
+  api_url: https://openrouter.ai/api/v1/chat/completions
+  credential: custom.openrouter        # Secure Vault name; never a raw key
+  referer: https://github.com/ssdarwich2026-pixel/Sayeds-agency
+  title: Sayeds Agency Jury of Five
+  budget_py: /home/hatch/workspace/custom-connectors/custom.legacy-openrouter/bin/budget.py
+
+# The five seats. All five verified REACHABLE at $0 by live probe on 2026-10-20
+# (see README.md for the probe log, including the models that were swapped out).
+models:
+  - id: nvidia/nemotron-3-ultra-550b-a55b:free
+    registry_name: nemotron-3-ultra-550b
+    provider: NVIDIA
+    seat: strategy & hard reasoning
+  - id: google/gemma-4-31b-it:free
+    registry_name: gemma-4-31b-it
+    provider: Google
+    seat: general analysis (429-flaky upstream; runner retries once)
+  - id: xingchen-agi/xing4.0-29b-a4b:free
+    registry_name: null   # not yet in registry — live-verified 2026-10-20, flagged for the scout to add
+    provider: Xingchen AGI
+    seat: "general reasoning (replaced MiniMax M3.1 Flash 2026-10-20 - it burned
+      the whole completion budget on hidden reasoning and returned empty
+      content at juror token budgets)"
+  - id: dots-studio/dots-3-note-preview:free
+    registry_name: dots-3-note-preview
+    provider: Dots Studio
+    seat: structured general chat (passed agency strict-JSON gate 2026-10-08)
+  - id: nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free
+    registry_name: nemotron-3-nano-omni-30b-reasoning
+    provider: NVIDIA
+    seat: dedicated reasoning
+
+# Judge = Nemotron 3 Ultra: the only registry model with format_strict_ok: true,
+# which is what a structured verdict needs. It also sits as a juror; the judge
+# prompt shows it all five answers labeled by letter and provider only (model IDs hidden) to blunt self-bias.
+# Cost either way is 1 call, so a sixth distinct judge would add an unverified
+# model without saving budget.
+judge:
+  id: nvidia/nemotron-3-ultra-550b-a55b:free
+  rationale: only format-strict-verified free model in the registry; strongest strategist in the five
+
+# Verified/listed fallbacks if a seat goes dark (swap the id in `models` above).
+fallbacks:
+  - id: minimax/minimax-m3.1-flash:free
+    note: reachable and clean on short prompts, but its hidden reasoning consumed
+      all 1100 completion tokens (content empty) on real juror prompts — only
+      usable with a much larger token budget
+  - id: google/gemma-4-26b-a4b-it:free
+    note: in registry; 429 at first probe 2026-10-20, retest before relying on it
+  - id: nvidia/nemotron-3-super-120b-a12b:free
+    note: in registry and agency-verified 2026-10-08, but provider returned 404 twice on 2026-10-20
+
+params:
+  juror_max_tokens: 1100
+  judge_max_tokens: 2600
+  timeout_s: 120
+  retries: 1          # one retry per call on 429/5xx (free-tier pools are shared)
+  retry_wait_s: 20
+  min_answers: 3      # a run proceeds if at least 3 of 5 jurors answer
+
+prompts:
+  juror: |
+    You are one of five independent advisors on a small executive council for
+    a lean, budget-conscious business. Answer the question directly and
+    practically. Give: (1) your single clear recommendation, (2) the key
+    reasoning behind it, (3) the biggest risk or thing to avoid. Be specific
+    and concise - under 300 words. Do not hedge with lists of many options;
+    commit to one answer.
+    State it directly, without preamble or thinking aloud.
+
+    QUESTION: {question}
+  judge: |
+    You are the judge of a five-member executive council. Below is the question
+    and the five advisors' independent answers, labeled Advisor A through E.
+
+    QUESTION: {question}
+
+    {answers}
+
+    Produce the council VERDICT in exactly these markdown sections.
+    Keep the ENTIRE verdict under 600 words - be decisive and compact,
+    because the verdict is cut off if it runs long:
+
+    ## VERDICT
+    The single best answer/recommendation, stated plainly in 2-4 sentences.
+
+    ## WHERE THE FIVE DISAGREED
+    The material points of disagreement, and for each one how you resolved it
+    (which side wins and why). If they broadly agreed, say so.
+
+    ## CONFIDENCE
+    One line: High / Medium / Low, plus one sentence why.
+
+    ## ESCALATION
+    Decide whether this question should be escalated to the In-Depth Crew
+    (the full 45-model deep review). Escalate if ANY of these hold: it
+    involves spending money or legal risk; the five materially disagreed and
+    the disagreement could not be resolved; it is a launch or a major,
+    hard-to-reverse commitment.
+    Write "ESCALATION: YES" or "ESCALATION: NO" first. If YES, add an
+    ESCALATION PACKET with: the refined question for the crew, a summary of
+    what the five found, the open disagreements, and what the crew should
+    dig into. If NO, one sentence why not.
