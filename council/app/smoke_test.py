@@ -51,6 +51,7 @@ def main():
     env = dict(os.environ, JURY_APP_PORT=str(port), JURY_APP_HOST="127.0.0.1",
                JURY_APP_PASSCODE=PASSCODE, JURY_APP_MOCK="1")
     env.pop("JURY_ENGINE_CMD", None)
+    env.pop("PORT", None)  # standalone branch: PORT would override the above
     proc = subprocess.Popen([sys.executable, SERVER], env=env,
                             stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                             text=True)

@@ -3,6 +3,9 @@
 *.pem
 *.key
 
+# Standalone jury local budget counter (runtime state, Model 2)
+council/.budget-local.json
+
 # Python
 __pycache__/
 *.pyc

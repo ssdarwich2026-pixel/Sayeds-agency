@@ -12,7 +12,9 @@ Env vars:
                      Default: "python3 council/jury.py".
   JURY_APP_MOCK      If "1", use council/mock_jury.py (unless JURY_ENGINE_CMD
                      is set explicitly).
-  JURY_APP_PORT      Port to listen on. Default 8765.
+  JURY_APP_PORT      Port to listen on. Default 8765. On this standalone
+                     branch, the host-provided PORT env var (e.g. Render)
+                     takes precedence when set: PORT -> JURY_APP_PORT -> 8765.
   JURY_APP_HOST      Bind host. Default 127.0.0.1 (localhost only).
 
 The app never sees, displays, or logs any API credential — it only ever
@@ -42,7 +44,9 @@ RUNS_DIR = os.path.join(COUNCIL_DIR, "runs")
 MOCK_RUNS_DIR = os.path.join(COUNCIL_DIR, "mock-runs")
 
 PASSCODE = os.environ.get("JURY_APP_PASSCODE", "")
-PORT = int(os.environ.get("JURY_APP_PORT", "8765"))
+# STANDALONE (Model 2): cloud hosts inject PORT; it wins over JURY_APP_PORT.
+PORT = int(os.environ.get("PORT") or os.environ.get("JURY_APP_PORT")
+           or "8765")
 HOST = os.environ.get("JURY_APP_HOST", "127.0.0.1")
 
 SESSIONS = set()
@@ -86,13 +90,22 @@ def resolve_engine_cmd():
 def budget_line():
     """Today's remaining free-request budget, from the connector budget
     tool referenced in council/config.yaml. Never hard-coded: if the tool
-    cannot be read, returns a plain-language 'unavailable' line."""
+    cannot be read, returns a plain-language 'unavailable' line.
+
+    STANDALONE (Model 2): if the connector tool's path does not exist on
+    this machine, fall back to council/local_budget.py, which keeps the
+    same 50/day count in council/.budget-local.json (its `status` output
+    is identical, and the engine records against the same file)."""
     try:
         with open(CONFIG_PATH) as f:
             m = re.search(r"budget_py:\s*(\S+)", f.read())
         if not m:
             return None
         budget_py = m.group(1)
+        if not os.path.exists(budget_py):
+            local = os.path.join(COUNCIL_DIR, "local_budget.py")
+            if os.path.exists(local):
+                budget_py = local
         r = subprocess.run([sys.executable, budget_py, "status"],
                            capture_output=True, text=True, timeout=10)
         m2 = re.search(r"remaining=(\d+)", r.stdout or "")

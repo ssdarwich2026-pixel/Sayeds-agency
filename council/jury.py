@@ -17,6 +17,16 @@ Rules honored (from the OpenRouter connector doc):
   - Budget: checks `budget.py check N` before fan-out and records every HTTP
     attempt (serially, from the main thread — parallel record calls race the
     budget state file and lose counts).
+
+STANDALONE (Model 2, branch jury-standalone only — see council/STANDALONE.md):
+  - If the Muse surrogate helpers are unavailable, auth falls back to the
+    OPENROUTER_API_KEY environment variable (Bearer header). If neither is
+    available the script exits with a plain-language message.
+  - If the connector budget tool in config.yaml does not exist on this
+    machine, budget checks/recording fall back to council/local_budget.py
+    (same CLI, local 50/day counter in council/.budget-local.json).
+  - Everything else — including the :free-only enforcement — is identical
+    to the primary branch.
 """
 import concurrent.futures
 import datetime
@@ -37,12 +47,57 @@ RUNS_DIR = os.path.join(HERE, "runs")
 
 # dynamic_credentials lives in the connector-setup skill; the path moved once
 # already (the legacy chat.py still points at the old one), so search both.
-for _p in ("/opt/muse/skills/custom-connector-setup/bin",
-           "/opt/muse/skills/custom-connector-setup/templates/skill/bin"):
-    if os.path.exists(os.path.join(_p, "dynamic_credentials.py")):
-        sys.path.insert(0, _p)
-        break
-from dynamic_credentials import add_surrogate_to_request, read_json_response  # noqa: E402
+# STANDALONE fallback: if the Muse helpers are not importable, run with a
+# plain OPENROUTER_API_KEY env var instead (see apply_auth below).
+add_surrogate_to_request = None
+try:
+    for _p in ("/opt/muse/skills/custom-connector-setup/bin",
+               "/opt/muse/skills/custom-connector-setup/templates/skill/bin"):
+        if os.path.exists(os.path.join(_p, "dynamic_credentials.py")):
+            sys.path.insert(0, _p)
+            break
+    from dynamic_credentials import (add_surrogate_to_request,  # noqa: E402
+                                     read_json_response)
+except Exception:  # Muse not present — standalone mode
+    add_surrogate_to_request = None
+
+    def read_json_response(resp):  # noqa: E402
+        return json.loads(resp.read().decode("utf-8"))
+
+
+def apply_auth(req, cfg):
+    """Attach OpenRouter auth to a request.
+
+    Primary path (unchanged): Muse Secure Vault surrogate. Standalone
+    fallback: OPENROUTER_API_KEY env var as a Bearer header. Exits with a
+    plain-language message if neither is available.
+    """
+    if add_surrogate_to_request is not None:
+        add_surrogate_to_request(req, cfg["openrouter"]["credential"],
+                                 allowed_hosts=("openrouter.ai",))
+        return
+    key = os.environ.get("OPENROUTER_API_KEY", "").strip()
+    if key:
+        req.add_header("Authorization", f"Bearer {key}")
+        return
+    raise SystemExit(
+        "No way to sign in to OpenRouter: the Muse credential helper is "
+        "not available on this machine, and the OPENROUTER_API_KEY "
+        "environment variable is not set. Set OPENROUTER_API_KEY to your "
+        "own OpenRouter key (see council/STANDALONE.md) and try again.")
+
+
+def require_auth():
+    """Preflight: fail fast (before any budget is recorded) if no auth
+    route exists in standalone mode. No-op on the primary Muse path."""
+    if add_surrogate_to_request is None and not os.environ.get(
+            "OPENROUTER_API_KEY", "").strip():
+        raise SystemExit(
+            "No way to sign in to OpenRouter: the Muse credential helper "
+            "is not available on this machine, and the OPENROUTER_API_KEY "
+            "environment variable is not set. Set OPENROUTER_API_KEY to "
+            "your own OpenRouter key (see council/STANDALONE.md) and try "
+            "again.")
 
 LABELS = ["A", "B", "C", "D", "E", "F"]
 
@@ -58,7 +113,13 @@ def load_config():
 
 
 def budget(cfg, *args):
-    return subprocess.run([sys.executable, cfg["openrouter"]["budget_py"], *args],
+    budget_py = cfg["openrouter"]["budget_py"]
+    # STANDALONE fallback: the connector budget tool lives at a Muse-VM
+    # path; if it does not exist here, use the local counter next to this
+    # file (identical CLI and output format).
+    if not os.path.exists(budget_py):
+        budget_py = os.path.join(HERE, "local_budget.py")
+    return subprocess.run([sys.executable, budget_py, *args],
                           capture_output=True, text=True, timeout=15)
 
 
@@ -84,8 +145,7 @@ def call_model(cfg, model_id, prompt, max_tokens, counter):
         req.add_header("Content-Type", "application/json")
         req.add_header("HTTP-Referer", orc["referer"])
         req.add_header("X-Title", orc["title"])
-        add_surrogate_to_request(req, orc["credential"],
-                                 allowed_hosts=("openrouter.ai",))
+        apply_auth(req, cfg)
         try:
             with urllib.request.urlopen(req, timeout=params["timeout_s"]) as resp:
                 data = read_json_response(resp)
@@ -122,6 +182,7 @@ def slugify(text, n=6):
 
 def run(question):
     cfg = load_config()
+    require_auth()
     params = cfg["params"]
     models = cfg["models"]
 
@@ -231,6 +292,7 @@ def write_log(cfg, question, answers, failures, verdict, counter):
 
 def probe():
     cfg = load_config()
+    require_auth()
     targets = [(m["id"], "seat") for m in cfg["models"]]
     targets += [(f["id"], "fallback") for f in cfg.get("fallbacks", [])]
     chk = budget(cfg, "check", str(len(targets)))
