@@ -1,4 +1,4 @@
-# uninstall.ps1 — Removes Muse's remote access from this PC.
+# uninstall.ps1 - Removes Muse's remote access from this PC.
 # Run as Administrator. Removes the key, stops SSH, removes the firewall rule,
 # and disconnects Tailscale. (Tailscale itself stays installed; remove it from
 # Windows Settings > Apps if you want it gone too.)

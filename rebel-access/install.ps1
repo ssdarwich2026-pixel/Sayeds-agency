@@ -1,4 +1,4 @@
-# install.ps1 — One-click remote access setup for Sayed's PC
+# install.ps1 - One-click remote access setup for Sayed's PC
 # Gives Muse (Agent 81) key-only SSH access over Sayed's private Tailscale network.
 # NO public internet exposure: SSH is firewalled to the Tailscale address range only,
 # password sign-in over SSH is disabled, and the only accepted credential is Muse's public key.
@@ -15,7 +15,7 @@ if (-not $me.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
 $folder = if ($PSScriptRoot) { $PSScriptRoot } else { "$env:USERPROFILE\Desktop\RebelAccess" }
 $log = Join-Path $folder 'install-result.txt'
 function Note($m) { $m | Tee-Object -FilePath $log -Append }
-"Remote access install — $(Get-Date)" | Set-Content $log
+"Remote access install - $(Get-Date)" | Set-Content $log
 
 # --- 1. Tailscale (private network) ---
 $ts = "$env:ProgramFiles\Tailscale\tailscale.exe"
@@ -23,7 +23,7 @@ if (-not (Test-Path $ts)) {
     Note 'Installing Tailscale...'
     winget install --id Tailscale.Tailscale -e --accept-source-agreements --accept-package-agreements
 }
-Note 'Opening Tailscale sign-in in your browser — sign in / create the free account, then return here.'
+Note 'Opening Tailscale sign-in in your browser - sign in / create the free account, then return here.'
 & $ts up
 $tsip = (& $ts ip -4 | Select-Object -First 1)
 Note "This PC's Tailscale IP: $tsip"
@@ -34,7 +34,7 @@ Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0 | Out-Null
 Start-Service sshd
 Set-Service sshd -StartupType Automatic
 
-# --- 3. Muse's public key (public key only — safe to share; the private key never leaves Muse) ---
+# --- 3. Muse's public key (public key only - safe to share; the private key never leaves Muse) ---
 $pubkey = 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAHdYuQuQs0xo8O0pxxO2WAZrc6cWBuDiUkxW/7jhUJd hatch'
 $adminKeys = "$env:ProgramData\ssh\administrators_authorized_keys"
 if (-not (Test-Path $adminKeys) -or -not (Select-String -Path $adminKeys -SimpleMatch $pubkey -Quiet)) {

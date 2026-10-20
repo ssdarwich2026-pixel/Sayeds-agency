@@ -1,4 +1,4 @@
-# start-pitch-browser.ps1 — Sayed starts this when Muse needs to work in a browser on The Pitch.
+# start-pitch-browser.ps1 - Sayed starts this when Muse needs to work in a browser on The Pitch.
 #
 # What it does:
 # - Opens Chrome (or Edge if Chrome is absent) using a DEDICATED Rebel Access browser profile.
