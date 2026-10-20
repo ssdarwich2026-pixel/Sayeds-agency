@@ -5,13 +5,19 @@ Boots the app on a scratch port with a test passcode, then checks:
   1. Passcode gate: unauthenticated request gets the login page; wrong
      passcode gets a plain-language refusal; right passcode gets in.
   2. Ask page serves with title, budget line, textarea, Ask button.
-  3. Room 2 tab ("Jury of 45+") shows the placeholder.
+  3. Room 2 tab ("Jury of 45+") shows the intake form (no placeholder).
   4. Mock Ask (a launch/contract question, to trigger escalation) ->
      poll job -> verdict page has ALL sections: agreed answer, who
      answered, juror answers, disagreements, confidence, escalation
      packet in a copyable box.
   5. History lists existing runs (including the mock run just made and
      the pre-existing real runs) and a history verdict opens.
+  6. Room 2 intake (mock mode): a complex money/legal/launch question
+     gets a high complexity score, routed departments (including Legal /
+     IP and Money), and a time estimate; the result states the full run
+     is NOT YET WIRED with a disabled Start button; a simple question
+     scores lower (Simple band). Intake writes no jury run logs — it
+     must never start, or fake, a full run.
 
 Run:  python3 council/app/smoke_test.py
 Exit code 0 = PASS.
@@ -100,10 +106,11 @@ def main():
         check("ask page has textarea + Ask button",
               "<textarea" in home and "Ask the Jury" in home)
 
-        # 3. room 2
+        # 3. room 2 intake form
         room2 = get("/room2")
-        check("Jury of 45+ tab shows placeholder",
-              "Jury of 45+" in room2 and "In the works" in room2)
+        check("Jury of 45+ tab shows intake form, not the placeholder",
+              "Jury of 45+" in room2 and "Run intake assessment" in room2
+              and "<textarea" in room2 and "In the works" not in room2)
 
         # 4. mock ask -> poll -> verdict (launch/contract -> escalation YES)
         import json
@@ -146,6 +153,79 @@ def main():
             "runs/2026-10-20-101024-for-a-print-on-demand-shirt.md"))
         check("history verdict opens read-only with sections",
               "Where the five disagreed" in first and "Confidence" in first)
+
+        # 6. Room 2 intake (mock mode)
+        council_dir = os.path.dirname(APP_DIR)
+        runs_before = {d: sorted(os.listdir(os.path.join(council_dir, d)))
+                       for d in ("runs", "mock-runs")
+                       if os.path.isdir(os.path.join(council_dir, d))}
+        mintake_dir = os.path.join(council_dir, "mock-intake-runs")
+        mintake_before = (set(os.listdir(mintake_dir))
+                          if os.path.isdir(mintake_dir) else set())
+
+        def run_intake(question):
+            resp = post("/api/intake", json.dumps(
+                {"question": question}).encode(), "application/json")
+            iid_job = json.loads(resp)["job_id"]
+            for _ in range(60):
+                with opener.open(base + f"/api/intake-job/{iid_job}",
+                                 timeout=15) as r:
+                    ijob = json.loads(r.read().decode())
+                if ijob["status"] in ("done", "error"):
+                    break
+                time.sleep(0.5)
+            return ijob
+
+        complex_q = ("Should we sign a contract, spend money, and launch "
+                     "a trademarked shirt design to a new market?")
+        ijob = run_intake(complex_q)
+        check("mock intake job completes",
+              ijob.get("status") == "done" and bool(ijob.get("intake_id")),
+              str(ijob))
+        intake = get("/room2/intake?f=" + urllib.parse.quote(
+            ijob.get("intake_id") or ""))
+        import re as _re
+        _sm = _re.search(r"(\d+) / 10", intake)
+        check("intake shows complexity score and band",
+              "Complexity" in intake and _sm is not None
+              and int(_sm.group(1)) >= 7
+              and ("(Complex)" in intake or "(Major)" in intake),
+              f"score match: {_sm.group(0) if _sm else None}")
+        check("intake routes to Legal / IP and Money departments",
+              "Legal / IP" in intake and "Money" in intake)
+        check("intake names routed departments section",
+              "Departments it would route to" in intake
+              and "Strategy" in intake and "Market" in intake)
+        check("intake shows a time estimate for the full run",
+              "Time estimate for the full run" in intake
+              and ("minutes" in intake or "hour" in intake))
+        check("intake states the full run is NOT YET WIRED",
+              "NOT YET WIRED" in intake)
+        check("intake Start full run button is disabled (no fake run)",
+              "Start full run" in intake and "disabled" in intake)
+
+        simple_job = run_intake("What colour should the team socks be?")
+        simple = get("/room2/intake?f=" + urllib.parse.quote(
+            simple_job.get("intake_id") or ""))
+        check("simple question intake completes and scores Simple",
+              simple_job.get("status") == "done" and "Simple" in simple)
+
+        room2_after = get("/room2")
+        check("room2 lists past intake assessments",
+              "sign a contract, spend money" in room2_after)
+
+        runs_after = {d: sorted(os.listdir(os.path.join(council_dir, d)))
+                      for d in ("runs", "mock-runs")
+                      if os.path.isdir(os.path.join(council_dir, d))}
+        check("intake started no jury/full run (run logs unchanged)",
+              runs_before == runs_after,
+              f"before={runs_before} after={runs_after}")
+
+        # tidy the mock intake logs this test created (repo hygiene;
+        # mock jury runs keep the pre-existing smoke-test behaviour)
+        if os.path.isdir(mintake_dir):
+            for name in set(os.listdir(mintake_dir)) - mintake_before:
+                os.remove(os.path.join(mintake_dir, name))
     finally:
         proc.terminate()
         try:
