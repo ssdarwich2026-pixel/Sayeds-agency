@@ -39,58 +39,59 @@ code — so the key needs **no money on it at all**.
 
 ---
 
-## Route A — run it on your own computer
+## Route A — run it on your own computer (double-click, no terminal)
 
-You need: your computer, internet, about 10 minutes.
+You need: your computer, internet, about 5 minutes. No git, no
+terminal, nothing to type except your key, once.
 
-1. **Get the code** (in a terminal):
-   ```
-   git clone -b jury-standalone https://github.com/ssdarwich2026-pixel/Sayeds-agency.git
-   cd Sayeds-agency
-   ```
-   (No git? On the GitHub page for the repo, switch the branch dropdown
-   to `jury-standalone`, then **Code → Download ZIP**, and unzip it.)
-2. **Install Python 3** if you don't have it: from
-   **python.org/downloads** (Windows/Mac) — then check:
-   ```
-   python3 --version
-   ```
-3. **Install the one extra package:**
-   ```
-   pip install pyyaml
-   ```
-4. **Set your key** (paste your key where it says PASTE-YOUR-KEY —
-   in your own terminal only, never in chat):
-   - Mac / Linux:
-     ```
-     export OPENROUTER_API_KEY="PASTE-YOUR-KEY"
-     ```
-   - Windows (PowerShell):
-     ```
-     $env:OPENROUTER_API_KEY = "PASTE-YOUR-KEY"
-     ```
-   Optionally also set a passcode for the app:
-   `export JURY_APP_PASSCODE="pick-a-word"` (same idea on Windows).
-5. **Start the app:**
-   ```
-   python3 council/app/server.py
-   ```
-6. **Open it:** **http://127.0.0.1:8765** in your browser. Ask away.
+1. **Download the code as a ZIP:** on the GitHub page for this repo
+   (**github.com/ssdarwich2026-pixel/Sayeds-agency**), switch the
+   branch dropdown to **`jury-standalone`**, then click
+   **Code → Download ZIP**.
+2. **Unzip it anywhere** you like (your Desktop is fine). You'll get a
+   folder called `Sayeds-agency-jury-standalone`.
+3. **Double-click the start file for your system**, right there in the
+   folder:
+   - Windows: **`START-JURY-Windows.bat`**
+   - Mac: **`START-JURY-Mac.command`** (first time, if macOS asks,
+     right-click it → **Open** → **Open** again — that's Apple's
+     normal "not from the App Store" check, it's fine)
+   - Linux: **`START-JURY-Linux.sh`** (choose "Run in Terminal" if
+     your file manager asks)
+4. **First time only, it asks for your OpenRouter key** (see "Your one
+   secret" above): paste it and press Enter. It's saved in a file
+   called `.env` **in that folder, on your computer only**, and the
+   launcher never asks again. If Python isn't installed yet, the
+   launcher tells you — Windows tries to install it for you, and on
+   any system it's a free one-time install from **python.org**
+   (tick **"Add Python to PATH"** on Windows).
+5. **That's it.** Your browser opens at **http://127.0.0.1:8765**
+   with the Jury ready. To stop it: Windows — close the "Jury of
+   Five" window; Mac / Linux — close the Terminal window (or Ctrl+C).
 
-**Use it from your phone on the same Wi-Fi:** start it with the host
-setting opened up, then open the same address with your computer's
-local IP instead of 127.0.0.1 (e.g. `http://192.168.1.20:8765`):
+> The same start files also show up in Codex's file list when you
+> open this folder in Codex — but the double-click itself happens in
+> File Explorer (Windows) or Finder (Mac), not inside Codex.
 
-```
-JURY_APP_HOST=0.0.0.0 python3 council/app/server.py
-```
+**Phone on the same Wi-Fi (optional):** edit the `.env` file in the
+folder (open it with Notepad / TextEdit), add a line
+`JURY_APP_HOST=0.0.0.0` and a passcode line like
+`JURY_APP_PASSCODE=pick-a-word`, save, and start the Jury again.
+Then open `http://<your-computer's-local-IP>:8765` on your phone
+(e.g. `http://192.168.1.20:8765`). Set the passcode if you do this —
+anyone on your Wi-Fi could otherwise open it. Accessibility is your
+call; the passcode is cheap insurance.
 
-(Set a `JURY_APP_PASSCODE` if you do this — anyone on your Wi-Fi could
-otherwise open it. Accessibility is your call; the passcode is cheap
-insurance.)
+### Route A (alternative) — git + terminal, for the comfortable
 
-**Notes for Route A:** the computer must be on and the command left
-running while you use the jury. Past verdicts collect in
+Same result, the old way: `git clone -b jury-standalone
+https://github.com/ssdarwich2026-pixel/Sayeds-agency.git`, install
+Python 3 and `pip install pyyaml`, put `OPENROUTER_API_KEY=...` in a
+`.env` file in the repo folder (or export it), then run
+`python3 council/app/server.py` and open **http://127.0.0.1:8765**.
+
+**Notes for Route A:** the computer must be on and the launcher
+window left open while you use the jury. Past verdicts collect in
 `council/runs/` as files. The daily budget counter lives in
 `council/.budget-local.json` — delete it and the count restarts.
 
