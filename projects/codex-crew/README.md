@@ -53,3 +53,17 @@ projects enter through the 811-lead backlog (P9–P12 standing).
 - free-cloud (../free-cloud/): Supabase adapter BUILT (stand-in cage
   tests 5/5); live expansion UNVERIFIED until Sayed's OAuth tap.
 - Suite total: 45/45 green (was 26/26 at v1).
+
+## Status at v3 (2026-10-23 18:23 CDT upgrade window, Blitz Cycle V2 Phase 1, Agent 81)
+- social-posting-executor (P5, NEW): payloads.py (strict validation —
+  known platform, verified store link only, P3 grader must PASS,
+  VERIFIED LIVE designs only, media must exist, sha256 idempotency
+  key) + executor.py (dedupe BEFORE publish against driver + file
+  journal, publish-then-verify-on-feed, published-but-hidden =
+  BLOCKED never claimed, hard-crash resume verifies the prior
+  publish instead of reposting, blocked retry, single-lane token,
+  MockPlatform sandbox driver; the real Instagram-connector / Postiz
+  adapters plug into the same protocol) — 11 tests green, health
+  HEALTHY. Deployed to Micro same window (sandbox 11/11 = 100%,
+  above Sayed's 90% deploy rule); remote suite re-run ALL GREEN.
+- Suite total: 56/56 green (was 45/45 at v2).

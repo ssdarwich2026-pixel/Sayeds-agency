@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT / "common"))
 import plant  # noqa: E402
 
-PROJECTS = ["completion-agent", "campaign-driver", "grader-harness", "fixer-agent", "listing-executor"]
+PROJECTS = ["completion-agent", "campaign-driver", "grader-harness", "fixer-agent", "listing-executor", "social-posting-executor"]
 
 def main():
     results = {}
