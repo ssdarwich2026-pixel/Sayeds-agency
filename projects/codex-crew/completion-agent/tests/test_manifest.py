@@ -43,8 +43,12 @@ class TestManifest(unittest.TestCase):
             manifest_mod.build_ledger("a,b\n1,2\n")
 
     def test_real_packets_file_loads_113(self):
+        # VM-only fixture (the goal workspace lives on the VM, not the
+        # Micro) - skipped, never failed, where the file is absent.
         p = Path("/home/hatch/workspace/goals/fourthwall-print-on-demand-shirt-launch"
                  "/hidden_files/blitz-listing-2026-10-23-0941/packets-remaining.csv")
+        if not p.exists():
+            self.skipTest("real packets fixture is VM-only")
         ledger, warnings = manifest_mod.load_ledger(p)
         self.assertEqual(ledger.counts()["total"], 113)
         self.assertEqual(ledger.counts()["PACKET READY"], 113)
