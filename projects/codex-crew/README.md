@@ -27,3 +27,29 @@ projects enter through the 811-lead backlog (P9–P12 standing).
   green. Still to build: platform adapters, metrics collector.
 - Wave 2 (P4–P8): enter build in dependency order as Wave 1
   modules complete; same route (81 writes, workers supply inputs).
+- fixer-agent (P15, added 2026-10-23 10:13 CDT on Sayed's order to
+  build our own code-fixer): envsafe (NO_PROXY IPv6 sanitizer) +
+  backends (mock / codex exec / OpenAI-compatible http for Pitch/
+  Micro Ollama) + git-checkpointed fix loop with hard timeouts and
+  an honest report — 10 tests green, health HEALTHY. Pitch Codex
+  session to wire the real backends is queued in PITCH-QUEUE.md.
+
+## Status at v2 (2026-10-23 14:41 CDT upgrade window, Agent 81)
+- completion-agent (P1): manifest.py (binds BOTH real CSV dialects;
+  loads the real 113-packet file) + verifier.py (storefront drift,
+  named by key, both directions) — the two v1 TODOs are BUILT.
+  17 tests green. Still owed for graduation: a verified chunk of 10
+  on the real store (Pitch lane, behind the Free-plan cap decision).
+- grader-harness (P3): mathcheck.py (duo/pricing consistency proof
+  over facts.py) + scoreboard.py (one unified code-health board,
+  STALE flagging) — 6 tests green.
+- listing-executor (P4, NEW): packets.py validation (verified price/
+  compare/sizes, print file must exist) + executor.py (duplicate
+  check by title+print file, chunk-of-10, hard-crash resume with no
+  double-list, blocked retry after unblock, single-lane token,
+  MockAdmin cage driver; the real Fourthwall CDP driver plugs into
+  the same protocol on the Pitch) — 7 tests green, health HEALTHY.
+  Graduation still requires one real chunk of 10 by the bot alone.
+- free-cloud (../free-cloud/): Supabase adapter BUILT (stand-in cage
+  tests 5/5); live expansion UNVERIFIED until Sayed's OAuth tap.
+- Suite total: 45/45 green (was 26/26 at v1).

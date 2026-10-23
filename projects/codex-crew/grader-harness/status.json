@@ -1,8 +1,8 @@
 {
   "project": "grader-harness",
-  "ts": 1792758862,
-  "status": "running",
-  "tests_passed": null,
-  "tests_failed": null,
-  "last_run_summary": "health self-check: PASS fixture passes, FAIL fixture fails"
+  "ts": 1792784757,
+  "status": "building",
+  "tests_passed": 6,
+  "tests_failed": 0,
+  "last_run_summary": "unittest discover: 6 passed, 0 failed (of 6)"
 }
