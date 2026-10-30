@@ -1,0 +1,125 @@
+# burst-batch.yml - queue-driven burst dispatcher, workflow v2.
+# Placed live in Sayeds-agency 2026-10-30 (Sayed order: build the
+# queue-driven burst dispatcher). Source pack:
+# fleet/expansion-bot/burst-dispatcher/.
+#
+# How it works: pack_batch.py (dispatcher side) packs pending queue
+# jobs into a batch manifest committed at batches/<batch-id>.json.
+# A human dispatches this workflow with that batch_id. The setup job
+# reads the manifest and emits a dynamic matrix of job indices; each
+# shard runs tools/burst_runner.py for ONE job and uploads its
+# result JSON (+ any files under burst_out/<job-id>/); the summary
+# job totals the results into a batch-summary artifact. Results are
+# then read back dispatcher-side by ingest_results.py, which is what
+# closes jobs in the checkpoint - never the workflow itself.
+#
+# Fair use, on purpose: this workflow runs the repo's own real work
+# in human-dispatched batches. It is NOT on a schedule and must never
+# be put on a timer loop - empty/looped runs would be abuse of the
+# free runners and would risk the account the fleet's code lives in.
+# Limits: max 256 matrix jobs per run (we pack <= 20 by default),
+# 6 h per job, free-account concurrency caps queue extra runs,
+# ephemeral runners (artifacts are the only output), no GPU.
+name: burst-batch
+
+"on":
+  workflow_dispatch:
+    inputs:
+      batch_id:
+        description: "Batch manifest id, e.g. batch-20261030-001 (file: batches/<batch_id>.json)"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      indices: ${{ steps.manifest.outputs.indices }}
+      count: ${{ steps.manifest.outputs.count }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: manifest
+        name: Read batch manifest, emit job-index matrix
+        run: |
+          python3 - <<'PY'
+          import json, os
+          bid = "${{ inputs.batch_id }}"
+          m = json.load(open(f"batches/{bid}.json"))
+          if m["batch_id"] != bid:
+              raise SystemExit(f"manifest batch_id mismatch: {m['batch_id']} != {bid}")
+          idx = list(range(len(m["jobs"])))
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write(f"indices={json.dumps(idx)}\n")
+              f.write(f"count={len(idx)}\n")
+          print(f"batch {bid}: {len(idx)} jobs -> indices {idx}")
+          PY
+
+  run:
+    needs: setup
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        index: ${{ fromJSON(needs.setup.outputs.indices) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Pillow (image_convert jobs)
+        run: pip install --quiet Pillow
+      - name: Run one queued job (index ${{ matrix.index }})
+        run: |
+          python3 tools/burst_runner.py \
+            --manifest "batches/${{ inputs.batch_id }}.json" \
+            --index ${{ matrix.index }} \
+            --out "burst-result-${{ matrix.index }}.json" \
+            --workdir .
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: burst-job-${{ inputs.batch_id }}-${{ matrix.index }}
+          path: |
+            burst-result-${{ matrix.index }}.json
+            burst_out/
+
+  summary:
+    needs: run
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: burst-job-${{ inputs.batch_id }}-*
+          merge-multiple: true
+      - name: Build batch summary from result read-backs
+        run: |
+          python3 - <<'PY'
+          import glob, json
+          results = []
+          for f in sorted(glob.glob("burst-result-*.json")):
+              results.append(json.load(open(f)))
+          ok = [r for r in results if r["status"] == "ok"]
+          err = [r for r in results if r["status"] != "ok"]
+          summary = {"batch_id": "${{ inputs.batch_id }}",
+                     "jobs_reported": len(results),
+                     "ok": len(ok), "error": len(err),
+                     "results": results}
+          json.dump(summary, open("batch-summary.json", "w"), indent=1)
+          for r in results:
+              print(f"{r['index']:>3} {r['job_id']:<16} {r['type']:<14} "
+                    f"{r['status']:<6} {r['metrics']['elapsed_s']}s")
+          print(f"BATCH ${{ inputs.batch_id }}: {len(ok)} ok / "
+                f"{len(err)} error / {len(results)} reported")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: burst-summary-${{ inputs.batch_id }}
+          path: batch-summary.json

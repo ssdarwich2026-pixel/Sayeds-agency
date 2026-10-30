@@ -1,0 +1,122 @@
+{
+ "batch_id": "batch-20261030-001",
+ "created_at": "2026-10-30T12:54:13.859094+00:00",
+ "created_by": "pack_batch.py",
+ "lane": "burst",
+ "count": 7,
+ "jobs": [
+  {
+   "id": "bench-001",
+   "type": "benchmark",
+   "params": {
+    "iterations": 5,
+    "chunk_mb": 2,
+    "shard": 0
+   },
+   "created_by": "dispatcher-sample",
+   "priority": 2,
+   "lane": "either"
+  },
+  {
+   "id": "img-001",
+   "type": "image_convert",
+   "params": {
+    "input": "tools/burst_samples/sample-gradient.png",
+    "format": "jpg",
+    "max_width": 128
+   },
+   "created_by": "dispatcher-sample",
+   "priority": 2,
+   "lane": "burst"
+  },
+  {
+   "id": "hash-001",
+   "type": "hash_manifest",
+   "params": {
+    "paths": [
+     "tools/burst_samples/*",
+     "tools/burst-benchmark.py"
+    ]
+   },
+   "created_by": "dispatcher-sample",
+   "priority": 1,
+   "lane": "either"
+  },
+  {
+   "id": "text-001",
+   "type": "text_pack",
+   "params": {
+    "template": "CAPTION: {product} - {hook} (photo {n})",
+    "records": [
+     {
+      "product": "Panther Wide",
+      "hook": "front view",
+      "n": 1
+     },
+     {
+      "product": "Panther Wide",
+      "hook": "side view",
+      "n": 2
+     },
+     {
+      "product": "Napoleon",
+      "hook": "detail crop",
+      "n": 3
+     }
+    ],
+    "file_pattern": "caption-{i:02d}.txt"
+   },
+   "created_by": "dispatcher-sample",
+   "priority": 3,
+   "lane": "burst"
+  },
+  {
+   "id": "img-002",
+   "type": "image_convert",
+   "params": {
+    "input": "tools/burst_samples/sample-gradient.png",
+    "format": "webp",
+    "width": 64,
+    "height": 48
+   },
+   "created_by": "dispatcher-sample",
+   "priority": 1,
+   "lane": "burst"
+  },
+  {
+   "id": "img-003",
+   "type": "image_convert",
+   "params": {
+    "input": "tools/burst_samples/sample-photo.jpg",
+    "format": "png",
+    "max_width": 200
+   },
+   "created_by": "dispatcher-sample",
+   "priority": 2,
+   "lane": "burst"
+  },
+  {
+   "id": "text-002",
+   "type": "text_pack",
+   "params": {
+    "template": "CARD: {name} / {role} / batch {batch}",
+    "records": [
+     {
+      "name": "Auditor",
+      "role": "checker",
+      "batch": "B1"
+     },
+     {
+      "name": "Ranger",
+      "role": "scout",
+      "batch": "B1"
+     }
+    ],
+    "file_pattern": "card-{i:02d}.txt"
+   },
+   "created_by": "dispatcher-sample",
+   "priority": 2,
+   "lane": "either"
+  }
+ ]
+}
