@@ -76,10 +76,15 @@ def out_dir(workdir, job_id):
     # any filesystem operation, and resolve() covers symlink escapes,
     # not just ".." and absolutes. Checked here, at the single choke
     # point every file-producing handler passes through.
+    # The RETURNED path keeps the caller's own expression (relative
+    # stays relative): handlers report outputs via relative_to(workdir),
+    # and returning the resolved absolute form broke exactly that on
+    # Batch #4 (workdir "." on the runners) - regression-tested below.
     root = (Path(workdir) / "burst_out").resolve()
-    d = (root / job_id).resolve()
-    if not d.is_relative_to(root):
+    d_res = (root / job_id).resolve()
+    if not d_res.is_relative_to(root):
         raise ValueError(f"job id escapes burst_out: {job_id!r}")
+    d = Path(workdir) / "burst_out" / job_id
     d.mkdir(parents=True, exist_ok=True)
     return d
 

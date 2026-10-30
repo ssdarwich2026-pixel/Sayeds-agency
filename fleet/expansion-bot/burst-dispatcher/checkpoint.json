@@ -136,22 +136,42 @@
    }
   },
   "foxrecon-004a": {
-   "attempts": 0,
+   "attempts": 1,
    "batch_id": "batch-20261030-004",
-   "disposition": "packed",
+   "disposition": "error",
    "index": 18,
-   "note": null,
+   "note": "ValueError: '/home/runner/work/Sayeds-agency/Sayeds-agency/burst_out/foxrecon-004a/manifest.json' is not in the subpath of '.'",
    "packs": 1,
-   "result": null
+   "result": {
+    "batch_id": "batch-20261030-004",
+    "error": "ValueError: '/home/runner/work/Sayeds-agency/Sayeds-agency/burst_out/foxrecon-004a/manifest.json' is not in the subpath of '.'",
+    "index": 0,
+    "job_id": "foxrecon-004a",
+    "metrics": {
+     "elapsed_s": 0.001
+    },
+    "status": "error",
+    "type": "hash_manifest"
+   }
   },
   "foxrecon-004b": {
-   "attempts": 0,
+   "attempts": 1,
    "batch_id": "batch-20261030-004",
-   "disposition": "packed",
+   "disposition": "error",
    "index": 19,
-   "note": null,
+   "note": "ValueError: '/home/runner/work/Sayeds-agency/Sayeds-agency/burst_out/foxrecon-004b/manifest.json' is not in the subpath of '.'",
    "packs": 1,
-   "result": null
+   "result": {
+    "batch_id": "batch-20261030-004",
+    "error": "ValueError: '/home/runner/work/Sayeds-agency/Sayeds-agency/burst_out/foxrecon-004b/manifest.json' is not in the subpath of '.'",
+    "index": 1,
+    "job_id": "foxrecon-004b",
+    "metrics": {
+     "elapsed_s": 0.001
+    },
+    "status": "error",
+    "type": "hash_manifest"
+   }
   },
   "hash-001": {
    "attempts": 0,
@@ -355,13 +375,23 @@
    }
   },
   "relist-004a": {
-   "attempts": 0,
+   "attempts": 1,
    "batch_id": "batch-20261030-004",
-   "disposition": "packed",
+   "disposition": "error",
    "index": 20,
-   "note": null,
+   "note": "ValueError: '/home/runner/work/Sayeds-agency/Sayeds-agency/burst_out/relist-004a/relist-00.txt' is not in the subpath of '.'",
    "packs": 1,
-   "result": null
+   "result": {
+    "batch_id": "batch-20261030-004",
+    "error": "ValueError: '/home/runner/work/Sayeds-agency/Sayeds-agency/burst_out/relist-004a/relist-00.txt' is not in the subpath of '.'",
+    "index": 2,
+    "job_id": "relist-004a",
+    "metrics": {
+     "elapsed_s": 0.004
+    },
+    "status": "error",
+    "type": "text_pack"
+   }
   },
   "text-001": {
    "attempts": 0,

@@ -1,0 +1,11 @@
+{
+ "job_id": "relist-004a",
+ "type": "text_pack",
+ "batch_id": "batch-20261030-004",
+ "index": 2,
+ "status": "error",
+ "error": "ValueError: '/home/runner/work/Sayeds-agency/Sayeds-agency/burst_out/relist-004a/relist-00.txt' is not in the subpath of '.'",
+ "metrics": {
+  "elapsed_s": 0.004
+ }
+}

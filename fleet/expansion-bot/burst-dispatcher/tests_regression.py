@@ -117,6 +117,34 @@ def main():
         except ValueError:
             check("P9 out_dir escape rejected", True)
 
+        # Batch #4 regression (2026-10-30): the workflow invokes the
+        # runner with workdir "." - a RELATIVE path. Every earlier
+        # test used absolute temp dirs, so the suite passed while the
+        # live runners failed on relative_to("."). Test the real
+        # invocation shape: chdir into the scratch dir, workdir ".".
+        old_cwd = os.getcwd()
+        os.chdir(tmp)
+        try:
+            m7 = manifest([{"id": "hm-rel", "type": "hash_manifest",
+                            "params": {"paths": ["in.png"]}}])
+            r = br.run_one(m7, 0, ".")
+            check("Batch#4 regression: hash_manifest with workdir='.'",
+                  r["status"] == "ok", str(r))
+            m8 = manifest([{"id": "tp-rel", "type": "text_pack",
+                            "params": {"template": "z {a}",
+                                       "records": [{"a": 1}]}}])
+            r = br.run_one(m8, 0, ".")
+            check("Batch#4 regression: text_pack with workdir='.'",
+                  r["status"] == "ok", str(r))
+            m9 = manifest([{"id": "img-rel", "type": "image_convert",
+                            "params": {"input": "in.png",
+                                       "format": "jpeg"}}])
+            r = br.run_one(m9, 0, ".")
+            check("Batch#4 regression: image_convert with workdir='.'",
+                  r["status"] == "ok", str(r))
+        finally:
+            os.chdir(old_cwd)
+
         # Poison-job guard + content verification (scratch checkpoint)
         for f in ("burst_state.py", "pack_batch.py", "ingest_results.py"):
             shutil.copy(HERE / f, tmp / f)
