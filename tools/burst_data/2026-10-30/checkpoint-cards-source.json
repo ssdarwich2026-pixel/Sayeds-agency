@@ -1,0 +1,68 @@
+{
+ "source_doc": "82 converged plan 2026-10-30 (gallery swaps x32 in four verified checkpoints of 8)",
+ "derivation": "Listing order and handles copied from gallery-swap-checklist-source.json (batch-20261030-002): checkpoint 1 = listings 1-8, 2 = 9-16, 3 = 17-24, 4 = 25-32.",
+ "count": 4,
+ "listings_total": 32,
+ "records": [
+  {
+   "n": 1,
+   "listings_range": "1-8 of 32",
+   "listings": [
+    "17-10-the-photograph-shiptrollyard",
+    "acab-block-a-the-photograph-shiptrollyard",
+    "acab-script-the-photograph-shiptrollyard",
+    "aftermath-the-photograph-shiptrollyard",
+    "aidez-le-the-photograph-shiptrollyard",
+    "blue-scarf-the-photograph-shiptrollyard",
+    "crowd-standing-girl-the-photograph-shiptrollyard",
+    "faces-6-the-photograph-shiptrollyard"
+   ],
+   "rule": "verify displayed image per listing before next checkpoint"
+  },
+  {
+   "n": 2,
+   "listings_range": "9-16 of 32",
+   "listings": [
+    "faces-9-the-photograph-shiptrollyard",
+    "freedom-the-photograph-shiptrollyard",
+    "front-line-the-photograph-shiptrollyard",
+    "furet-the-photograph-shiptrollyard",
+    "hands-raised-the-photograph-shiptrollyard",
+    "interview-girl-the-photograph-shiptrollyard",
+    "napoleon-returns-the-photograph-shiptrollyard",
+    "noir-burned-car-the-photograph-shiptrollyard"
+   ],
+   "rule": "verify displayed image per listing before next checkpoint"
+  },
+  {
+   "n": 3,
+   "listings_range": "17-24 of 32",
+   "listings": [
+    "noir-finger-the-photograph-shiptrollyard",
+    "noir-peace-the-photograph-shiptrollyard",
+    "noir-silhouette-the-photograph-shiptrollyard",
+    "noir-takedown-the-photograph-shiptrollyard",
+    "panther-the-photograph-shiptrollyard",
+    "pirate-flag-the-photograph-shiptrollyard",
+    "police-charge-the-photograph-shiptrollyard",
+    "sans-begayer-the-photograph-shiptrollyard"
+   ],
+   "rule": "verify displayed image per listing before next checkpoint"
+  },
+  {
+   "n": 4,
+   "listings_range": "25-32 of 32",
+   "listings": [
+    "shiptrollyard-dragon-crown-tee",
+    "shiptrollyard-dragon-crown-tee-y-p",
+    "souriez-sign-the-photograph-shiptrollyard",
+    "trophy-the-photograph-shiptrollyard",
+    "marianne-flare-the-photograph-shiptrollyard",
+    "marianne-vest-the-photograph-shiptrollyard",
+    "noir-veil-the-photograph-shiptrollyard",
+    "paris-in-smoke-the-photograph-shiptrollyard"
+   ],
+   "rule": "verify displayed image per listing before next checkpoint"
+  }
+ ]
+}

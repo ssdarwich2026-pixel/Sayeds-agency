@@ -1,0 +1,105 @@
+{
+ "design": "panther-aerial",
+ "base_size": [
+  1080,
+  1350
+ ],
+ "print_size": [
+  3000,
+  2269
+ ],
+ "rect1000": [
+  313,
+  366,
+  688,
+  598
+ ],
+ "rect_px": [
+  338,
+  494,
+  743,
+  807
+ ],
+ "gates": {
+  "G2_art_paste_pixel_exact": null,
+  "G3_blend_factor": 0.18,
+  "G4_detail_crop_no_resize": true,
+  "G4_detail_pixel_exact": null,
+  "G5_proof_sheet_built": true,
+  "G1_dims": {
+   "panther-aerial-cardinal-CORRECTED-front.jpg": [
+    1080,
+    1350
+   ],
+   "panther-aerial-PRINT-DETAIL-100pct.jpg": [
+    1080,
+    1350
+   ],
+   "panther-aerial-PRINT-AREA-ENLARGED.jpg": [
+    1080,
+    1350
+   ]
+  },
+  "G1_all_1080x1350": true
+ },
+ "seconds": null,
+ "record_type": "retro-record",
+ "recorded": "2026-10-30",
+ "corrected_on": "2026-10-28",
+ "record_note": "Retro-record created 2026-10-30 from disk evidence for a design corrected 2026-10-28. Fields marked not independently re-verified were not re-measured from disk; they are sourced from on-disk build code/documents as cited in gate_verification.",
+ "gate_verification": {
+  "G1_dims": "disk-verified 2026-10-30: the three deliverables measured with PIL (all 1080x1350) and hashed (see files). Working copies in ~/workspace/shirt-quality-fix/panther-aerial/ are byte-identical to the deliverables (SHA-256 match).",
+  "base_size": "retro-recorded: SHIRT-PHOTO-QUALITY-CORRECTION-2026-10-28.md records the grounding on the 1080x1350 slide; the pilot's working base file itself is not on disk. (The on-disk source photo PREVIEW-panther-unbothered-aerial.jpg measures 900x680; Fourthwall fw1920 pulls at 1536x2048 also sit in the pilot working folder but are not recorded as the build base.)",
+  "print_size": "disk-verified: PRINT-panther-unbothered-aerial.png measured on disk (3000x2269), matching the spec doc.",
+  "rect1000": "sourced from SHIRT-PHOTO-QUALITY-CORRECTION-2026-10-28.md (grounded x313-688 / y366-598 on the 1080x1350 slide). No pilot builder script exists on disk; not re-grounded.",
+  "rect_px": "computed 2026-10-30 from rect1000 x the recorded 1080x1350 slide size.",
+  "G2_art_paste_pixel_exact": "retro-recorded 2026-10-30 from disk evidence; not independently re-verified \u2014 no pilot builder script exists on disk, so the paste step cannot be evidenced beyond the spec doc's description. Left null rather than asserted.",
+  "G3_blend_factor": "retro-recorded: spec doc states the correction blends back ~18% of the original fabric shading; no code on disk records the exact factor. Not independently re-verified.",
+  "G4_detail_crop_no_resize": "per spec doc: 'a 100% crop (no upscale) of the print file'. Sourced from that on-disk document; not independently re-verified.",
+  "G4_detail_pixel_exact": "retro-recorded 2026-10-30 from disk evidence; not independently re-verified. The saved slide is a q95 JPEG, so bit-exactness against the PNG cannot be established from disk. Left null rather than asserted.",
+  "G5_proof_sheet_built": "disk-verified: proof-old-vs-corrected.jpg (810x1302, hashed in files) is present in the design's output folder.",
+  "seconds": "not recorded on disk for the pilot; left null rather than estimated."
+ },
+ "files": [
+  {
+   "file": "panther-aerial-cardinal-CORRECTED-front.jpg",
+   "format": "JPEG",
+   "size": [
+    1080,
+    1350
+   ],
+   "bytes": 151147,
+   "sha256": "a769e654fda185d435fe81acb58480d1c2b7b8b83862e5f56455befc854e724e"
+  },
+  {
+   "file": "panther-aerial-PRINT-DETAIL-100pct.jpg",
+   "format": "JPEG",
+   "size": [
+    1080,
+    1350
+   ],
+   "bytes": 213238,
+   "sha256": "a4fe1ebfb87f48005d17dedce9b4f5837d0463c03a0e1626ccbaf6fc24654b44"
+  },
+  {
+   "file": "panther-aerial-PRINT-AREA-ENLARGED.jpg",
+   "format": "JPEG",
+   "size": [
+    1080,
+    1350
+   ],
+   "bytes": 202900,
+   "sha256": "a60a39d9abfd39de1f9367c283039461a13b1a6e9c25fec330f74afaed60fba1"
+  },
+  {
+   "file": "proof-old-vs-corrected.jpg",
+   "format": "JPEG",
+   "size": [
+    810,
+    1302
+   ],
+   "bytes": 218365,
+   "sha256": "27ad943dd159617acfddc3de4839603e3318e87699be675285969d16d125137c"
+  }
+ ]
+}

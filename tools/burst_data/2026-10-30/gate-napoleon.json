@@ -1,0 +1,96 @@
+{
+ "design": "napoleon",
+ "base_size": [
+  1080,
+  1350
+ ],
+ "print_size": [
+  3000,
+  1664
+ ],
+ "rect1000": [
+  273,
+  334,
+  733,
+  547
+ ],
+ "rect_px": [
+  294,
+  450,
+  791,
+  738
+ ],
+ "gates": {
+  "G2_art_paste_pixel_exact": true,
+  "G3_blend_factor": 0.18,
+  "G4_detail_crop_no_resize": true,
+  "G4_detail_pixel_exact": null,
+  "G5_proof_sheet_built": false,
+  "G1_dims": {
+   "napoleon-CORRECTED-front.jpg": [
+    1080,
+    1350
+   ],
+   "napoleon-PRINT-DETAIL-100pct.jpg": [
+    1080,
+    1350
+   ],
+   "napoleon-PRINT-AREA-ENLARGED.jpg": [
+    1080,
+    1350
+   ]
+  },
+  "G1_all_1080x1350": true
+ },
+ "seconds": null,
+ "record_type": "retro-record",
+ "recorded": "2026-10-30",
+ "corrected_on": "2026-10-28",
+ "record_note": "Retro-record created 2026-10-30 from disk evidence for a design corrected 2026-10-28. Fields marked not independently re-verified were not re-measured from disk; they are sourced from on-disk build code/documents as cited in gate_verification.",
+ "gate_verification": {
+  "G1_dims": "disk-verified 2026-10-30: each deliverable measured with PIL (1080x1350) and hashed (see files).",
+  "base_size": "disk-verified: base slide file measured on disk (instagram-audit carousel slide-1.jpg, 1080x1350).",
+  "print_size": "disk-verified: print file measured on disk.",
+  "rect1000": "sourced from on-disk builder ~/workspace/shirt-quality-fix/batch1/build_batch.py JOBS table; identical values also printed in SHIRT-PHOTO-QUALITY-CORRECTION-2026-10-28.md. Not re-grounded.",
+  "rect_px": "recomputed 2026-10-30 from rect1000 x measured base size using the builder's own formula int(r/1000*W).",
+  "G2_art_paste_pixel_exact": "retro-recorded 2026-10-30 from disk evidence; not independently re-verified. Per build_batch.py the cover-fit art was pasted directly into rect_px, then a 0.18 fabric-shading blend was applied over the pasted region, so the saved front's print region intentionally differs from the raw art and paste exactness cannot be re-measured from the saved JPEG.",
+  "G3_blend_factor": "sourced from build_batch.py (Image.blend(cr, blended, 0.18)); not re-measured from the saved images.",
+  "G4_detail_crop_no_resize": "derived from on-disk sources: builder takes centre crop min(1080,pw) x min(1150,ph) and resizes only if the crop is not exactly 1080x1150; measured print height 1664 px > 1150, so the crop was exactly 1080x1150 and the resize branch was not taken.",
+  "G4_detail_pixel_exact": "retro-recorded 2026-10-30 from disk evidence; not independently re-verified as bit-exact. The saved detail slide is a q95 JPEG, so bit-exactness against the PNG print file cannot hold on disk; supporting check 2026-10-30: mean abs pixel difference between the saved slide's crop region and the print file's centre crop = 0.387 (JPEG-level difference only).",
+  "G5_proof_sheet_built": "false for the per-design proof sheet: no per-design side-by-side proof sheet exists on disk for Batch 1. A combined contact sheet (contact-batch1.jpg) exists in the Batch 1 output folder and was the 2026-10-28 verification artefact.",
+  "seconds": "not recorded on disk for Batch 1 (spec doc records only 'seconds of script per design'); left null rather than estimated."
+ },
+ "detail_crop_mean_abs_diff_vs_print": 0.387,
+ "files": [
+  {
+   "file": "napoleon-CORRECTED-front.jpg",
+   "format": "JPEG",
+   "size": [
+    1080,
+    1350
+   ],
+   "bytes": 143732,
+   "sha256": "e9e797e75023ad971aaee3ce9f4c0cb4a686c99f2dd8ff23d828a68a67903d97"
+  },
+  {
+   "file": "napoleon-PRINT-DETAIL-100pct.jpg",
+   "format": "JPEG",
+   "size": [
+    1080,
+    1350
+   ],
+   "bytes": 214150,
+   "sha256": "fea822bdd3c79d162d8681377f850681ab6df8464397395353384832fe7f2af1"
+  },
+  {
+   "file": "napoleon-PRINT-AREA-ENLARGED.jpg",
+   "format": "JPEG",
+   "size": [
+    1080,
+    1350
+   ],
+   "bytes": 167056,
+   "sha256": "df57aa79b71b28211f4e92903f02df7a5c2b79e2d25693704a32445bde08b2fc"
+  }
+ ]
+}

@@ -1,0 +1,80 @@
+{
+ "batch_id": "batch-20261030-003",
+ "created_at": "2026-10-30T13:36:34.914479+00:00",
+ "created_by": "pack_batch.py",
+ "lane": "burst",
+ "count": 4,
+ "jobs": [
+  {
+   "id": "hash-003a",
+   "type": "hash_manifest",
+   "params": {
+    "paths": [
+     "tools/burst_data/2026-10-30/gate-*.json"
+    ],
+    "require_all": true
+   },
+   "created_by": "sayed-batch-3",
+   "priority": 1,
+   "lane": "burst"
+  },
+  {
+   "id": "hash-003b",
+   "type": "hash_manifest",
+   "params": {
+    "paths": [
+     "tools/burst_data/2026-10-30/pack2-captions.md"
+    ],
+    "require_all": true
+   },
+   "created_by": "sayed-batch-3",
+   "priority": 1,
+   "lane": "burst"
+  },
+  {
+   "id": "text-003a",
+   "type": "text_pack",
+   "params": {
+    "template": "SWAP CHECKPOINT {n}: {listings} | {rule}",
+    "records": [
+     {
+      "n": 1,
+      "listings": "17-10-the-photograph-shiptrollyard, acab-block-a-the-photograph-shiptrollyard, acab-script-the-photograph-shiptrollyard, aftermath-the-photograph-shiptrollyard, aidez-le-the-photograph-shiptrollyard, blue-scarf-the-photograph-shiptrollyard, crowd-standing-girl-the-photograph-shiptrollyard, faces-6-the-photograph-shiptrollyard",
+      "rule": "verify displayed image per listing before next checkpoint"
+     },
+     {
+      "n": 2,
+      "listings": "faces-9-the-photograph-shiptrollyard, freedom-the-photograph-shiptrollyard, front-line-the-photograph-shiptrollyard, furet-the-photograph-shiptrollyard, hands-raised-the-photograph-shiptrollyard, interview-girl-the-photograph-shiptrollyard, napoleon-returns-the-photograph-shiptrollyard, noir-burned-car-the-photograph-shiptrollyard",
+      "rule": "verify displayed image per listing before next checkpoint"
+     },
+     {
+      "n": 3,
+      "listings": "noir-finger-the-photograph-shiptrollyard, noir-peace-the-photograph-shiptrollyard, noir-silhouette-the-photograph-shiptrollyard, noir-takedown-the-photograph-shiptrollyard, panther-the-photograph-shiptrollyard, pirate-flag-the-photograph-shiptrollyard, police-charge-the-photograph-shiptrollyard, sans-begayer-the-photograph-shiptrollyard",
+      "rule": "verify displayed image per listing before next checkpoint"
+     },
+     {
+      "n": 4,
+      "listings": "shiptrollyard-dragon-crown-tee, shiptrollyard-dragon-crown-tee-y-p, souriez-sign-the-photograph-shiptrollyard, trophy-the-photograph-shiptrollyard, marianne-flare-the-photograph-shiptrollyard, marianne-vest-the-photograph-shiptrollyard, noir-veil-the-photograph-shiptrollyard, paris-in-smoke-the-photograph-shiptrollyard",
+      "rule": "verify displayed image per listing before next checkpoint"
+     }
+    ],
+    "file_pattern": "ckpt-{i:02d}.txt"
+   },
+   "created_by": "sayed-batch-3",
+   "priority": 2,
+   "lane": "burst"
+  },
+  {
+   "id": "bench-003",
+   "type": "benchmark",
+   "params": {
+    "iterations": 5,
+    "chunk_mb": 2,
+    "shard": 0
+   },
+   "created_by": "sayed-batch-3",
+   "priority": 3,
+   "lane": "burst"
+  }
+ ]
+}
