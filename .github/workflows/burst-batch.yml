@@ -20,6 +20,16 @@
 # Limits: max 256 matrix jobs per run (we pack <= 20 by default),
 # 6 h per job, free-account concurrency caps queue extra runs,
 # ephemeral runners (artifacts are the only output), no GPU.
+#
+# Hardening 2026-10-30 (code-review adjudication, patches P2/P3/P6/
+# P11): dispatch inputs travel via env: and are regex-validated,
+# never interpolated into shell/Python; the summary RECONCILES the
+# reported index set against the setup count and exits 1 on any
+# mismatch or per-item error (the artifact no longer reads green
+# over a hole - ingest_results.py remains the system of record);
+# uploads fail loud when no files are found; Pillow is pinned and
+# installed only for batches that contain image_convert jobs; a
+# per-batch concurrency group stops double-dispatch waste.
 name: burst-batch
 
 "on":
@@ -33,6 +43,10 @@ name: burst-batch
 permissions:
   contents: read
 
+concurrency:
+  group: burst-batch-${{ inputs.batch_id }}
+  cancel-in-progress: false
+
 jobs:
   setup:
     runs-on: ubuntu-latest
@@ -40,21 +54,29 @@ jobs:
     outputs:
       indices: ${{ steps.manifest.outputs.indices }}
       count: ${{ steps.manifest.outputs.count }}
+      needs_pillow: ${{ steps.manifest.outputs.needs_pillow }}
     steps:
       - uses: actions/checkout@v4
       - id: manifest
         name: Read batch manifest, emit job-index matrix
+        env:
+          BATCH_ID: ${{ inputs.batch_id }}
         run: |
           python3 - <<'PY'
-          import json, os
-          bid = "${{ inputs.batch_id }}"
+          import json, os, sys
+          sys.path.insert(0, "tools")
+          from burst_runner import validate_manifest
+          bid = os.environ["BATCH_ID"]
           m = json.load(open(f"batches/{bid}.json"))
+          validate_manifest(m)
           if m["batch_id"] != bid:
               raise SystemExit(f"manifest batch_id mismatch: {m['batch_id']} != {bid}")
           idx = list(range(len(m["jobs"])))
+          needs_pillow = any(j["type"] == "image_convert" for j in m["jobs"])
           with open(os.environ["GITHUB_OUTPUT"], "a") as f:
               f.write(f"indices={json.dumps(idx)}\n")
               f.write(f"count={len(idx)}\n")
+              f.write(f"needs_pillow={str(needs_pillow).lower()}\n")
           print(f"batch {bid}: {len(idx)} jobs -> indices {idx}")
           PY
 
@@ -71,14 +93,18 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Install Pillow (image_convert jobs)
-        run: pip install --quiet Pillow
-      - name: Run one queued job (index ${{ matrix.index }})
+      - name: Install Pillow (image_convert jobs only)
+        if: needs.setup.outputs.needs_pillow == 'true'
+        run: pip install --quiet "Pillow==11.0.0"
+      - name: Run one queued job
+        env:
+          BATCH_ID: ${{ inputs.batch_id }}
+          JOB_INDEX: ${{ matrix.index }}
         run: |
           python3 tools/burst_runner.py \
-            --manifest "batches/${{ inputs.batch_id }}.json" \
-            --index ${{ matrix.index }} \
-            --out "burst-result-${{ matrix.index }}.json" \
+            --manifest "batches/${BATCH_ID}.json" \
+            --index "${JOB_INDEX}" \
+            --out "burst-result-${JOB_INDEX}.json" \
             --workdir .
       - uses: actions/upload-artifact@v4
         if: always()
@@ -87,9 +113,11 @@ jobs:
           path: |
             burst-result-${{ matrix.index }}.json
             burst_out/
+          if-no-files-found: error
+          retention-days: 30
 
   summary:
-    needs: run
+    needs: [setup, run]
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -98,28 +126,57 @@ jobs:
         with:
           pattern: burst-job-${{ inputs.batch_id }}-*
           merge-multiple: true
-      - name: Build batch summary from result read-backs
+      - name: Build batch summary from result read-backs (reconciled)
+        env:
+          BATCH_ID: ${{ inputs.batch_id }}
+          EXPECTED: ${{ needs.setup.outputs.count }}
         run: |
           python3 - <<'PY'
-          import glob, json
-          results = []
+          import glob, json, os, sys
+          raw_expected = os.environ.get("EXPECTED", "")
+          if not raw_expected.isdigit():
+              json.dump({"batch_id": os.environ["BATCH_ID"],
+                         "expected": None, "complete": False,
+                         "fatal": "setup job produced no count"},
+                        open("batch-summary.json", "w"), indent=1)
+              print("FATAL: setup outputs missing - cannot reconcile")
+              sys.exit(1)
+          expected = int(raw_expected)
+          results, unreadable = [], 0
           for f in sorted(glob.glob("burst-result-*.json")):
-              results.append(json.load(open(f)))
+              try:
+                  results.append(json.load(open(f)))
+              except Exception as e:
+                  unreadable += 1
+                  print(f"UNREADABLE result file {f}: {e}")
           ok = [r for r in results if r["status"] == "ok"]
           err = [r for r in results if r["status"] != "ok"]
-          summary = {"batch_id": "${{ inputs.batch_id }}",
+          got_idx = sorted(r["index"] for r in results)
+          complete = (got_idx == list(range(expected))
+                      and unreadable == 0)
+          summary = {"batch_id": os.environ["BATCH_ID"],
+                     "expected": expected,
                      "jobs_reported": len(results),
+                     "complete": complete,
                      "ok": len(ok), "error": len(err),
+                     "unreadable": unreadable,
                      "results": results}
           json.dump(summary, open("batch-summary.json", "w"), indent=1)
           for r in results:
               print(f"{r['index']:>3} {r['job_id']:<16} {r['type']:<14} "
                     f"{r['status']:<6} {r['metrics']['elapsed_s']}s")
-          print(f"BATCH ${{ inputs.batch_id }}: {len(ok)} ok / "
-                f"{len(err)} error / {len(results)} reported")
+          print(f"BATCH {os.environ['BATCH_ID']}: {len(ok)} ok / "
+                f"{len(err)} error / {len(results)} reported / "
+                f"{expected} expected / complete={complete}")
+          if not complete or err:
+              print("RECONCILIATION FAILED - summary is NOT green; "
+                    "ingest_results.py remains the system of record")
+              sys.exit(1)
           PY
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: burst-summary-${{ inputs.batch_id }}
           path: batch-summary.json
+          if-no-files-found: error
+          retention-days: 30

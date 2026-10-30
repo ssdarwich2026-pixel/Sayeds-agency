@@ -1,0 +1,112 @@
+# burst-actions-workflow.yml - source-pack copy of the LIVE workflow
+# .github/workflows/burst-benchmark.yml (placed live 2026-10-30, since
+# hardened with adjudication patch P10). Keep the two in sync.
+# It runs the IDENTICAL representative workload as the VM baseline
+# (burst-benchmark.py: SHA-256 + zlib-6 on a deterministic 5 MB chunk)
+# in parallel matrix jobs, then a summary job totals tasks/min.
+#
+# Exact runner spec (GitHub-hosted standard runner, ubuntu-latest,
+# documented by GitHub for standard runners - PREPARED from docs,
+# NOT verified by a live run in this prep):
+#   Linux: 4 vCPU, 16 GB RAM, 14 GB SSD, x64, ephemeral (fresh VM per job)
+# Honest limits:
+#   - Public repos: standard runners are free with fair-use limits;
+#     private repos consume the account's included Actions minutes.
+#   - Max 256 jobs per matrix per workflow run; per-job limit 6 hours;
+#     queue/startup time is real and NOT counted in tasks/min.
+#   - No GPU on standard runners. No persistence between jobs/runs
+#     (artifacts only). Concurrency can be throttled by GitHub.
+#   - 4 shards x 16 GB = 64 GB of *ephemeral* RAM across 4 machines -
+#     it is NOT pooled RAM and cannot run one 64 GB job.
+name: burst-benchmark
+
+# Note 2026-10-30: the trigger key is quoted ("on") so strict YAML 1.1
+# parsers do not read it as boolean True. GitHub accepts both forms.
+"on":
+  workflow_dispatch:
+    inputs:
+      iterations:
+        description: "Iterations per shard (baseline uses 20)"
+        default: "20"
+
+permissions:
+  contents: read
+
+jobs:
+  shard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run identical burst workload (shard ${{ matrix.shard }})
+        env:
+          ITERATIONS: ${{ inputs.iterations }}
+        run: |
+          python3 tools/burst-benchmark.py \
+            --iterations "${ITERATIONS}" \
+            --chunk-mb 5 \
+            --shard ${{ matrix.shard }} \
+            --out "burst-result-shard-${{ matrix.shard }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: burst-result-shard-${{ matrix.shard }}
+          path: burst-result-shard-${{ matrix.shard }}.json
+          if-no-files-found: error
+          retention-days: 30
+
+  summary:
+    needs: shard
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          merge-multiple: true
+      - name: Total the shards (compare against the VM baseline file)
+        run: |
+          python3 - <<'PY'
+          import glob, json, sys
+          # P10: verify ALL FOUR shard identities are present before
+          # totalling anything - a partial set never reads as a total.
+          shards = {}
+          for f in sorted(glob.glob("burst-result-shard-*.json")):
+              d = json.load(open(f))
+              shards[d["shard"]] = d
+          if sorted(shards) != [0, 1, 2, 3]:
+              print(f"SHARD SET INCOMPLETE: got {sorted(shards)}, "
+                    f"expected [0, 1, 2, 3] - refusing to total")
+              sys.exit(1)
+          total_tpm = 0.0
+          total_tasks = 0.0
+          max_elapsed = 0.0
+          for sid in (0, 1, 2, 3):
+              d = shards[sid]
+              tpm = d["results"]["tasks_per_min"]
+              el = d["results"]["elapsed_s"]
+              print(f"shard {sid} tasks_per_min:", tpm,
+                    "| elapsed_s:", el,
+                    "| host cpus:", d["host"]["cpu_count_logical"],
+                    "| mem_total_mb:", d["host"]["mem_total_mb"])
+              total_tpm += tpm
+              total_tasks += tpm * el / 60.0
+              max_elapsed = max(max_elapsed, el)
+          wall_clock_tpm = (round(total_tasks / max_elapsed * 60, 2)
+                            if max_elapsed else None)
+          print("BURST TOTAL tasks_per_min (SUM of shard rates - "
+                "active-execution rate, NOT wall-clock):",
+                round(total_tpm, 2))
+          print("BURST wall-clock completions/min (approx: total tasks "
+                "/ longest shard elapsed):", wall_clock_tpm)
+          print("VM BASELINE tasks_per_min: 292.03 (2026-10-29, see "
+                "burst-benchmark-baseline-2026-10-29.json)")
+          print("Claim rule: report BOTH rates with their definitions; "
+                "burst equivalence is only defensible for THIS "
+                "workload, while the runners are actually running.")
+          PY
