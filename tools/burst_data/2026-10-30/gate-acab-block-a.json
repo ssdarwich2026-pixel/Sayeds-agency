@@ -1,0 +1,46 @@
+{
+ "design": "acab-block-a",
+ "base_size": [
+  1536,
+  2048
+ ],
+ "print_size": [
+  3000,
+  1710
+ ],
+ "rect1000": [
+  302,
+  283,
+  701,
+  449
+ ],
+ "rect_px": [
+  463,
+  579,
+  1076,
+  919
+ ],
+ "gates": {
+  "G2_art_paste_pixel_exact": true,
+  "G3_blend_factor": 0.18,
+  "G4_detail_crop_no_resize": true,
+  "G4_detail_pixel_exact": true,
+  "G5_proof_sheet_built": true,
+  "G1_dims": {
+   "acab-block-a-CORRECTED-front.jpg": [
+    1080,
+    1350
+   ],
+   "acab-block-a-PRINT-DETAIL-100pct.jpg": [
+    1080,
+    1350
+   ],
+   "acab-block-a-PRINT-AREA-ENLARGED.jpg": [
+    1080,
+    1350
+   ]
+  },
+  "G1_all_1080x1350": true
+ },
+ "seconds": 0.88
+}

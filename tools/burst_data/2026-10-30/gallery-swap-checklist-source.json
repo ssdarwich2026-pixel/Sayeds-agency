@@ -1,0 +1,264 @@
+{
+ "source_doc": "agency/fleet/expansion-bot/BATCH-SCOPE-SHIRT-QUALITY-MUSIC-2026-10-30.md sections 1B/3/4 (jobs 9-12)",
+ "ground_truth": "41 live listings per sitemap pass 2026-10-30 04:24 CDT (37 flagship + 4 Vol 2), handles copied from those sitemaps",
+ "derivation": "41 live listings minus the 9 listings covered by the 6 designs corrected before 2026-10-30 (Panther Wide x2 listings, Panther Close-Up x2, Panther Aerial x2, Napoleon, Dragged Art, Dragged Photograph) = 32 listings needing gallery swaps, spanning 31 designs; Dragon Crown is the one pass design with 2 live listings (shiptrollyard-dragon-crown-tee + shiptrollyard-dragon-crown-tee-y-p). Wave source = the wave that built the design's corrected set (Wave 2 = first 10 scope designs, Wave 3 = remaining 21).",
+ "count": 32,
+ "records": [
+  {
+   "listing": "17-10",
+   "design": "17-10",
+   "handle": "17-10-the-photograph-shiptrollyard",
+   "store": "flagship",
+   "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+   "wave": "Wave 2 (2026-10-30)"
+  },
+  {
+   "listing": "ACAB Block A",
+   "design": "ACAB Block A",
+   "handle": "acab-block-a-the-photograph-shiptrollyard",
+   "store": "flagship",
+   "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+   "wave": "Wave 2 (2026-10-30)"
+  },
+  {
+   "listing": "ACAB Script",
+   "design": "ACAB Script",
+   "handle": "acab-script-the-photograph-shiptrollyard",
+   "store": "flagship",
+   "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+   "wave": "Wave 2 (2026-10-30)"
+  },
+  {
+   "listing": "Aftermath",
+   "design": "Aftermath",
+   "handle": "aftermath-the-photograph-shiptrollyard",
+   "store": "flagship",
+   "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+   "wave": "Wave 2 (2026-10-30)"
+  },
+  {
+   "listing": "Aidez-Le",
+   "design": "Aidez-Le",
+   "handle": "aidez-le-the-photograph-shiptrollyard",
+   "store": "flagship",
+   "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+   "wave": "Wave 2 (2026-10-30)"
+  },
+  {
+   "listing": "Blue-Scarf",
+   "design": "Blue-Scarf",
+   "handle": "blue-scarf-the-photograph-shiptrollyard",
+   "store": "flagship",
+   "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+   "wave": "Wave 2 (2026-10-30)"
+  },
+  {
+   "listing": "Crowd Standing Girl",
+   "design": "Crowd Standing Girl",
+   "handle": "crowd-standing-girl-the-photograph-shiptrollyard",
+   "store": "flagship",
+   "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+   "wave": "Wave 2 (2026-10-30)"
+  },
+  {
+   "listing": "Faces 6",
+   "design": "Faces 6",
+   "handle": "faces-6-the-photograph-shiptrollyard",
+   "store": "flagship",
+   "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+   "wave": "Wave 2 (2026-10-30)"
+  },
+  {
+   "listing": "Faces 9",
+   "design": "Faces 9",
+   "handle": "faces-9-the-photograph-shiptrollyard",
+   "store": "flagship",
+   "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+   "wave": "Wave 2 (2026-10-30)"
+  },
+  {
+   "listing": "Freedom",
+   "design": "Freedom",
+   "handle": "freedom-the-photograph-shiptrollyard",
+   "store": "flagship",
+   "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+   "wave": "Wave 2 (2026-10-30)"
+  },
+  {
+   "listing": "Front Line",
+   "design": "Front Line",
+   "handle": "front-line-the-photograph-shiptrollyard",
+   "store": "flagship",
+   "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+   "wave": "Wave 3 (2026-10-30)"
+  },
+  {
+   "listing": "Furet",
+   "design": "Furet",
+   "handle": "furet-the-photograph-shiptrollyard",
+   "store": "flagship",
+   "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+   "wave": "Wave 3 (2026-10-30)"
+  },
+  {
+   "listing": "Hands Raised",
+   "design": "Hands Raised",
+   "handle": "hands-raised-the-photograph-shiptrollyard",
+   "store": "flagship",
+   "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+   "wave": "Wave 3 (2026-10-30)"
+  },
+  {
+   "listing": "Interview Girl",
+   "design": "Interview Girl",
+   "handle": "interview-girl-the-photograph-shiptrollyard",
+   "store": "flagship",
+   "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+   "wave": "Wave 3 (2026-10-30)"
+  },
+  {
+   "listing": "Napoleon Returns",
+   "design": "Napoleon Returns",
+   "handle": "napoleon-returns-the-photograph-shiptrollyard",
+   "store": "flagship",
+   "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+   "wave": "Wave 3 (2026-10-30)"
+  },
+  {
+   "listing": "Noir Burned Car",
+   "design": "Noir Burned Car",
+   "handle": "noir-burned-car-the-photograph-shiptrollyard",
+   "store": "flagship",
+   "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+   "wave": "Wave 3 (2026-10-30)"
+  },
+  {
+   "listing": "Noir Finger",
+   "design": "Noir Finger",
+   "handle": "noir-finger-the-photograph-shiptrollyard",
+   "store": "flagship",
+   "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+   "wave": "Wave 3 (2026-10-30)"
+  },
+  {
+   "listing": "Noir Peace",
+   "design": "Noir Peace",
+   "handle": "noir-peace-the-photograph-shiptrollyard",
+   "store": "flagship",
+   "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+   "wave": "Wave 3 (2026-10-30)"
+  },
+  {
+   "listing": "Noir Silhouette",
+   "design": "Noir Silhouette",
+   "handle": "noir-silhouette-the-photograph-shiptrollyard",
+   "store": "flagship",
+   "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+   "wave": "Wave 3 (2026-10-30)"
+  },
+  {
+   "listing": "Noir Takedown",
+   "design": "Noir Takedown",
+   "handle": "noir-takedown-the-photograph-shiptrollyard",
+   "store": "flagship",
+   "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+   "wave": "Wave 3 (2026-10-30)"
+  },
+  {
+   "listing": "Paris Panther",
+   "design": "Paris Panther",
+   "handle": "panther-the-photograph-shiptrollyard",
+   "store": "flagship",
+   "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+   "wave": "Wave 3 (2026-10-30)"
+  },
+  {
+   "listing": "Pirate Flag",
+   "design": "Pirate Flag",
+   "handle": "pirate-flag-the-photograph-shiptrollyard",
+   "store": "flagship",
+   "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+   "wave": "Wave 3 (2026-10-30)"
+  },
+  {
+   "listing": "Police Charge",
+   "design": "Police Charge",
+   "handle": "police-charge-the-photograph-shiptrollyard",
+   "store": "flagship",
+   "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+   "wave": "Wave 3 (2026-10-30)"
+  },
+  {
+   "listing": "Sans-Begayer",
+   "design": "Sans-Begayer",
+   "handle": "sans-begayer-the-photograph-shiptrollyard",
+   "store": "flagship",
+   "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+   "wave": "Wave 3 (2026-10-30)"
+  },
+  {
+   "listing": "Dragon Crown",
+   "design": "Dragon Crown",
+   "handle": "shiptrollyard-dragon-crown-tee",
+   "store": "flagship",
+   "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+   "wave": "Wave 3 (2026-10-30)"
+  },
+  {
+   "listing": "Dragon Crown (second display)",
+   "design": "Dragon Crown",
+   "handle": "shiptrollyard-dragon-crown-tee-y-p",
+   "store": "flagship",
+   "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+   "wave": "Wave 3 (2026-10-30)"
+  },
+  {
+   "listing": "Souriez Sign",
+   "design": "Souriez Sign",
+   "handle": "souriez-sign-the-photograph-shiptrollyard",
+   "store": "flagship",
+   "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+   "wave": "Wave 3 (2026-10-30)"
+  },
+  {
+   "listing": "Trophy",
+   "design": "Trophy",
+   "handle": "trophy-the-photograph-shiptrollyard",
+   "store": "flagship",
+   "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+   "wave": "Wave 3 (2026-10-30)"
+  },
+  {
+   "listing": "Marianne Flare",
+   "design": "Marianne Flare",
+   "handle": "marianne-flare-the-photograph-shiptrollyard",
+   "store": "vol 2",
+   "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+   "wave": "Wave 3 (2026-10-30)"
+  },
+  {
+   "listing": "Marianne Vest",
+   "design": "Marianne Vest",
+   "handle": "marianne-vest-the-photograph-shiptrollyard",
+   "store": "vol 2",
+   "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+   "wave": "Wave 3 (2026-10-30)"
+  },
+  {
+   "listing": "Noir Veil",
+   "design": "Noir Veil",
+   "handle": "noir-veil-the-photograph-shiptrollyard",
+   "store": "vol 2",
+   "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+   "wave": "Wave 3 (2026-10-30)"
+  },
+  {
+   "listing": "Paris in Smoke",
+   "design": "Paris in Smoke",
+   "handle": "paris-in-smoke-the-photograph-shiptrollyard",
+   "store": "vol 2",
+   "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+   "wave": "Wave 3 (2026-10-30)"
+  }
+ ]
+}

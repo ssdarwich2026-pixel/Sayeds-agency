@@ -1,0 +1,253 @@
+{
+ "batch_id": "batch-20261030-002",
+ "created_at": "2026-10-30T13:16:05.714828+00:00",
+ "created_by": "pack_batch.py",
+ "lane": "burst",
+ "count": 4,
+ "jobs": [
+  {
+   "id": "hash-002a",
+   "type": "hash_manifest",
+   "params": {
+    "paths": [
+     "tools/burst_data/2026-10-30/gate-*.json"
+    ],
+    "require_all": true
+   },
+   "created_by": "sayed-batch-2",
+   "priority": 1,
+   "lane": "burst"
+  },
+  {
+   "id": "hash-002b",
+   "type": "hash_manifest",
+   "params": {
+    "paths": [
+     "tools/burst_data/2026-10-30/pack1-captions.md",
+     "tools/burst_data/2026-10-30/tracks-2026-10-30.csv"
+    ],
+    "require_all": true
+   },
+   "created_by": "sayed-batch-2",
+   "priority": 1,
+   "lane": "burst"
+  },
+  {
+   "id": "text-002a",
+   "type": "text_pack",
+   "params": {
+    "template": "GALLERY SWAP: {listing} | design {design} | {action} | source {wave}",
+    "records": [
+     {
+      "listing": "17-10",
+      "design": "17-10",
+      "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+      "wave": "Wave 2 (2026-10-30)"
+     },
+     {
+      "listing": "ACAB Block A",
+      "design": "ACAB Block A",
+      "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+      "wave": "Wave 2 (2026-10-30)"
+     },
+     {
+      "listing": "ACAB Script",
+      "design": "ACAB Script",
+      "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+      "wave": "Wave 2 (2026-10-30)"
+     },
+     {
+      "listing": "Aftermath",
+      "design": "Aftermath",
+      "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+      "wave": "Wave 2 (2026-10-30)"
+     },
+     {
+      "listing": "Aidez-Le",
+      "design": "Aidez-Le",
+      "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+      "wave": "Wave 2 (2026-10-30)"
+     },
+     {
+      "listing": "Blue-Scarf",
+      "design": "Blue-Scarf",
+      "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+      "wave": "Wave 2 (2026-10-30)"
+     },
+     {
+      "listing": "Crowd Standing Girl",
+      "design": "Crowd Standing Girl",
+      "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+      "wave": "Wave 2 (2026-10-30)"
+     },
+     {
+      "listing": "Faces 6",
+      "design": "Faces 6",
+      "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+      "wave": "Wave 2 (2026-10-30)"
+     },
+     {
+      "listing": "Faces 9",
+      "design": "Faces 9",
+      "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+      "wave": "Wave 2 (2026-10-30)"
+     },
+     {
+      "listing": "Freedom",
+      "design": "Freedom",
+      "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+      "wave": "Wave 2 (2026-10-30)"
+     },
+     {
+      "listing": "Front Line",
+      "design": "Front Line",
+      "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+      "wave": "Wave 3 (2026-10-30)"
+     },
+     {
+      "listing": "Furet",
+      "design": "Furet",
+      "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+      "wave": "Wave 3 (2026-10-30)"
+     },
+     {
+      "listing": "Hands Raised",
+      "design": "Hands Raised",
+      "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+      "wave": "Wave 3 (2026-10-30)"
+     },
+     {
+      "listing": "Interview Girl",
+      "design": "Interview Girl",
+      "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+      "wave": "Wave 3 (2026-10-30)"
+     },
+     {
+      "listing": "Napoleon Returns",
+      "design": "Napoleon Returns",
+      "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+      "wave": "Wave 3 (2026-10-30)"
+     },
+     {
+      "listing": "Noir Burned Car",
+      "design": "Noir Burned Car",
+      "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+      "wave": "Wave 3 (2026-10-30)"
+     },
+     {
+      "listing": "Noir Finger",
+      "design": "Noir Finger",
+      "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+      "wave": "Wave 3 (2026-10-30)"
+     },
+     {
+      "listing": "Noir Peace",
+      "design": "Noir Peace",
+      "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+      "wave": "Wave 3 (2026-10-30)"
+     },
+     {
+      "listing": "Noir Silhouette",
+      "design": "Noir Silhouette",
+      "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+      "wave": "Wave 3 (2026-10-30)"
+     },
+     {
+      "listing": "Noir Takedown",
+      "design": "Noir Takedown",
+      "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+      "wave": "Wave 3 (2026-10-30)"
+     },
+     {
+      "listing": "Paris Panther",
+      "design": "Paris Panther",
+      "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+      "wave": "Wave 3 (2026-10-30)"
+     },
+     {
+      "listing": "Pirate Flag",
+      "design": "Pirate Flag",
+      "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+      "wave": "Wave 3 (2026-10-30)"
+     },
+     {
+      "listing": "Police Charge",
+      "design": "Police Charge",
+      "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+      "wave": "Wave 3 (2026-10-30)"
+     },
+     {
+      "listing": "Sans-Begayer",
+      "design": "Sans-Begayer",
+      "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+      "wave": "Wave 3 (2026-10-30)"
+     },
+     {
+      "listing": "Dragon Crown",
+      "design": "Dragon Crown",
+      "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+      "wave": "Wave 3 (2026-10-30)"
+     },
+     {
+      "listing": "Dragon Crown (second display)",
+      "design": "Dragon Crown",
+      "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+      "wave": "Wave 3 (2026-10-30)"
+     },
+     {
+      "listing": "Souriez Sign",
+      "design": "Souriez Sign",
+      "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+      "wave": "Wave 3 (2026-10-30)"
+     },
+     {
+      "listing": "Trophy",
+      "design": "Trophy",
+      "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+      "wave": "Wave 3 (2026-10-30)"
+     },
+     {
+      "listing": "Marianne Flare",
+      "design": "Marianne Flare",
+      "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+      "wave": "Wave 3 (2026-10-30)"
+     },
+     {
+      "listing": "Marianne Vest",
+      "design": "Marianne Vest",
+      "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+      "wave": "Wave 3 (2026-10-30)"
+     },
+     {
+      "listing": "Noir Veil",
+      "design": "Noir Veil",
+      "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+      "wave": "Wave 3 (2026-10-30)"
+     },
+     {
+      "listing": "Paris in Smoke",
+      "design": "Paris in Smoke",
+      "action": "swap corrected still + print-area + detail into Fourthwall gallery",
+      "wave": "Wave 3 (2026-10-30)"
+     }
+    ],
+    "file_pattern": "swap-{i:02d}.txt"
+   },
+   "created_by": "sayed-batch-2",
+   "priority": 2,
+   "lane": "burst"
+  },
+  {
+   "id": "bench-002",
+   "type": "benchmark",
+   "params": {
+    "iterations": 5,
+    "chunk_mb": 2,
+    "shard": 0
+   },
+   "created_by": "sayed-batch-2",
+   "priority": 3,
+   "lane": "burst"
+  }
+ ]
+}

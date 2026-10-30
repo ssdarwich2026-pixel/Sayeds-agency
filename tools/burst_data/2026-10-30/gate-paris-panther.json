@@ -1,0 +1,46 @@
+{
+ "design": "paris-panther",
+ "base_size": [
+  1536,
+  2048
+ ],
+ "print_size": [
+  3000,
+  2264
+ ],
+ "rect1000": [
+  264,
+  282,
+  738,
+  578
+ ],
+ "rect_px": [
+  405,
+  577,
+  1133,
+  1183
+ ],
+ "gates": {
+  "G2_art_paste_pixel_exact": true,
+  "G3_blend_factor": 0.18,
+  "G4_detail_crop_no_resize": true,
+  "G4_detail_pixel_exact": true,
+  "G5_proof_sheet_built": true,
+  "G1_dims": {
+   "paris-panther-CORRECTED-front.jpg": [
+    1080,
+    1350
+   ],
+   "paris-panther-PRINT-DETAIL-100pct.jpg": [
+    1080,
+    1350
+   ],
+   "paris-panther-PRINT-AREA-ENLARGED.jpg": [
+    1080,
+    1350
+   ]
+  },
+  "G1_all_1080x1350": true
+ },
+ "seconds": 1.34
+}

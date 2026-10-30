@@ -1,0 +1,46 @@
+{
+ "design": "furet",
+ "base_size": [
+  1536,
+  2048
+ ],
+ "print_size": [
+  3000,
+  1672
+ ],
+ "rect1000": [
+  303,
+  387,
+  701,
+  569
+ ],
+ "rect_px": [
+  465,
+  792,
+  1076,
+  1165
+ ],
+ "gates": {
+  "G2_art_paste_pixel_exact": true,
+  "G3_blend_factor": 0.18,
+  "G4_detail_crop_no_resize": true,
+  "G4_detail_pixel_exact": true,
+  "G5_proof_sheet_built": true,
+  "G1_dims": {
+   "furet-CORRECTED-front.jpg": [
+    1080,
+    1350
+   ],
+   "furet-PRINT-DETAIL-100pct.jpg": [
+    1080,
+    1350
+   ],
+   "furet-PRINT-AREA-ENLARGED.jpg": [
+    1080,
+    1350
+   ]
+  },
+  "G1_all_1080x1350": true
+ },
+ "seconds": 1.04
+}

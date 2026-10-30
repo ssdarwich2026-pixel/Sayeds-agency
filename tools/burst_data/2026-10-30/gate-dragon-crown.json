@@ -1,0 +1,46 @@
+{
+ "design": "dragon-crown",
+ "base_size": [
+  1920,
+  1920
+ ],
+ "print_size": [
+  3000,
+  3754
+ ],
+ "rect1000": [
+  364,
+  206,
+  638,
+  548
+ ],
+ "rect_px": [
+  698,
+  395,
+  1224,
+  1052
+ ],
+ "gates": {
+  "G2_art_paste_pixel_exact": true,
+  "G3_blend_factor": 0.18,
+  "G4_detail_crop_no_resize": true,
+  "G4_detail_pixel_exact": true,
+  "G5_proof_sheet_built": true,
+  "G1_dims": {
+   "dragon-crown-CORRECTED-front.jpg": [
+    1080,
+    1350
+   ],
+   "dragon-crown-PRINT-DETAIL-100pct.jpg": [
+    1080,
+    1350
+   ],
+   "dragon-crown-PRINT-AREA-ENLARGED.jpg": [
+    1080,
+    1350
+   ]
+  },
+  "G1_all_1080x1350": true
+ },
+ "seconds": 1.87
+}
