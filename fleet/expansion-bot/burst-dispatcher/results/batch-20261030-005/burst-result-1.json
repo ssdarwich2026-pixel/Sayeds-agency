@@ -1,0 +1,27 @@
+{
+ "job_id": "foxrecon-004b",
+ "type": "hash_manifest",
+ "batch_id": "batch-20261030-005",
+ "index": 1,
+ "status": "ok",
+ "outputs": {
+  "files": 2,
+  "missing_patterns": [],
+  "manifest_file": "burst_out/foxrecon-004b/manifest.json",
+  "entries": [
+   {
+    "path": "tools/burst_data/2026-10-30/foxwatch-recon/pack1-captions.md",
+    "sha256": "25a7f7646a3aa73aea358b4725bb8665c56d9e0e88ded594ce7f53fb38fc8d0e",
+    "bytes": 13438
+   },
+   {
+    "path": "tools/burst_data/2026-10-30/foxwatch-recon/pack2-captions.md",
+    "sha256": "8077128f919251a47cc9451bf8cefe5ab353bef9741a33510fd515ceae74e45e",
+    "bytes": 21761
+   }
+  ]
+ },
+ "metrics": {
+  "elapsed_s": 0.001
+ }
+}

@@ -145,6 +145,48 @@ def main():
         finally:
             os.chdir(old_cwd)
 
+        # P12 chunked sharding: validator + range mode + pack grouping
+        def tjob(i):
+            return {"id": f"c-{i}", "type": "text_pack",
+                    "params": {"template": "t", "records": []}}
+        mA = manifest([tjob(0), tjob(1), tjob(2)])
+        mA["chunks"] = [{"chunk": 0, "job_indices": [0, 1]},
+                        {"chunk": 1, "job_indices": [1, 2]}]
+        try:
+            br.validate_manifest(mA)
+            check("P12 overlapping chunks rejected", False, "no raise")
+        except ValueError:
+            check("P12 overlapping chunks rejected", True)
+        mB = manifest([tjob(0), tjob(1), tjob(2)])
+        mB["chunks"] = [{"chunk": 0, "job_indices": [0, 2]}]
+        try:
+            br.validate_manifest(mB)
+            check("P12 incomplete chunks rejected", False, "no raise")
+        except ValueError:
+            check("P12 incomplete chunks rejected", True)
+        runner_cli = (Path.home() / "workspace" / "agency" / "tools"
+                      / "burst_runner.py")
+        mC = manifest([{"id": f"cc-{i}", "type": "text_pack",
+                        "params": {"template": "v {a}",
+                                   "records": [{"a": i}]}}
+                       for i in range(3)])
+        mC["chunks"] = [{"chunk": 0, "job_indices": [0, 1]},
+                        {"chunk": 1, "job_indices": [2]}]
+        (tmp / "mc.json").write_text(json.dumps(mC))
+        rc = run_cli(runner_cli, "--manifest", str(tmp / "mc.json"),
+                     "--chunk", "0", "--workdir", str(tmp), cwd=tmp)
+        got = sorted(p.name for p in tmp.glob("burst-result-*.json"))
+        check("P12 chunk 0 writes per-job results",
+              rc.returncode == 0 and got == ["burst-result-0.json",
+                                             "burst-result-1.json"],
+              f"rc={rc.returncode} got={got}")
+        rc = run_cli(runner_cli, "--manifest", str(tmp / "mc.json"),
+                     "--chunk", "9", "--workdir", str(tmp), cwd=tmp)
+        check("P12 chunk out of range exits 2", rc.returncode == 2)
+        rc = run_cli(runner_cli, "--manifest", str(tmp / "m.json"),
+                     "--chunk", "0", "--workdir", str(tmp), cwd=tmp)
+        check("P12 chunk on v1 manifest exits 2", rc.returncode == 2)
+
         # Poison-job guard + content verification (scratch checkpoint)
         for f in ("burst_state.py", "pack_batch.py", "ingest_results.py"):
             shutil.copy(HERE / f, tmp / f)
@@ -163,6 +205,34 @@ def main():
         check("poison-job guard terminal at 3 packs",
               rec["disposition"] == "error" and rec["attempts"] == 3,
               str(rec))
+
+        # P12 pack-time chunking: benchmarks solo, lights grouped
+        (tmp / "q2.jsonl").write_text("\n".join([
+            '{"id": "pk-bench", "type": "benchmark", "lane": "burst",'
+            ' "params": {"iterations": 1, "chunk_mb": 1}}',
+            '{"id": "pk-t1", "type": "text_pack", "lane": "burst",'
+            ' "params": {"template": "x", "records": []}}',
+            '{"id": "pk-t2", "type": "text_pack", "lane": "burst",'
+            ' "params": {"template": "x", "records": []}}',
+            '{"id": "pk-t3", "type": "text_pack", "lane": "burst",'
+            ' "params": {"template": "x", "records": []}}',
+        ]) + "\n")
+        run_cli(tmp / "pack_batch.py", "--queue", str(tmp / "q2.jsonl"),
+                "--checkpoint", str(tmp / "ck2.json"), "--repo", str(tmp),
+                "--n", "4", "--chunk-size", "2",
+                "--batch-id", "batch-20261030-888", cwd=tmp)
+        man = json.loads((tmp / "batches" / "batch-20261030-888.json")
+                         .read_text())
+        check("P12 pack chunking: heavy solo + pairs",
+              [c["job_indices"] for c in man["chunks"]]
+              == [[0], [1, 2], [3]], str(man.get("chunks")))
+        run_cli(tmp / "pack_batch.py", "--queue", str(tmp / "q2.jsonl"),
+                "--checkpoint", str(tmp / "ck3.json"), "--repo", str(tmp),
+                "--n", "4", "--no-chunk",
+                "--batch-id", "batch-20261030-889", cwd=tmp)
+        man = json.loads((tmp / "batches" / "batch-20261030-889.json")
+                         .read_text())
+        check("P12 --no-chunk emits v1 manifest", "chunks" not in man)
 
         job = {"id": "g-1", "type": "text_pack",
                "params": {"template": "y", "records": [{}, {}]}}

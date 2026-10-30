@@ -57,6 +57,11 @@ def main():
     ap.add_argument("--n", type=int, default=20)
     ap.add_argument("--lane", default="burst", choices=["burst", "local", "any"])
     ap.add_argument("--batch-id", default=None)
+    ap.add_argument("--chunk-size", type=int, default=8,
+                    help="P12: max jobs per runner leg (chunked "
+                         "sharding); heavy jobs always solo")
+    ap.add_argument("--no-chunk", action="store_true",
+                    help="emit a v1 manifest (one job per leg)")
     ap.add_argument("--release-packed", default=None, metavar="BATCH_ID")
     args = ap.parse_args()
 
@@ -127,6 +132,27 @@ def main():
         "jobs": [{k: v for k, v in j.items() if not k.startswith("_")}
                  for j in selected],
     }
+    if not args.no_chunk:
+        # P12 chunked sharding: consecutive light jobs share a leg up
+        # to --chunk-size; a heavy job (flagged, or a benchmark by
+        # nature) always gets a solo leg and breaks the current group.
+        chunks, cur = [], []
+        for pos, job in enumerate(selected):
+            heavy = job.get("heavy") is True or job["type"] == "benchmark"
+            if heavy:
+                if cur:
+                    chunks.append(cur)
+                    cur = []
+                chunks.append([pos])
+            else:
+                cur.append(pos)
+                if len(cur) >= max(1, args.chunk_size):
+                    chunks.append(cur)
+                    cur = []
+        if cur:
+            chunks.append(cur)
+        manifest["chunks"] = [{"chunk": i, "job_indices": idxs}
+                              for i, idxs in enumerate(chunks)]
 
     repo_manifest = Path(args.repo) / "batches" / f"{batch_id}.json"
     repo_manifest.parent.mkdir(parents=True, exist_ok=True)
@@ -151,6 +177,9 @@ def main():
     print(f"packed {len(selected)} jobs -> {batch_id}")
     for j in selected:
         print("  ", j["_index"], j["id"], j["type"])
+    if "chunks" in manifest:
+        print(f"chunks: {len(manifest['chunks'])} leg(s): "
+              f"{[c['job_indices'] for c in manifest['chunks']]}")
     print("manifest (repo):", repo_manifest)
     print("manifest (local mirror):", local_manifest)
     print("checkpoint after pack:", bs.counts(ckpt),

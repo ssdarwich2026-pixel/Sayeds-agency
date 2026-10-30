@@ -147,38 +147,65 @@
   "foxrecon-004a": {
    "attempts": 1,
    "batch_id": "batch-20261030-005",
-   "disposition": "packed",
+   "disposition": "completed",
    "index": 18,
    "note": null,
    "packs": 2,
    "result": {
-    "batch_id": "batch-20261030-004",
-    "error": "ValueError: '/home/runner/work/Sayeds-agency/Sayeds-agency/burst_out/foxrecon-004a/manifest.json' is not in the subpath of '.'",
+    "batch_id": "batch-20261030-005",
     "index": 0,
     "job_id": "foxrecon-004a",
     "metrics": {
-     "elapsed_s": 0.001
+     "elapsed_s": 0.004
     },
-    "status": "error",
+    "outputs": {
+     "entries": [
+      {
+       "bytes": 150495,
+       "path": "tools/burst_data/2026-10-30/foxwatch-recon/RARES-MANIFEST.csv",
+       "sha256": "08ad41516c639040e51910b2d5e00083b265d6f3e032aa547788506dfc2113d5"
+      }
+     ],
+     "files": 1,
+     "manifest_file": "burst_out/foxrecon-004a/manifest.json",
+     "missing_patterns": []
+    },
+    "status": "ok",
     "type": "hash_manifest"
    }
   },
   "foxrecon-004b": {
    "attempts": 1,
    "batch_id": "batch-20261030-005",
-   "disposition": "packed",
+   "disposition": "completed",
    "index": 19,
    "note": null,
    "packs": 2,
    "result": {
-    "batch_id": "batch-20261030-004",
-    "error": "ValueError: '/home/runner/work/Sayeds-agency/Sayeds-agency/burst_out/foxrecon-004b/manifest.json' is not in the subpath of '.'",
+    "batch_id": "batch-20261030-005",
     "index": 1,
     "job_id": "foxrecon-004b",
     "metrics": {
      "elapsed_s": 0.001
     },
-    "status": "error",
+    "outputs": {
+     "entries": [
+      {
+       "bytes": 13438,
+       "path": "tools/burst_data/2026-10-30/foxwatch-recon/pack1-captions.md",
+       "sha256": "25a7f7646a3aa73aea358b4725bb8665c56d9e0e88ded594ce7f53fb38fc8d0e"
+      },
+      {
+       "bytes": 21761,
+       "path": "tools/burst_data/2026-10-30/foxwatch-recon/pack2-captions.md",
+       "sha256": "8077128f919251a47cc9451bf8cefe5ab353bef9741a33510fd515ceae74e45e"
+      }
+     ],
+     "files": 2,
+     "manifest_file": "burst_out/foxrecon-004b/manifest.json",
+     "missing_patterns": []
+    },
+    "status": "ok",
     "type": "hash_manifest"
    }
   },
@@ -386,19 +413,26 @@
   "relist-004a": {
    "attempts": 1,
    "batch_id": "batch-20261030-005",
-   "disposition": "packed",
+   "disposition": "completed",
    "index": 20,
    "note": null,
    "packs": 2,
    "result": {
-    "batch_id": "batch-20261030-004",
-    "error": "ValueError: '/home/runner/work/Sayeds-agency/Sayeds-agency/burst_out/relist-004a/relist-00.txt' is not in the subpath of '.'",
+    "batch_id": "batch-20261030-005",
     "index": 2,
     "job_id": "relist-004a",
     "metrics": {
-     "elapsed_s": 0.004
+     "elapsed_s": 0.001
     },
-    "status": "error",
+    "outputs": {
+     "files": [
+      "burst_out/relist-004a/relist-00.txt",
+      "burst_out/relist-004a/relist-01.txt"
+     ],
+     "pack_file": "burst_out/relist-004a/pack.txt",
+     "records": 2
+    },
+    "status": "ok",
     "type": "text_pack"
    }
   },
@@ -504,6 +538,6 @@
    }
   }
  },
- "next_unprocessed_index": 18,
+ "next_unprocessed_index": 21,
  "version": 1
 }

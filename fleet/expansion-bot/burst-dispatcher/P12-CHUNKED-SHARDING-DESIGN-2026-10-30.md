@@ -1,9 +1,14 @@
 # P12 DESIGN — Chunked Sharding + In-Runner Pool (2026-10-30)
 
-_Status: DESIGN ONLY (adjudication patch P12). P1–P11 are landed; this
-is the build spec for the one materially-faster architecture move all
-three outside reviewers converged on (Claude B, echoed by Gemini's
-overhead finding). No platform replacement — unanimous._
+_Status: **BUILT 2026-10-30** (design below as written pre-build).
+Manifest v2 chunks in pack_batch.py (--chunk-size 8 default, --no-chunk
+for v1), validator chunk rules in burst_runner.py, --chunk range mode,
+workflow matrix over legs (v1 manifests still run per-job), drain
+--tiny-only pool (#14) with ingest-identical judging incl. content
+verification. Proof: regression 24/24, integration gate PASS on both
+the v1 and chunked pipelines, sync 6/6. LIVE measurement (wall-clock
+vs Batch-#3 shape) still owed — it lands with the first real chunked
+batch; no speedup number is quoted until then._
 
 ## Problem (measured, not theorized)
 Every matrix leg pays fixed overhead: checkout + setup-python + pip

@@ -52,13 +52,14 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     outputs:
-      indices: ${{ steps.manifest.outputs.indices }}
+      legs: ${{ steps.manifest.outputs.legs }}
       count: ${{ steps.manifest.outputs.count }}
+      chunked: ${{ steps.manifest.outputs.chunked }}
       needs_pillow: ${{ steps.manifest.outputs.needs_pillow }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - id: manifest
-        name: Read batch manifest, emit job-index matrix
+        name: Read batch manifest, emit leg matrix (P12 chunk-aware)
         env:
           BATCH_ID: ${{ inputs.batch_id }}
         run: |
@@ -71,13 +72,21 @@ jobs:
           validate_manifest(m)
           if m["batch_id"] != bid:
               raise SystemExit(f"manifest batch_id mismatch: {m['batch_id']} != {bid}")
-          idx = list(range(len(m["jobs"])))
+          chunks = m.get("chunks")
+          if chunks:
+              legs = list(range(len(chunks)))
+              chunked = "true"
+          else:
+              legs = list(range(len(m["jobs"])))
+              chunked = "false"
           needs_pillow = any(j["type"] == "image_convert" for j in m["jobs"])
           with open(os.environ["GITHUB_OUTPUT"], "a") as f:
-              f.write(f"indices={json.dumps(idx)}\n")
-              f.write(f"count={len(idx)}\n")
+              f.write(f"legs={json.dumps(legs)}\n")
+              f.write(f"count={len(m['jobs'])}\n")
+              f.write(f"chunked={chunked}\n")
               f.write(f"needs_pillow={str(needs_pillow).lower()}\n")
-          print(f"batch {bid}: {len(idx)} jobs -> indices {idx}")
+          print(f"batch {bid}: {len(m['jobs'])} jobs -> "
+                f"{len(legs)} legs (chunked={chunked})")
           PY
 
   run:
@@ -87,7 +96,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        index: ${{ fromJSON(needs.setup.outputs.indices) }}
+        leg: ${{ fromJSON(needs.setup.outputs.legs) }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
@@ -96,22 +105,30 @@ jobs:
       - name: Install Pillow (image_convert jobs only)
         if: needs.setup.outputs.needs_pillow == 'true'
         run: pip install --quiet "Pillow==11.0.0"
-      - name: Run one queued job
+      - name: Run one leg (a chunk of jobs, or one job in v1 manifests)
         env:
           BATCH_ID: ${{ inputs.batch_id }}
-          JOB_INDEX: ${{ matrix.index }}
+          LEG: ${{ matrix.leg }}
+          CHUNKED: ${{ needs.setup.outputs.chunked }}
         run: |
-          python3 tools/burst_runner.py \
-            --manifest "batches/${BATCH_ID}.json" \
-            --index "${JOB_INDEX}" \
-            --out "burst-result-${JOB_INDEX}.json" \
-            --workdir .
+          if [ "${CHUNKED}" = "true" ]; then
+            python3 tools/burst_runner.py \
+              --manifest "batches/${BATCH_ID}.json" \
+              --chunk "${LEG}" \
+              --workdir .
+          else
+            python3 tools/burst_runner.py \
+              --manifest "batches/${BATCH_ID}.json" \
+              --index "${LEG}" \
+              --out "burst-result-${LEG}.json" \
+              --workdir .
+          fi
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
-          name: burst-job-${{ inputs.batch_id }}-${{ matrix.index }}
+          name: burst-leg-${{ inputs.batch_id }}-${{ matrix.leg }}
           path: |
-            burst-result-${{ matrix.index }}.json
+            burst-result-*.json
             burst_out/
           if-no-files-found: error
           retention-days: 30
@@ -125,7 +142,7 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
-          pattern: burst-job-${{ inputs.batch_id }}-*
+          pattern: burst-leg-${{ inputs.batch_id }}-*
           merge-multiple: true
       - name: Build batch summary from result read-backs (reconciled)
         env:

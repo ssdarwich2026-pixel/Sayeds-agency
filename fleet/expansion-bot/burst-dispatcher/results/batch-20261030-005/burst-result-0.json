@@ -1,0 +1,22 @@
+{
+ "job_id": "foxrecon-004a",
+ "type": "hash_manifest",
+ "batch_id": "batch-20261030-005",
+ "index": 0,
+ "status": "ok",
+ "outputs": {
+  "files": 1,
+  "missing_patterns": [],
+  "manifest_file": "burst_out/foxrecon-004a/manifest.json",
+  "entries": [
+   {
+    "path": "tools/burst_data/2026-10-30/foxwatch-recon/RARES-MANIFEST.csv",
+    "sha256": "08ad41516c639040e51910b2d5e00083b265d6f3e032aa547788506dfc2113d5",
+    "bytes": 150495
+   }
+  ]
+ },
+ "metrics": {
+  "elapsed_s": 0.004
+ }
+}

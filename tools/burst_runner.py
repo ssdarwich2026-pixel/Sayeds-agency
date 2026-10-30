@@ -68,6 +68,24 @@ def validate_manifest(manifest):
             raise ValueError(f"job {jid}: unknown type {j.get('type')!r}")
         if not isinstance(j.get("params", {}), dict):
             raise ValueError(f"job {jid}: params must be an object")
+    chunks = manifest.get("chunks")
+    if chunks is not None:
+        # Manifest v2 (P12 chunked sharding): chunks partition the job
+        # list - every index in exactly one chunk, no empties.
+        if not isinstance(chunks, list) or not chunks \
+                or len(chunks) > MAX_JOBS:
+            raise ValueError("bad chunks list")
+        covered = []
+        for c in chunks:
+            idxs = c.get("job_indices") if isinstance(c, dict) else None
+            if not isinstance(idxs, list) or not idxs:
+                raise ValueError("chunk without job_indices")
+            for ix in idxs:
+                if not isinstance(ix, int) or not 0 <= ix < len(jobs):
+                    raise ValueError(f"chunk index out of range: {ix!r}")
+                covered.append(ix)
+        if sorted(covered) != list(range(len(jobs))):
+            raise ValueError("chunks must cover every job exactly once")
     return manifest
 
 
@@ -238,17 +256,42 @@ def run_one(manifest, index, workdir):
                 "metrics": {"elapsed_s": round(time.perf_counter() - t0, 3)}}
 
 
+def write_result(result, out):
+    # P7: atomic write - a killed runner never leaves a torn result.
+    tmp = f"{out}.tmp"
+    Path(tmp).write_text(json.dumps(result, indent=1))
+    os.replace(tmp, out)
+    print(json.dumps(result, indent=1))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--manifest", required=True)
-    ap.add_argument("--index", type=int, required=True)
+    ap.add_argument("--index", type=int, default=None)
+    ap.add_argument("--chunk", type=int, default=None,
+                    help="P12: run every job in this chunk of a v2 "
+                         "manifest, writing burst-result-<index>.json "
+                         "per job (the workflow's chunked mode)")
     ap.add_argument("--out", default=None)
     ap.add_argument("--workdir", default=".")
     args = ap.parse_args()
+    if (args.index is None) == (args.chunk is None):
+        print("INFRASTRUCTURE ERROR: pass exactly one of --index / "
+              "--chunk", file=sys.stderr)
+        return 2
     try:
         manifest = validate_manifest(
             json.loads(Path(args.manifest).read_text()))
-        if not 0 <= args.index < len(manifest["jobs"]):
+        if args.chunk is not None:
+            chunks = manifest.get("chunks")
+            if chunks is None:
+                raise ValueError("manifest has no chunks (v1) - "
+                                 "use --index")
+            if not 0 <= args.chunk < len(chunks):
+                raise ValueError(
+                    f"chunk {args.chunk} out of range "
+                    f"0..{len(chunks) - 1}")
+        elif not 0 <= args.index < len(manifest["jobs"]):
             raise ValueError(
                 f"index {args.index} out of range "
                 f"0..{len(manifest['jobs']) - 1}")
@@ -256,13 +299,17 @@ def main():
         print(f"INFRASTRUCTURE ERROR: cannot load manifest/index: {e}",
               file=sys.stderr)
         return 2
+    if args.chunk is not None:
+        # Sequential in-chunk execution: per-job results keep the
+        # exact v1 schema and filenames, so summary + ingest are
+        # unchanged. A bad job errors in its own result, never the
+        # chunk's (the failure model is per-JOB, never per-chunk).
+        for ix in manifest["chunks"][args.chunk]["job_indices"]:
+            result = run_one(manifest, ix, args.workdir)
+            write_result(result, f"burst-result-{ix}.json")
+        return 0
     result = run_one(manifest, args.index, args.workdir)
-    out = args.out or f"burst-result-{args.index}.json"
-    # P7: atomic write - a killed runner never leaves a torn result.
-    tmp = f"{out}.tmp"
-    Path(tmp).write_text(json.dumps(result, indent=1))
-    os.replace(tmp, out)
-    print(json.dumps(result, indent=1))
+    write_result(result, args.out or f"burst-result-{args.index}.json")
     return 0
 
 

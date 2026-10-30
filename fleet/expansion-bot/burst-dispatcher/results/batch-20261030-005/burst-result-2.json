@@ -1,0 +1,18 @@
+{
+ "job_id": "relist-004a",
+ "type": "text_pack",
+ "batch_id": "batch-20261030-005",
+ "index": 2,
+ "status": "ok",
+ "outputs": {
+  "records": 2,
+  "files": [
+   "burst_out/relist-004a/relist-00.txt",
+   "burst_out/relist-004a/relist-01.txt"
+  ],
+  "pack_file": "burst_out/relist-004a/pack.txt"
+ },
+ "metrics": {
+  "elapsed_s": 0.001
+ }
+}

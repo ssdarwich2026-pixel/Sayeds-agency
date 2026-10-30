@@ -102,6 +102,59 @@ def main():
             failures.append(f"gate-lost did not close on arrival: "
                             f"{final['gate-lost']}")
 
+        # PART 2 - the same properties under P12 chunked sharding:
+        # pack with chunks, run ONE chunk, ingest (the other chunk's
+        # jobs stay packed), run the second chunk, ingest (all close).
+        tmp2 = Path(tempfile.mkdtemp(prefix="burst-gate-chunk-"))
+        try:
+            for f in ("burst_state.py", "pack_batch.py",
+                      "ingest_results.py", "burst_runner.py"):
+                shutil.copy(HERE / f, tmp2 / f)
+            (tmp2 / "queue.jsonl").write_text("\n".join([
+                '{"id": "cg-1", "type": "text_pack", "lane": "any",'
+                ' "params": {"template": "A", "records": [{}]}}',
+                '{"id": "cg-2", "type": "text_pack", "lane": "any",'
+                ' "params": {"template": "B", "records": [{}]}}',
+                '{"id": "cg-3", "type": "text_pack", "lane": "any",'
+                ' "params": {"template": "C", "records": [{}]}}',
+            ]) + "\n")
+            ck2, q2, bid2 = (str(tmp2 / "ck.json"),
+                             str(tmp2 / "queue.jsonl"),
+                             "batch-20261030-425")
+            cli(tmp2 / "pack_batch.py", "--queue", q2, "--checkpoint",
+                ck2, "--repo", str(tmp2), "--n", "3", "--lane", "any",
+                "--chunk-size", "2", "--batch-id", bid2, cwd=tmp2)
+            man2 = json.loads((tmp2 / "batches" / f"{bid2}.json")
+                              .read_text())
+            if [c["job_indices"] for c in man2["chunks"]] != [[0, 1], [2]]:
+                failures.append(f"chunk layout wrong: {man2['chunks']}")
+            res2 = tmp2 / "results"
+            res2.mkdir()
+            cli(tmp2 / "burst_runner.py", "--manifest",
+                str(tmp2 / "batches" / f"{bid2}.json"), "--chunk", "0",
+                "--workdir", str(tmp2), cwd=res2)
+            cli(tmp2 / "ingest_results.py", "--batch-id", bid2,
+                "--results-dir", str(res2), "--queue", q2,
+                "--checkpoint", ck2, cwd=tmp2)
+            st2 = json.loads(Path(ck2).read_text())["jobs"]
+            if st2["cg-1"]["disposition"] != "completed" \
+                    or st2["cg-2"]["disposition"] != "completed":
+                failures.append(f"chunk 0 jobs not completed: {st2}")
+            if st2["cg-3"]["disposition"] != "packed":
+                failures.append(
+                    f"UNRUN CHUNK DID NOT STAY PACKED: {st2['cg-3']}")
+            cli(tmp2 / "burst_runner.py", "--manifest",
+                str(tmp2 / "batches" / f"{bid2}.json"), "--chunk", "1",
+                "--workdir", str(tmp2), cwd=res2)
+            cli(tmp2 / "ingest_results.py", "--batch-id", bid2,
+                "--results-dir", str(res2), "--queue", q2,
+                "--checkpoint", ck2, cwd=tmp2)
+            st2 = json.loads(Path(ck2).read_text())["jobs"]
+            if st2["cg-3"]["disposition"] != "completed":
+                failures.append(f"chunk 1 job did not close: {st2}")
+        finally:
+            shutil.rmtree(tmp2, ignore_errors=True)
+
         if failures:
             print("GATE FAIL:")
             for f in failures:
@@ -109,7 +162,8 @@ def main():
             return 1
         print("GATE PASS: missing stayed missing, duplicate receipts "
               "did not double-close, error closed with attempt, "
-              "late result closed honestly")
+              "late result closed honestly; chunked pipeline: unrun "
+              "chunk stayed packed, both chunks closed cleanly")
         return 0
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
