@@ -1,0 +1,470 @@
+{
+ "batch_seq": 4,
+ "batches": {
+  "batch-20261030-001": {
+   "created_at": "2026-10-30T12:54:13.859094+00:00",
+   "job_ids": [
+    "bench-001",
+    "img-001",
+    "hash-001",
+    "text-001",
+    "img-002",
+    "img-003",
+    "text-002"
+   ],
+   "manifest_repo_path": "/home/hatch/workspace/agency/batches/batch-20261030-001.json"
+  },
+  "batch-20261030-002": {
+   "created_at": "2026-10-30T13:16:05.714828+00:00",
+   "job_ids": [
+    "hash-002a",
+    "hash-002b",
+    "text-002a",
+    "bench-002"
+   ],
+   "manifest_repo_path": "/home/hatch/workspace/agency/batches/batch-20261030-002.json"
+  },
+  "batch-20261030-003": {
+   "created_at": "2026-10-30T13:36:34.914479+00:00",
+   "job_ids": [
+    "hash-003a",
+    "hash-003b",
+    "text-003a",
+    "bench-003"
+   ],
+   "manifest_repo_path": "/home/hatch/workspace/agency/batches/batch-20261030-003.json"
+  },
+  "batch-20261030-004": {
+   "created_at": "2026-10-30T16:34:06.106826+00:00",
+   "job_ids": [
+    "foxrecon-004a",
+    "foxrecon-004b",
+    "relist-004a"
+   ],
+   "manifest_repo_path": "/home/hatch/workspace/agency/batches/batch-20261030-004.json"
+  }
+ },
+ "jobs": {
+  "bench-001": {
+   "attempts": 0,
+   "batch_id": "batch-20261030-001",
+   "disposition": "completed",
+   "index": 0,
+   "note": null,
+   "result": {
+    "job_id": "bench-001",
+    "metrics": {
+     "elapsed_s": 0.217
+    },
+    "outputs": {
+     "digests_identical_across_iterations": true,
+     "first_digest_sha256": "61762675a9edcb944eb75e8707bfb1e704d9a2c308b49f86d4e5228206eb2fb0",
+     "result_file": "burst_out/bench-001/benchmark-result.json",
+     "tasks_per_min": 1758.65
+    },
+    "source": "github-actions-run-41059108501-ui-readback",
+    "status": "ok"
+   }
+  },
+  "bench-002": {
+   "attempts": 0,
+   "batch_id": "batch-20261030-002",
+   "disposition": "completed",
+   "index": 13,
+   "note": null,
+   "result": {
+    "job_id": "bench-002",
+    "metrics": {
+     "elapsed_s": 0.301
+    },
+    "outputs": {
+     "digests_identical_across_iterations": true,
+     "first_digest_sha256": "61762675a9edcb944eb75e8707bfb1e704d9a2c308b49f86d4e5228206eb2fb0",
+     "tasks_per_min": 1250.93
+    },
+    "source": "github-actions-run-41061970172-ui-readback",
+    "status": "ok"
+   }
+  },
+  "bench-003": {
+   "attempts": 0,
+   "batch_id": "batch-20261030-003",
+   "disposition": "completed",
+   "index": 17,
+   "note": null,
+   "result": {
+    "job_id": "bench-003",
+    "metrics": {
+     "elapsed_s": 0.3
+    },
+    "outputs": {
+     "digests_identical_across_iterations": true,
+     "first_digest_sha256": "61762675a9edcb944eb75e8707bfb1e704d9a2c308b49f86d4e5228206eb2fb0",
+     "tasks_per_min": 1222.86
+    },
+    "source": "github-actions-run-41064788974-ui-readback",
+    "status": "ok"
+   }
+  },
+  "bench-local-001": {
+   "attempts": 0,
+   "batch_id": "local-drain",
+   "disposition": "completed",
+   "index": 4,
+   "note": null,
+   "result": {
+    "batch_id": "local-drain",
+    "index": 4,
+    "job_id": "bench-local-001",
+    "metrics": {
+     "elapsed_s": 0.278
+    },
+    "outputs": {
+     "benchmark": {
+      "compressed_bytes_total": 3146706,
+      "digests_identical_across_iterations": true,
+      "elapsed_s": 0.161,
+      "first_digest_sha256": "2164589134a40a332583b24b3bc85550a561e38358bef7d0b8bed1fb0babf125",
+      "mb_per_s_processed": 18.61,
+      "peak_rss_mb_process": 20,
+      "tasks_per_min": 1116.62
+     },
+     "result_file": "burst_out/bench-local-001/benchmark-result.json"
+    },
+    "status": "ok",
+    "type": "benchmark"
+   }
+  },
+  "foxrecon-004a": {
+   "attempts": 0,
+   "batch_id": "batch-20261030-004",
+   "disposition": "packed",
+   "index": 18,
+   "note": null,
+   "packs": 1,
+   "result": null
+  },
+  "foxrecon-004b": {
+   "attempts": 0,
+   "batch_id": "batch-20261030-004",
+   "disposition": "packed",
+   "index": 19,
+   "note": null,
+   "packs": 1,
+   "result": null
+  },
+  "hash-001": {
+   "attempts": 0,
+   "batch_id": "batch-20261030-001",
+   "disposition": "completed",
+   "index": 3,
+   "note": null,
+   "result": {
+    "job_id": "hash-001",
+    "metrics": {
+     "elapsed_s": 0.001
+    },
+    "outputs": {
+     "files": 3,
+     "manifest_file": "burst_out/hash-001/manifest.json",
+     "missing_patterns": []
+    },
+    "source": "github-actions-run-41059108501-ui-readback",
+    "status": "ok"
+   }
+  },
+  "hash-002a": {
+   "attempts": 0,
+   "batch_id": "batch-20261030-002",
+   "disposition": "completed",
+   "index": 10,
+   "note": null,
+   "result": {
+    "job_id": "hash-002a",
+    "metrics": {
+     "elapsed_s": 0.003
+    },
+    "outputs": {
+     "files": 31,
+     "manifest_file": "burst_out/hash-002a/manifest.json",
+     "missing_patterns": []
+    },
+    "source": "github-actions-run-41061970172-ui-readback",
+    "status": "ok"
+   }
+  },
+  "hash-002b": {
+   "attempts": 0,
+   "batch_id": "batch-20261030-002",
+   "disposition": "completed",
+   "index": 11,
+   "note": null,
+   "result": {
+    "job_id": "hash-002b",
+    "metrics": {
+     "elapsed_s": 0.001
+    },
+    "outputs": {
+     "files": 2,
+     "manifest_file": "burst_out/hash-002b/manifest.json",
+     "missing_patterns": []
+    },
+    "source": "github-actions-run-41061970172-ui-readback",
+    "status": "ok"
+   }
+  },
+  "hash-003a": {
+   "attempts": 0,
+   "batch_id": "batch-20261030-003",
+   "disposition": "completed",
+   "index": 14,
+   "note": null,
+   "result": {
+    "job_id": "hash-003a",
+    "metrics": {
+     "elapsed_s": 0.003
+    },
+    "outputs": {
+     "files": 37,
+     "manifest_file": "burst_out/hash-003a/manifest.json",
+     "missing_patterns": []
+    },
+    "source": "github-actions-run-41064788974-ui-readback",
+    "status": "ok"
+   }
+  },
+  "hash-003b": {
+   "attempts": 0,
+   "batch_id": "batch-20261030-003",
+   "disposition": "completed",
+   "index": 15,
+   "note": null,
+   "result": {
+    "job_id": "hash-003b",
+    "metrics": {
+     "elapsed_s": 0.001
+    },
+    "outputs": {
+     "files": 1,
+     "manifest_file": "burst_out/hash-003b/manifest.json",
+     "missing_patterns": []
+    },
+    "source": "github-actions-run-41064788974-ui-readback",
+    "status": "ok"
+   }
+  },
+  "hash-local-001": {
+   "attempts": 0,
+   "batch_id": "local-drain",
+   "disposition": "completed",
+   "index": 7,
+   "note": null,
+   "result": {
+    "batch_id": "local-drain",
+    "index": 7,
+    "job_id": "hash-local-001",
+    "metrics": {
+     "elapsed_s": 0.001
+    },
+    "outputs": {
+     "entries": [
+      {
+       "bytes": 789,
+       "path": "tools/burst_samples/sample-gradient.png",
+       "sha256": "805d9e9456e0b7a58261dca214f70767c3b329195464eab07bcd705fdfc92f23"
+      }
+     ],
+     "files": 1,
+     "manifest_file": "burst_out/hash-local-001/manifest.json",
+     "missing_patterns": []
+    },
+    "status": "ok",
+    "type": "hash_manifest"
+   }
+  },
+  "img-001": {
+   "attempts": 0,
+   "batch_id": "batch-20261030-001",
+   "disposition": "completed",
+   "index": 2,
+   "note": null,
+   "result": {
+    "job_id": "img-001",
+    "metrics": {
+     "elapsed_s": 0.029
+    },
+    "outputs": {
+     "bytes_out": 2102,
+     "format": "jpg",
+     "output": "burst_out/img-001/sample-gradient.jpg",
+     "size_out": [
+      128,
+      96
+     ]
+    },
+    "source": "github-actions-run-41059108501-ui-readback",
+    "status": "ok"
+   }
+  },
+  "img-002": {
+   "attempts": 0,
+   "batch_id": "batch-20261030-001",
+   "disposition": "completed",
+   "index": 6,
+   "note": null,
+   "result": {
+    "job_id": "img-002",
+    "metrics": {
+     "elapsed_s": 0.032
+    },
+    "outputs": {
+     "bytes_out": 580,
+     "format": "webp",
+     "output": "burst_out/img-002/sample-gradient.webp",
+     "size_out": [
+      64,
+      48
+     ]
+    },
+    "source": "github-actions-run-41059108501-ui-readback",
+    "status": "ok"
+   }
+  },
+  "img-003": {
+   "attempts": 0,
+   "batch_id": "batch-20261030-001",
+   "disposition": "completed",
+   "index": 8,
+   "note": null,
+   "result": {
+    "job_id": "img-003",
+    "metrics": {
+     "elapsed_s": 0.028
+    },
+    "outputs": {
+     "bytes_out": 31236,
+     "format": "png",
+     "output": "burst_out/img-003/sample-photo.png",
+     "size_out": [
+      200,
+      150
+     ]
+    },
+    "source": "github-actions-run-41059108501-ui-readback",
+    "status": "ok"
+   }
+  },
+  "relist-004a": {
+   "attempts": 0,
+   "batch_id": "batch-20261030-004",
+   "disposition": "packed",
+   "index": 20,
+   "note": null,
+   "packs": 1,
+   "result": null
+  },
+  "text-001": {
+   "attempts": 0,
+   "batch_id": "batch-20261030-001",
+   "disposition": "completed",
+   "index": 5,
+   "note": null,
+   "result": {
+    "job_id": "text-001",
+    "metrics": {
+     "elapsed_s": 0.001
+    },
+    "outputs": {
+     "pack_file": "burst_out/text-001/pack.txt",
+     "records": 3
+    },
+    "source": "github-actions-run-41059108501-ui-readback",
+    "status": "ok"
+   }
+  },
+  "text-002": {
+   "attempts": 0,
+   "batch_id": "batch-20261030-001",
+   "disposition": "completed",
+   "index": 9,
+   "note": null,
+   "result": {
+    "job_id": "text-002",
+    "metrics": {
+     "elapsed_s": 0.0
+    },
+    "outputs": {
+     "pack_file": "burst_out/text-002/pack.txt",
+     "records": 2
+    },
+    "source": "github-actions-run-41059108501-ui-readback",
+    "status": "ok"
+   }
+  },
+  "text-002a": {
+   "attempts": 0,
+   "batch_id": "batch-20261030-002",
+   "disposition": "completed",
+   "index": 12,
+   "note": null,
+   "result": {
+    "job_id": "text-002a",
+    "metrics": {
+     "elapsed_s": 0.004
+    },
+    "outputs": {
+     "pack_file": "burst_out/text-002a/pack.txt",
+     "records": 32
+    },
+    "source": "github-actions-run-41061970172-ui-readback",
+    "status": "ok"
+   }
+  },
+  "text-003a": {
+   "attempts": 0,
+   "batch_id": "batch-20261030-003",
+   "disposition": "completed",
+   "index": 16,
+   "note": null,
+   "result": {
+    "job_id": "text-003a",
+    "metrics": {
+     "elapsed_s": 0.004
+    },
+    "outputs": {
+     "pack_file": "burst_out/text-003a/pack.txt",
+     "records": 4
+    },
+    "source": "github-actions-run-41064788974-ui-readback",
+    "status": "ok"
+   }
+  },
+  "text-local-001": {
+   "attempts": 0,
+   "batch_id": "local-drain",
+   "disposition": "completed",
+   "index": 1,
+   "note": null,
+   "result": {
+    "batch_id": "local-drain",
+    "index": 1,
+    "job_id": "text-local-001",
+    "metrics": {
+     "elapsed_s": 0.004
+    },
+    "outputs": {
+     "files": [
+      "burst_out/text-local-001/local-00.txt",
+      "burst_out/text-local-001/local-01.txt"
+     ],
+     "pack_file": "burst_out/text-local-001/pack.txt",
+     "records": 2
+    },
+    "status": "ok",
+    "type": "text_pack"
+   }
+  }
+ },
+ "next_unprocessed_index": 18,
+ "version": 1
+}

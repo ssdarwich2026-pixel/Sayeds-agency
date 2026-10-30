@@ -1,0 +1,61 @@
+{
+ "batch_id": "batch-20261030-004",
+ "created_at": "2026-10-30T16:34:06.106826+00:00",
+ "created_by": "pack_batch.py",
+ "lane": "burst",
+ "count": 3,
+ "jobs": [
+  {
+   "id": "foxrecon-004a",
+   "type": "hash_manifest",
+   "params": {
+    "paths": [
+     "tools/burst_data/2026-10-30/foxwatch-recon/RARES-MANIFEST.csv"
+    ],
+    "require_all": true
+   },
+   "created_by": "phase4-burst-all-projects",
+   "priority": 1,
+   "lane": "burst"
+  },
+  {
+   "id": "foxrecon-004b",
+   "type": "hash_manifest",
+   "params": {
+    "paths": [
+     "tools/burst_data/2026-10-30/foxwatch-recon/pack1-captions.md",
+     "tools/burst_data/2026-10-30/foxwatch-recon/pack2-captions.md"
+    ],
+    "require_all": true
+   },
+   "created_by": "phase4-burst-all-projects",
+   "priority": 1,
+   "lane": "burst"
+  },
+  {
+   "id": "relist-004a",
+   "type": "text_pack",
+   "params": {
+    "template": "RE-LIST PREP: {listing} | price {price} | current order lapses {lapse} | ACTION: re-list signature-only AFTER lapse, same price, +6-month standard (new expiry ~{newexpiry}) | NEVER cancel early - cancel is a paid on-chain tx and is barred",
+    "records": [
+     {
+      "listing": "Scout (OG Rarible)",
+      "price": "0.05 ETH",
+      "lapse": "~2026-11-05",
+      "newexpiry": "2027-05-05"
+     },
+     {
+      "listing": "Archivist (OG Rarible, ERC-1155 editions)",
+      "price": "0.0001 ETH",
+      "lapse": "~2026-11-07/08",
+      "newexpiry": "2027-05-07"
+     }
+    ],
+    "file_pattern": "relist-{i:02d}.txt"
+   },
+   "created_by": "phase4-burst-all-projects",
+   "priority": 1,
+   "lane": "burst"
+  }
+ ]
+}
