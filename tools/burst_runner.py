@@ -44,7 +44,9 @@ def validate_manifest(manifest):
     if not isinstance(manifest, dict):
         raise ValueError("manifest is not an object")
     bid = manifest.get("batch_id")
-    if not isinstance(bid, str) or not BATCH_ID_RE.match(bid):
+    # "local-drain" is drain_local.py's reserved pseudo-batch id.
+    if not isinstance(bid, str) or not (BATCH_ID_RE.match(bid)
+                                        or bid == "local-drain"):
         raise ValueError(f"bad batch_id: {bid!r}")
     jobs = manifest.get("jobs")
     if not isinstance(jobs, list) or not jobs:
@@ -70,7 +72,14 @@ def validate_manifest(manifest):
 
 
 def out_dir(workdir, job_id):
-    d = Path(workdir) / "burst_out" / job_id
+    # P9 (strengthened per 82 reverify): containment is resolved BEFORE
+    # any filesystem operation, and resolve() covers symlink escapes,
+    # not just ".." and absolutes. Checked here, at the single choke
+    # point every file-producing handler passes through.
+    root = (Path(workdir) / "burst_out").resolve()
+    d = (root / job_id).resolve()
+    if not d.is_relative_to(root):
+        raise ValueError(f"job id escapes burst_out: {job_id!r}")
     d.mkdir(parents=True, exist_ok=True)
     return d
 
@@ -133,11 +142,14 @@ def job_hash_manifest(job, workdir):
     p = job.get("params", {})
     entries, missing = [], []
     seen = set()
+    wd = Path(workdir).resolve()
     for pat in p["paths"]:
         matched_files = 0
         for f in sorted(glob.glob(str(Path(workdir) / pat), recursive=True)):
             fp = Path(f)
-            if fp.is_file() and str(fp) not in seen:
+            # P9: never read through a symlink that escapes the workdir.
+            if fp.is_file() and str(fp) not in seen \
+                    and fp.resolve().is_relative_to(wd):
                 seen.add(str(fp))
                 matched_files += 1
                 h = hashlib.sha256(fp.read_bytes()).hexdigest()
@@ -196,6 +208,11 @@ HANDLERS = {"benchmark": job_benchmark, "image_convert": job_image_convert,
 
 
 def run_one(manifest, index, workdir):
+    # P4 (per 82 reverify): the runner validates its manifest itself -
+    # workflow-side validation alone doesn't count, and drain_local.py
+    # calls run_one directly. A structural problem raises here (loud,
+    # infrastructural) instead of surfacing as a fake per-item error.
+    validate_manifest(manifest)
     job = manifest["jobs"][index]
     t0 = time.perf_counter()
     base = {"job_id": job["id"], "type": job["type"],
