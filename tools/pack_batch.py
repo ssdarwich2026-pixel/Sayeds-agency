@@ -66,15 +66,33 @@ def main():
 
     if args.release_packed:
         bid = args.release_packed
-        released = []
+        released, poisoned = [], []
         for jid, rec in ckpt["jobs"].items():
             if rec["disposition"] == "packed" and rec["batch_id"] == bid:
+                if rec.get("packs", 0) >= bs.MAX_ATTEMPTS:
+                    # Poison-job guard: packed MAX_ATTEMPTS times, never
+                    # produced a result - its leg dies deterministically
+                    # before writing one (OOM/timeout), so ingest could
+                    # never increment attempts. Terminal, loudly noted.
+                    rec["disposition"] = "error"
+                    rec["attempts"] = bs.MAX_ATTEMPTS
+                    rec["batch_id"] = None
+                    rec["note"] = (
+                        f"poison-job guard: packed {rec.get('packs', 0)}x "
+                        f"with no result ever read back (last in {bid}) - "
+                        f"leg dies before writing a result; terminal")
+                    poisoned.append(jid)
+                    continue
                 rec["disposition"] = "pending"
                 rec["batch_id"] = None
                 rec["note"] = f"released from {bid} by reconcile pass"
                 released.append(jid)
         bs.save_checkpoint(args.checkpoint, ckpt)
         print(f"released {len(released)} packed jobs from {bid}: {released}")
+        if poisoned:
+            print(f"POISON-JOB GUARD: {len(poisoned)} jobs marked "
+                  f"terminal-error (packed {bs.MAX_ATTEMPTS}x, no result): "
+                  f"{poisoned}")
         print("checkpoint counts:", bs.counts(ckpt),
               "| next_unprocessed_index:", ckpt["next_unprocessed_index"])
         return 0
@@ -121,6 +139,7 @@ def main():
         rec = ckpt["jobs"][job["id"]]
         rec["disposition"] = "packed"
         rec["batch_id"] = batch_id
+        rec["packs"] = rec.get("packs", 0) + 1
         rec["note"] = None
     ckpt["batches"][batch_id] = {
         "created_at": manifest["created_at"],

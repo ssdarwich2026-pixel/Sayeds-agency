@@ -60,7 +60,8 @@ def load_checkpoint(ckpt_path, jobs):
         if job["id"] not in known:
             ckpt["jobs"][job["id"]] = {
                 "index": job["_index"], "disposition": "pending",
-                "batch_id": None, "attempts": 0, "note": None, "result": None,
+                "batch_id": None, "attempts": 0, "packs": 0,
+                "note": None, "result": None,
             }
     refresh_next_index(ckpt)
     return ckpt
@@ -87,9 +88,14 @@ def is_terminal(rec):
 
 
 def is_packable(rec):
-    """A job may be (re)packed iff it never landed and still has retries."""
+    """A job may be (re)packed iff it never landed and still has retries.
+    Poison-job guard (2026-10-30, round-table find): a job packed
+    MAX_ATTEMPTS times with no result ever read back is NOT packable -
+    its leg dies before writing a result (OOM/timeout), so ingest can
+    never bump its attempts; without this guard release+repack loops
+    forever. pack_batch.py marks such jobs terminal-error on release."""
     if rec["disposition"] == "pending":
-        return True
+        return rec.get("packs", 0) < MAX_ATTEMPTS
     if rec["disposition"] == "error" and rec["attempts"] < MAX_ATTEMPTS:
         return True
     return False
