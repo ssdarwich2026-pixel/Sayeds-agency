@@ -1,0 +1,38 @@
+{
+ "batch_id": "batch-20261103-008",
+ "created_at": "2026-11-03T01:06:02.914716+00:00",
+ "created_by": "pack_batch.py",
+ "lane": "burst",
+ "count": 1,
+ "jobs": [
+  {
+   "id": "render-rr03-rogers",
+   "type": "render",
+   "params": {
+    "manifest": "tools/burst_data/renders/rr-03-rogers/manifest.json",
+    "voice": "tools/burst_data/renders/rr-03-rogers/voice.mp3",
+    "font_bold": "tools/burst_data/fonts/DejaVuSans-Bold.ttf",
+    "font_regular": "tools/burst_data/fonts/DejaVuSans.ttf",
+    "min_duration_s": 480,
+    "loudnorm": true,
+    "story_id": "rr-03-rogers",
+    "edition_id": "flagship",
+    "channel_job_id": "flagship:rr-03-rogers",
+    "channel_id": "UCrcxYcaqDjlTQJBaM6CADow",
+    "channel_name": "Current Bureau (flagship)"
+   },
+   "created_by": "burst-render-lane-2026-11-02",
+   "priority": 1,
+   "lane": "burst",
+   "heavy": true
+  }
+ ],
+ "chunks": [
+  {
+   "chunk": 0,
+   "job_indices": [
+    0
+   ]
+  }
+ ]
+}

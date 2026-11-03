@@ -15,6 +15,18 @@ Job types (v1 - all in-repo inputs, no network, no external APIs):
   hash_manifest - sha256 + size for a set of in-repo files/globs.
   text_pack     - deterministic text generation from a template and
                   a list of records (captions, cards, packs).
+  render        - Current Bureau video render (v2, 2026-11-02): a
+                  faithful port of dayfile/build-dayfile.py's recipe
+                  minus its VM-side TTS step - narration audio is a
+                  pre-generated in-repo input (the TruthTeller voice
+                  service lives on the VM and cannot run here; a job
+                  without narration in hand is not burst-ready).
+                  Footage may be in-repo files (small fixtures) or
+                  public URLs the runner downloads. One sequential
+                  encode chain per job (parallelism comes from the
+                  matrix, never concurrent encodes inside a job -
+                  the Spotlight EP-1 corruption lesson). Outputs the
+                  finished mp4 + SRT + thumbnail + measurements.
 
 Failure model (checkpointed-bulk-operations):
   - A job that itself fails -> result JSON with status "error" and
@@ -226,8 +238,322 @@ def job_text_pack(job, workdir):
             "pack_file": str(pack.relative_to(workdir))}
 
 
+# ---------------------------------------------------------------------
+# render (v2) - port of dayfile/build-dayfile.py, TTS replaced by a
+# pre-generated narration input. Helpers mirror the builder's own so
+# burst output matches the VM press's masters (same zoompan clips,
+# same proportional SRT allocator, same drawtext assembly, plus the
+# loudnorm normalization pass the press applies to its long masters).
+# ---------------------------------------------------------------------
+
+def _sh(cmd, timeout=1800, **kw):
+    r = subprocess.run(cmd, capture_output=True, text=True,
+                       timeout=timeout, **kw)
+    if r.returncode != 0:
+        raise RuntimeError(
+            f"FAILED: {' '.join(str(c) for c in cmd)}\n{r.stderr[-2000:]}")
+    return r
+
+
+def _probe_dur(ffprobe, path):
+    out = _sh([ffprobe, "-v", "error", "-show_entries", "format=duration",
+               "-of", "default=noprint_wrappers=1:nokey=1", str(path)])
+    return float(out.stdout.strip())
+
+
+def _repo_file(workdir, rel):
+    """Contained in-repo input (same rule as image_convert's input)."""
+    src = (Path(workdir) / rel).resolve()
+    if not src.is_relative_to(Path(workdir).resolve()):
+        raise ValueError(f"input escapes workdir: {rel}")
+    if not src.exists():
+        raise FileNotFoundError(f"input not in repo: {rel}")
+    return src
+
+
+def _esc(t):
+    return t.replace("\\", "\\\\").replace(":", "\\:") \
+            .replace("'", "").replace(",", "\\,")
+
+
+def _split_sentences(text):
+    parts = re.split(r"(?<=[.!?])\s+", text.strip())
+    return [p.strip() for p in parts if p.strip()]
+
+
+def _wrap_cue(sentence, width=42):
+    words, lines, cur = sentence.split(), [], ""
+    for w in words:
+        if len(cur) + len(w) + 1 <= width:
+            cur = (cur + " " + w).strip()
+        else:
+            lines.append(cur)
+            cur = w
+    if cur:
+        lines.append(cur)
+    cues, buf = [], []
+    for ln in lines:
+        buf.append(ln)
+        if len(buf) == 2:
+            cues.append("\n".join(buf))
+            buf = []
+    if buf:
+        cues.append("\n".join(buf))
+    return cues
+
+
+def _srt_time(s):
+    h, rem = divmod(int(s), 3600)
+    mi, sec = divmod(rem, 60)
+    ms = int(round((s - int(s)) * 1000))
+    return f"{h:02d}:{mi:02d}:{sec:02d},{ms:03d}"
+
+
+def _make_srt(script, total_dur, path):
+    cues = []
+    for sent in _split_sentences(script):
+        cues.extend(_wrap_cue(sent))
+    total_chars = sum(len(c) for c in cues) or 1
+    t, out, idx = 0.4, [], 1
+    for c in cues:
+        d = max(1.2, total_dur * len(c) / total_chars)
+        out.append(f"{idx}\n{_srt_time(t)} --> {_srt_time(t + d)}\n{c}\n")
+        t += d + 0.15
+        idx += 1
+    Path(path).write_text("\n".join(out))
+    return path
+
+
+def _loudnorm_measure(ffmpeg, path):
+    """Integrated loudness / true peak of a file via loudnorm analysis.
+    Returns (input_i, input_tp) as floats, or (None, None)."""
+    r = subprocess.run(
+        [ffmpeg, "-v", "info", "-vn", "-i", str(path), "-af",
+         "loudnorm=I=-14:TP=-1.5:LRA=11:print_format=json",
+         "-f", "null", "-"], capture_output=True, text=True, timeout=1800)
+    blocks = re.findall(r"\{[^{}]*\"input_i\"[^{}]*\}", r.stderr)
+    if not blocks:
+        return None, None
+    try:
+        d = json.loads(blocks[-1])
+        return float(d["input_i"]), float(d["input_tp"])
+    except Exception:
+        return None, None
+
+
+def job_render(job, workdir):
+    import shutil
+    import urllib.request
+    p = job.get("params", {})
+    wd = Path(workdir)
+    ffmpeg = shutil.which("ffmpeg")
+    ffprobe = shutil.which("ffprobe")
+    if not ffmpeg or not ffprobe:
+        raise RuntimeError("ffmpeg/ffprobe not on PATH on this runner")
+    manifest = json.loads(_repo_file(wd, p["manifest"]).read_text())
+    item_id = manifest["id"]
+    fmt = manifest.get("format", "landscape")
+    is_short = fmt in ("short", "short45")
+    is_short45 = fmt == "short45"
+    VW, VH = (1080, 1920) if is_short else (1920, 1080)
+    font_b = str(_repo_file(
+        wd, p.get("font_bold", "tools/burst_data/fonts/DejaVuSans-Bold.ttf")))
+    font_r = str(_repo_file(
+        wd, p.get("font_regular", "tools/burst_data/fonts/DejaVuSans.ttf")))
+    AMBER = "0xE8A33D"
+    d = out_dir(wd, job["id"])
+    work = d / "_work"
+    work.mkdir(parents=True, exist_ok=True)
+
+    # 1. narration (pre-generated on the VM press; never synthesized here)
+    voice = work / "voice.mp3"
+    shutil.copyfile(_repo_file(wd, p["voice"]), voice)
+    adur = _probe_dur(ffprobe, voice)
+    target = 43.0 if is_short45 else (57.5 if is_short else None)
+    if target and adur > target:
+        factor = adur / target
+        tmp = work / "voice_fast.mp3"
+        _sh([ffmpeg, "-y", "-v", "error", "-i", str(voice), "-filter:a",
+             f"atempo={factor:.3f}", "-b:a", "128k", str(tmp)])
+        os.replace(tmp, voice)
+        adur = _probe_dur(ffprobe, voice)
+
+    # 2. footage: in-repo file or public URL; stills become 6 s
+    #    slow-zoom clips; video clips normalized + capped at 300 s.
+    clips = []
+    for i, ft in enumerate(manifest["footage"]):
+        url = ft["url"]
+        raw = work / f"clip{i}_raw"
+        norm = work / f"clip{i}_norm.mp4"
+        if re.match(r"^https?://", url):
+            req = urllib.request.Request(
+                url, headers={"User-Agent": "Mozilla/5.0 (DayFile/1.0)"})
+            with urllib.request.urlopen(req, timeout=120) as r, \
+                    open(raw, "wb") as f:
+                while True:
+                    chunk = r.read(1 << 20)
+                    if not chunk:
+                        break
+                    f.write(chunk)
+            if raw.stat().st_size < 1024:
+                raise RuntimeError(f"download too small: {url}")
+        else:
+            shutil.copyfile(_repo_file(wd, url), raw)
+        if re.search(r"\.(jpe?g|png|webp|gif)(\?|$)", url, re.I):
+            _sh([ffmpeg, "-y", "-v", "error", "-loop", "1", "-i", str(raw),
+                 "-vf", f"scale={VW}:{VH}:force_original_aspect_ratio="
+                        f"increase,crop={VW}:{VH},"
+                        f"zoompan=z='min(zoom+0.0012,1.12)':d=180:"
+                        f"x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':"
+                        f"s={VW}x{VH}:fps=30",
+                 "-t", "6", "-c:v", "libx264", "-pix_fmt", "yuv420p",
+                 "-preset", "veryfast", str(norm)], timeout=1200)
+        else:
+            _sh([ffmpeg, "-y", "-v", "error", "-i", str(raw),
+                 "-vf", f"scale={VW}:{VH}:force_original_aspect_ratio="
+                        f"increase,crop={VW}:{VH},fps=30",
+                 "-t", "300", "-c:v", "libx264", "-pix_fmt", "yuv420p",
+                 "-preset", "veryfast", "-c:a", "aac", "-b:a", "128k",
+                 str(norm)], timeout=3600)
+        clips.append(norm)
+
+    # 3. video track: concat clips, looped to cover the narration
+    total_clip = sum(_probe_dur(ffprobe, c) for c in clips)
+    reps = max(1, int(adur // total_clip) + 1)
+    lst = work / "concat.txt"
+    with open(lst, "w") as f:
+        for _ in range(reps):
+            for c in clips:
+                f.write(f"file '{c}'\n")
+    vtrack = work / "vtrack.mp4"
+    _sh([ffmpeg, "-y", "-v", "error", "-f", "concat", "-safe", "0",
+         "-i", str(lst), "-c", "copy", str(vtrack)], timeout=1200)
+
+    # 4. subtitles (the builder's proportional allocator)
+    srt = d / f"{item_id}.srt"
+    _make_srt(manifest["script"], adur, srt)
+    fsize = 30 if is_short else 24
+    sub_style = (
+        f"FontName=DejaVu Sans,FontSize={fsize},"
+        f"PrimaryColour=&H00FFFFFF,OutlineColour=&H90000000,"
+        f"BackColour=&H90000000,BorderStyle=1,Outline=2,Shadow=1,"
+        f"MarginV={120 if is_short else 70},Alignment=2")
+
+    # 5. assembly encode (single encode; bug + captions + title card)
+    bug_fs = 30 if is_short else 26
+    card_fs = 54 if is_short else 64
+    vf = (f"drawtext=fontfile={font_b}:text='DAY FILE':"
+          f"fontcolor={AMBER}:fontsize={bug_fs}:x=w-text_w-30:y=30:"
+          f"box=1:boxcolor=0x000000@0.55:boxborderw=12,"
+          f"subtitles={srt}:force_style='{sub_style}'")
+    if manifest.get("title_card"):
+        tc = _esc(manifest["title_card"])
+        cy = 1500 if is_short else 880
+        card_dur = 3 if is_short45 else 7
+        vf += (f",drawtext=fontfile={font_b}:text='{tc}':"
+               f"fontcolor=white:fontsize={card_fs}:x=(w-text_w)/2:y={cy}:"
+               f"box=1:boxcolor=0x000000@0.6:boxborderw=20:"
+               f"enable='lt(t,{card_dur})'")
+    assembly = work / "assembly.mp4"
+    _sh([ffmpeg, "-y", "-v", "error", "-i", str(vtrack), "-i", str(voice),
+         "-vf", vf, "-c:v", "libx264", "-pix_fmt", "yuv420p",
+         "-preset", "veryfast", "-c:a", "aac", "-b:a", "160k",
+         "-t", f"{adur + 1.5:.2f}", "-shortest", str(assembly)],
+        timeout=5400)
+
+    # 6. loudnorm normalization pass (the press's long-master step):
+    #    measure, then a linear loudnorm remux to I=-14 / TP=-1.0.
+    final = d / f"{item_id}.mp4"
+    loudnorm_mode = "skipped"
+    if p.get("loudnorm", True):
+        mi, mtp = _loudnorm_measure(ffmpeg, assembly)
+        applied = False
+        if mi is not None:
+            ln = (f"loudnorm=I=-14:TP=-1.5:LRA=11:"
+                  f"measured_I={mi}:measured_TP={mtp}:"
+                  f"measured_LRA=11:measured_thresh=-25:"
+                  f"offset=0:linear=true")
+            r = subprocess.run(
+                [ffmpeg, "-y", "-v", "error", "-i", str(assembly),
+                 "-c:v", "copy", "-af", ln, "-c:a", "aac", "-b:a", "160k",
+                 "-ar", "48000", str(final)],
+                capture_output=True, text=True, timeout=3600)
+            applied = r.returncode == 0 and final.exists()
+            loudnorm_mode = "linear" if applied else "dynamic-fallback"
+        if not applied:
+            _sh([ffmpeg, "-y", "-v", "error", "-i", str(assembly),
+                 "-c:v", "copy", "-af", "loudnorm=I=-14:TP=-1.5:LRA=11",
+                 "-c:a", "aac", "-b:a", "160k", "-ar", "48000", str(final)],
+                timeout=3600)
+            loudnorm_mode = "dynamic" if mi is not None else \
+                "single-pass-unmeasured"
+    else:
+        shutil.copyfile(assembly, final)
+
+    # 7. thumbnail (builder's make_thumb: frame at 25% + PIL composite)
+    from PIL import Image, ImageDraw, ImageFont, ImageEnhance
+    import textwrap as _tw
+    frame = work / "thumb_frame.jpg"
+    _sh([ffmpeg, "-y", "-v", "error", "-ss", f"{adur * 0.25:.1f}",
+         "-i", str(final), "-frames:v", "1", str(frame)])
+    W2, H2 = 1280, 720
+    if frame.exists():
+        img = Image.open(frame).convert("RGB").resize((W2, H2),
+                                                      Image.LANCZOS)
+        img = ImageEnhance.Brightness(img).enhance(0.45)
+    else:
+        img = Image.new("RGB", (W2, H2), (10, 22, 51))
+    dr = ImageDraw.Draw(img)
+    fb = ImageFont.truetype(font_b, 40)
+    dr.text((48, 36), "DAY FILE", font=fb, fill=(232, 163, 61))
+    dr.line([(48, 92), (240, 92)], fill=(232, 163, 61), width=5)
+    fbig = ImageFont.truetype(font_b, 92)
+    y = 200
+    for line in _tw.wrap(manifest.get("thumb_headline", ""), width=18)[:3]:
+        dr.text((48, y), line, font=fbig, fill=(255, 255, 255),
+                stroke_width=3, stroke_fill=(0, 0, 0))
+        y += 112
+    if manifest.get("thumb_sub"):
+        fs = ImageFont.truetype(font_b, 44)
+        dr.text((48, y + 20), manifest["thumb_sub"], font=fs,
+                fill=(232, 163, 61), stroke_width=2, stroke_fill=(0, 0, 0))
+    thumb = d / f"{item_id}-thumb.jpg"
+    img.save(thumb, quality=90)
+
+    # 8. measure + duration floor (longs: >= 480 s, builder has no floor;
+    #    the floor is a job parameter and failing it is an item error)
+    duration = _probe_dur(ffprobe, final)
+    floor = p.get("min_duration_s")
+    if floor and duration < float(floor):
+        raise RuntimeError(
+            f"duration floor: measured {duration:.1f}s < {floor}s")
+    lufs, tp = _loudnorm_measure(ffmpeg, final)
+    h = hashlib.sha256()
+    with open(final, "rb") as f:
+        for chunk in iter(lambda: f.read(1 << 22), b""):
+            h.update(chunk)
+    outputs = {
+        "item_id": item_id, "format": fmt,
+        "video_file": str(final.relative_to(wd)),
+        "srt_file": str(srt.relative_to(wd)),
+        "thumb_file": str(thumb.relative_to(wd)),
+        "duration_s": round(duration, 2),
+        "voice_duration_s": round(adur, 2),
+        "loudness_lufs": lufs, "true_peak_db": tp,
+        "loudnorm_mode": loudnorm_mode,
+        "sha256": h.hexdigest(), "bytes": final.stat().st_size,
+        "story_id": p.get("story_id"), "edition_id": p.get("edition_id"),
+        "channel_job_id": p.get("channel_job_id"),
+        "channel_id": p.get("channel_id"),
+        "channel_name": p.get("channel_name"),
+    }
+    shutil.rmtree(work, ignore_errors=True)
+    return outputs
+
+
 HANDLERS = {"benchmark": job_benchmark, "image_convert": job_image_convert,
-            "hash_manifest": job_hash_manifest, "text_pack": job_text_pack}
+            "hash_manifest": job_hash_manifest, "text_pack": job_text_pack,
+            "render": job_render}
 
 
 def run_one(manifest, index, workdir):

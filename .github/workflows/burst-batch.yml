@@ -56,6 +56,7 @@ jobs:
       count: ${{ steps.manifest.outputs.count }}
       chunked: ${{ steps.manifest.outputs.chunked }}
       needs_pillow: ${{ steps.manifest.outputs.needs_pillow }}
+      needs_ffmpeg: ${{ steps.manifest.outputs.needs_ffmpeg }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - id: manifest
@@ -79,12 +80,14 @@ jobs:
           else:
               legs = list(range(len(m["jobs"])))
               chunked = "false"
-          needs_pillow = any(j["type"] == "image_convert" for j in m["jobs"])
+          needs_pillow = any(j["type"] in ("image_convert", "render") for j in m["jobs"])
+          needs_ffmpeg = any(j["type"] == "render" for j in m["jobs"])
           with open(os.environ["GITHUB_OUTPUT"], "a") as f:
               f.write(f"legs={json.dumps(legs)}\n")
               f.write(f"count={len(m['jobs'])}\n")
               f.write(f"chunked={chunked}\n")
               f.write(f"needs_pillow={str(needs_pillow).lower()}\n")
+              f.write(f"needs_ffmpeg={str(needs_ffmpeg).lower()}\n")
           print(f"batch {bid}: {len(m['jobs'])} jobs -> "
                 f"{len(legs)} legs (chunked={chunked})")
           PY
@@ -92,7 +95,7 @@ jobs:
   run:
     needs: setup
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 120
     strategy:
       fail-fast: false
       matrix:
@@ -105,6 +108,14 @@ jobs:
       - name: Install Pillow (image_convert jobs only)
         if: needs.setup.outputs.needs_pillow == 'true'
         run: pip install --quiet "Pillow==11.0.0"
+      - name: Install ffmpeg (render jobs only, if missing)
+        if: needs.setup.outputs.needs_ffmpeg == 'true'
+        run: |
+          if ! command -v ffmpeg >/dev/null 2>&1; then
+            sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          fi
+          ffmpeg -version | head -1
+          fc-list | grep -ci dejavu || true
       - name: Run one leg (a chunk of jobs, or one job in v1 manifests)
         env:
           BATCH_ID: ${{ inputs.batch_id }}

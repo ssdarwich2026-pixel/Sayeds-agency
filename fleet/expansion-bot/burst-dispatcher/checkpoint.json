@@ -1,5 +1,5 @@
 {
- "batch_seq": 5,
+ "batch_seq": 8,
  "batches": {
   "batch-20261030-001": {
    "created_at": "2026-10-30T12:54:13.859094+00:00",
@@ -51,6 +51,37 @@
     "relist-004a"
    ],
    "manifest_repo_path": "/home/hatch/workspace/agency/batches/batch-20261030-005.json"
+  },
+  "batch-20261031-006": {
+   "created_at": "2026-10-31T00:53:24.283211+00:00",
+   "job_ids": [
+    "bench-006-s0",
+    "bench-006-s1",
+    "bench-006-s2",
+    "bench-006-s3",
+    "bench-006-s4",
+    "bench-006-s5",
+    "bench-006-s6",
+    "bench-006-s7",
+    "t2pack-006-hash",
+    "t1audit-006-hash",
+    "t1audit-006-text"
+   ],
+   "manifest_repo_path": "/home/hatch/workspace/agency/batches/batch-20261031-006.json"
+  },
+  "batch-20261031-007": {
+   "created_at": "2026-10-31T00:54:47.745046+00:00",
+   "job_ids": [
+    "t2pack-006-hash"
+   ],
+   "manifest_repo_path": "/home/hatch/workspace/agency/batches/batch-20261031-007.json"
+  },
+  "batch-20261103-008": {
+   "created_at": "2026-11-03T01:06:02.914716+00:00",
+   "job_ids": [
+    "render-rr03-rogers"
+   ],
+   "manifest_repo_path": "/home/hatch/workspace/agency/batches/batch-20261103-008.json"
   }
  },
  "jobs": {
@@ -113,6 +144,246 @@
     },
     "source": "github-actions-run-41064788974-ui-readback",
     "status": "ok"
+   }
+  },
+  "bench-006-s0": {
+   "attempts": 0,
+   "batch_id": "batch-20261031-006",
+   "disposition": "completed",
+   "index": 21,
+   "note": null,
+   "packs": 1,
+   "result": {
+    "batch_id": "batch-20261031-006",
+    "index": 0,
+    "job_id": "bench-006-s0",
+    "metrics": {
+     "elapsed_s": 12.031
+    },
+    "outputs": {
+     "benchmark": {
+      "compressed_bytes_total": 104889720,
+      "digests_identical_across_iterations": true,
+      "elapsed_s": 11.703,
+      "first_digest_sha256": "18f1820eec3ec88edf6850ff420c1cc60509f48ec1ed179c42a5eb8c9d8ccd1a",
+      "mb_per_s_processed": 8.55,
+      "peak_rss_mb_process": 36,
+      "tasks_per_min": 102.54
+     },
+     "result_file": "burst_out/bench-006-s0/benchmark-result.json"
+    },
+    "status": "ok",
+    "type": "benchmark"
+   }
+  },
+  "bench-006-s1": {
+   "attempts": 0,
+   "batch_id": "batch-20261031-006",
+   "disposition": "completed",
+   "index": 22,
+   "note": null,
+   "packs": 1,
+   "result": {
+    "batch_id": "batch-20261031-006",
+    "index": 1,
+    "job_id": "bench-006-s1",
+    "metrics": {
+     "elapsed_s": 12.044
+    },
+    "outputs": {
+     "benchmark": {
+      "compressed_bytes_total": 104889720,
+      "digests_identical_across_iterations": true,
+      "elapsed_s": 11.766,
+      "first_digest_sha256": "528d8e8a33a0f54cdf134d404f982418b2dba43932985d05d5246ad069cf4d0d",
+      "mb_per_s_processed": 8.5,
+      "peak_rss_mb_process": 36,
+      "tasks_per_min": 101.99
+     },
+     "result_file": "burst_out/bench-006-s1/benchmark-result.json"
+    },
+    "status": "ok",
+    "type": "benchmark"
+   }
+  },
+  "bench-006-s2": {
+   "attempts": 0,
+   "batch_id": "batch-20261031-006",
+   "disposition": "completed",
+   "index": 23,
+   "note": null,
+   "packs": 1,
+   "result": {
+    "batch_id": "batch-20261031-006",
+    "index": 2,
+    "job_id": "bench-006-s2",
+    "metrics": {
+     "elapsed_s": 13.021
+    },
+    "outputs": {
+     "benchmark": {
+      "compressed_bytes_total": 104889720,
+      "digests_identical_across_iterations": true,
+      "elapsed_s": 12.691,
+      "first_digest_sha256": "46a19cf32a6566f3f9649136757ae19675202148b6f19b2aff8b98a8bc1cea2f",
+      "mb_per_s_processed": 7.88,
+      "peak_rss_mb_process": 36,
+      "tasks_per_min": 94.55
+     },
+     "result_file": "burst_out/bench-006-s2/benchmark-result.json"
+    },
+    "status": "ok",
+    "type": "benchmark"
+   }
+  },
+  "bench-006-s3": {
+   "attempts": 0,
+   "batch_id": "batch-20261031-006",
+   "disposition": "completed",
+   "index": 24,
+   "note": null,
+   "packs": 1,
+   "result": {
+    "batch_id": "batch-20261031-006",
+    "index": 3,
+    "job_id": "bench-006-s3",
+    "metrics": {
+     "elapsed_s": 13.186
+    },
+    "outputs": {
+     "benchmark": {
+      "compressed_bytes_total": 104889720,
+      "digests_identical_across_iterations": true,
+      "elapsed_s": 12.909,
+      "first_digest_sha256": "4ee97794583cf2455aef2462885ed34488bb41417759f54576dbcba09cd6f7ae",
+      "mb_per_s_processed": 7.75,
+      "peak_rss_mb_process": 37,
+      "tasks_per_min": 92.96
+     },
+     "result_file": "burst_out/bench-006-s3/benchmark-result.json"
+    },
+    "status": "ok",
+    "type": "benchmark"
+   }
+  },
+  "bench-006-s4": {
+   "attempts": 0,
+   "batch_id": "batch-20261031-006",
+   "disposition": "completed",
+   "index": 25,
+   "note": null,
+   "packs": 1,
+   "result": {
+    "batch_id": "batch-20261031-006",
+    "index": 4,
+    "job_id": "bench-006-s4",
+    "metrics": {
+     "elapsed_s": 13.614
+    },
+    "outputs": {
+     "benchmark": {
+      "compressed_bytes_total": 104889720,
+      "digests_identical_across_iterations": true,
+      "elapsed_s": 13.354,
+      "first_digest_sha256": "195fbf341787a3bda3cf061d64cb828ec9a0da4a0a164e99c7241f862d52fae5",
+      "mb_per_s_processed": 7.49,
+      "peak_rss_mb_process": 36,
+      "tasks_per_min": 89.86
+     },
+     "result_file": "burst_out/bench-006-s4/benchmark-result.json"
+    },
+    "status": "ok",
+    "type": "benchmark"
+   }
+  },
+  "bench-006-s5": {
+   "attempts": 0,
+   "batch_id": "batch-20261031-006",
+   "disposition": "completed",
+   "index": 26,
+   "note": null,
+   "packs": 1,
+   "result": {
+    "batch_id": "batch-20261031-006",
+    "index": 5,
+    "job_id": "bench-006-s5",
+    "metrics": {
+     "elapsed_s": 17.406
+    },
+    "outputs": {
+     "benchmark": {
+      "compressed_bytes_total": 104889720,
+      "digests_identical_across_iterations": true,
+      "elapsed_s": 17.197,
+      "first_digest_sha256": "b69a8377ca61be3a304fa1c92dcf816349b0ef334f7ebe34367d8d2038b28922",
+      "mb_per_s_processed": 5.82,
+      "peak_rss_mb_process": 37,
+      "tasks_per_min": 69.78
+     },
+     "result_file": "burst_out/bench-006-s5/benchmark-result.json"
+    },
+    "status": "ok",
+    "type": "benchmark"
+   }
+  },
+  "bench-006-s6": {
+   "attempts": 0,
+   "batch_id": "batch-20261031-006",
+   "disposition": "completed",
+   "index": 27,
+   "note": null,
+   "packs": 1,
+   "result": {
+    "batch_id": "batch-20261031-006",
+    "index": 6,
+    "job_id": "bench-006-s6",
+    "metrics": {
+     "elapsed_s": 15.893
+    },
+    "outputs": {
+     "benchmark": {
+      "compressed_bytes_total": 104889720,
+      "digests_identical_across_iterations": true,
+      "elapsed_s": 15.463,
+      "first_digest_sha256": "1e1de5be98df31ba89127aa3af996ab6efdc9ab6cd11b73f8d8e1ca3bcb92939",
+      "mb_per_s_processed": 6.47,
+      "peak_rss_mb_process": 37,
+      "tasks_per_min": 77.6
+     },
+     "result_file": "burst_out/bench-006-s6/benchmark-result.json"
+    },
+    "status": "ok",
+    "type": "benchmark"
+   }
+  },
+  "bench-006-s7": {
+   "attempts": 0,
+   "batch_id": "batch-20261031-006",
+   "disposition": "completed",
+   "index": 28,
+   "note": null,
+   "packs": 1,
+   "result": {
+    "batch_id": "batch-20261031-006",
+    "index": 7,
+    "job_id": "bench-006-s7",
+    "metrics": {
+     "elapsed_s": 16.935
+    },
+    "outputs": {
+     "benchmark": {
+      "compressed_bytes_total": 104889720,
+      "digests_identical_across_iterations": true,
+      "elapsed_s": 16.556,
+      "first_digest_sha256": "c80a413165c1cf99125cd5f53ef4e4d16ce4b8795b8de945d78e7ee7ee6feef7",
+      "mb_per_s_processed": 6.04,
+      "peak_rss_mb_process": 36,
+      "tasks_per_min": 72.48
+     },
+     "result_file": "burst_out/bench-006-s7/benchmark-result.json"
+    },
+    "status": "ok",
+    "type": "benchmark"
    }
   },
   "bench-local-001": {
@@ -410,6 +681,476 @@
     "status": "ok"
    }
   },
+  "obia-hash-001": {
+   "attempts": 0,
+   "batch_id": "local-drain",
+   "disposition": "completed",
+   "index": 32,
+   "note": null,
+   "packs": 0,
+   "result": {
+    "batch_id": "local-drain",
+    "index": 32,
+    "job_id": "obia-hash-001",
+    "metrics": {
+     "elapsed_s": 0.003
+    },
+    "outputs": {
+     "entries": [
+      {
+       "bytes": 60885,
+       "path": "obia-staging/l1-projects.csv",
+       "sha256": "cb09e05ad2376fa0c0915fbe6f8a3b30bac4b01ca3db2f3c2a25b9ad8cee20f3"
+      },
+      {
+       "bytes": 85646,
+       "path": "obia-staging/l2-systems.csv",
+       "sha256": "9b4ce3a58b3ebe4cc6b7cf6e516ca3f65ca0991d6559bf8e4a6325a6eef4bda9"
+      },
+      {
+       "bytes": 108,
+       "path": "obia-staging/cross-level-registry.csv",
+       "sha256": "ac800f4528c17c24df0fd7fc6aaca1d7d212521babd760eb581e7cf6795c46cc"
+      },
+      {
+       "bytes": 8487,
+       "path": "obia-staging/l1-top50.md",
+       "sha256": "1e3f88d72c44e2c60b178670576d4ee6983383dbb9918d45860482ecb972e47d"
+      },
+      {
+       "bytes": 5507,
+       "path": "obia-staging/l1-phone-top25.md",
+       "sha256": "2ea90fb68c97d1009726b49e96fae64d20dafab6f025ab61626b2cb60404aa3a"
+      },
+      {
+       "bytes": 26899,
+       "path": "obia-staging/l1-first25-proposals.md",
+       "sha256": "9a1b301af46a32e8a831e752c1afd9fda70f0cf1b2c6f7e845d64e12aad615cc"
+      },
+      {
+       "bytes": 7073,
+       "path": "obia-staging/l1-first10-costs.md",
+       "sha256": "b412e21971df7a1ed26c291eaa528351dc9994239b4ea7f6838836d2dab80d4f"
+      },
+      {
+       "bytes": 7796,
+       "path": "obia-staging/l2-top50-architectures.md",
+       "sha256": "bafbc4a1b15a6e46d69efb430c1f289e2fdc3928c7183455fa43c5c6197f0e34"
+      },
+      {
+       "bytes": 6939,
+       "path": "obia-staging/l2-top25-product-robotics.md",
+       "sha256": "a576cbf2a8e5fc1414621622252bfadce70784be5250bb15cef91be104ae5e1e"
+      },
+      {
+       "bytes": 426,
+       "path": "obia-staging/README.md",
+       "sha256": "83b1b892790ab114ce2c1085dfa82f38ffdbce0cdc362ce3b321ca789e46b0e0"
+      }
+     ],
+     "files": 10,
+     "manifest_file": "burst_out/obia-hash-001/manifest.json",
+     "missing_patterns": []
+    },
+    "status": "ok",
+    "type": "hash_manifest"
+   }
+  },
+  "obia-hash-20261031": {
+   "attempts": 0,
+   "batch_id": "local-drain",
+   "disposition": "completed",
+   "index": 39,
+   "note": null,
+   "packs": 0,
+   "result": {
+    "batch_id": "local-drain",
+    "index": 39,
+    "job_id": "obia-hash-20261031",
+    "metrics": {
+     "elapsed_s": 0.004
+    },
+    "outputs": {
+     "entries": [
+      {
+       "bytes": 61339,
+       "path": "obia-staging/l1-projects.csv",
+       "sha256": "cadbe85b7838767a772d0f4d8d6013fa273c7cc280146e857cb4591f9a95ca52"
+      },
+      {
+       "bytes": 95467,
+       "path": "obia-staging/l2-systems.csv",
+       "sha256": "55b2a4549384fabf432013d05a5fbe39a3ab66e2b6823924a505aea9c1ab7c1f"
+      },
+      {
+       "bytes": 13172,
+       "path": "obia-staging/cross-level-registry.csv",
+       "sha256": "a2fa7dbdbbb9eb69981b52f565b98f6e1e02b18390dfe907cec8e12d18c825cc"
+      },
+      {
+       "bytes": 8487,
+       "path": "obia-staging/l1-top50.md",
+       "sha256": "1e3f88d72c44e2c60b178670576d4ee6983383dbb9918d45860482ecb972e47d"
+      },
+      {
+       "bytes": 5507,
+       "path": "obia-staging/l1-phone-top25.md",
+       "sha256": "2ea90fb68c97d1009726b49e96fae64d20dafab6f025ab61626b2cb60404aa3a"
+      },
+      {
+       "bytes": 26899,
+       "path": "obia-staging/l1-first25-proposals.md",
+       "sha256": "9a1b301af46a32e8a831e752c1afd9fda70f0cf1b2c6f7e845d64e12aad615cc"
+      },
+      {
+       "bytes": 7073,
+       "path": "obia-staging/l1-first10-costs.md",
+       "sha256": "b412e21971df7a1ed26c291eaa528351dc9994239b4ea7f6838836d2dab80d4f"
+      },
+      {
+       "bytes": 7796,
+       "path": "obia-staging/l2-top50-architectures.md",
+       "sha256": "bafbc4a1b15a6e46d69efb430c1f289e2fdc3928c7183455fa43c5c6197f0e34"
+      },
+      {
+       "bytes": 6939,
+       "path": "obia-staging/l2-top25-product-robotics.md",
+       "sha256": "a576cbf2a8e5fc1414621622252bfadce70784be5250bb15cef91be104ae5e1e"
+      },
+      {
+       "bytes": 426,
+       "path": "obia-staging/README.md",
+       "sha256": "83b1b892790ab114ce2c1085dfa82f38ffdbce0cdc362ce3b321ca789e46b0e0"
+      }
+     ],
+     "files": 10,
+     "manifest_file": "burst_out/obia-hash-20261031/manifest.json",
+     "missing_patterns": []
+    },
+    "status": "ok",
+    "type": "hash_manifest"
+   }
+  },
+  "obia-hash-20261101": {
+   "attempts": 0,
+   "batch_id": "local-drain",
+   "disposition": "completed",
+   "index": 40,
+   "note": null,
+   "packs": 0,
+   "result": {
+    "batch_id": "local-drain",
+    "index": 40,
+    "job_id": "obia-hash-20261101",
+    "metrics": {
+     "elapsed_s": 0.004
+    },
+    "outputs": {
+     "entries": [
+      {
+       "bytes": 61339,
+       "path": "obia-staging/l1-projects.csv",
+       "sha256": "cadbe85b7838767a772d0f4d8d6013fa273c7cc280146e857cb4591f9a95ca52"
+      },
+      {
+       "bytes": 107977,
+       "path": "obia-staging/l2-systems.csv",
+       "sha256": "09b448fa7ec3f8375021df09007c4b277783e719f3e571b1bbda19d0f2ff7024"
+      },
+      {
+       "bytes": 49484,
+       "path": "obia-staging/l3-systems.csv",
+       "sha256": "cad096545d19b81c4507dcb88416acba07a34e8b45baa54563ab0b0462df2335"
+      },
+      {
+       "bytes": 13959,
+       "path": "obia-staging/cross-level-registry.csv",
+       "sha256": "db83b6b558a60bb6058d5ea83f0eefcf7a2c46dc1f88da9cae5ac12c78d396a1"
+      },
+      {
+       "bytes": 8487,
+       "path": "obia-staging/l1-top50.md",
+       "sha256": "1e3f88d72c44e2c60b178670576d4ee6983383dbb9918d45860482ecb972e47d"
+      },
+      {
+       "bytes": 5507,
+       "path": "obia-staging/l1-phone-top25.md",
+       "sha256": "2ea90fb68c97d1009726b49e96fae64d20dafab6f025ab61626b2cb60404aa3a"
+      },
+      {
+       "bytes": 26899,
+       "path": "obia-staging/l1-first25-proposals.md",
+       "sha256": "9a1b301af46a32e8a831e752c1afd9fda70f0cf1b2c6f7e845d64e12aad615cc"
+      },
+      {
+       "bytes": 7073,
+       "path": "obia-staging/l1-first10-costs.md",
+       "sha256": "b412e21971df7a1ed26c291eaa528351dc9994239b4ea7f6838836d2dab80d4f"
+      },
+      {
+       "bytes": 7796,
+       "path": "obia-staging/l2-top50-architectures.md",
+       "sha256": "bafbc4a1b15a6e46d69efb430c1f289e2fdc3928c7183455fa43c5c6197f0e34"
+      },
+      {
+       "bytes": 6939,
+       "path": "obia-staging/l2-top25-product-robotics.md",
+       "sha256": "a576cbf2a8e5fc1414621622252bfadce70784be5250bb15cef91be104ae5e1e"
+      },
+      {
+       "bytes": 426,
+       "path": "obia-staging/README.md",
+       "sha256": "83b1b892790ab114ce2c1085dfa82f38ffdbce0cdc362ce3b321ca789e46b0e0"
+      }
+     ],
+     "files": 11,
+     "manifest_file": "burst_out/obia-hash-20261101/manifest.json",
+     "missing_patterns": []
+    },
+    "status": "ok",
+    "type": "hash_manifest"
+   }
+  },
+  "obia-hash-20261102": {
+   "attempts": 0,
+   "batch_id": "local-drain",
+   "disposition": "completed",
+   "index": 41,
+   "note": null,
+   "packs": 0,
+   "result": {
+    "batch_id": "local-drain",
+    "index": 41,
+    "job_id": "obia-hash-20261102",
+    "metrics": {
+     "elapsed_s": 0.004
+    },
+    "outputs": {
+     "entries": [
+      {
+       "bytes": 61339,
+       "path": "obia-staging/l1-projects.csv",
+       "sha256": "cadbe85b7838767a772d0f4d8d6013fa273c7cc280146e857cb4591f9a95ca52"
+      },
+      {
+       "bytes": 126795,
+       "path": "obia-staging/l2-systems.csv",
+       "sha256": "f7486ab341eb43c019f933fe4dd076b7d099c9ccca94b081f58bb91eaca2d8d2"
+      },
+      {
+       "bytes": 75052,
+       "path": "obia-staging/l3-systems.csv",
+       "sha256": "b94d8a7621bbd1130010f9a9f046e92dd677055161daac0e1632e50b33f76cc2"
+      },
+      {
+       "bytes": 13959,
+       "path": "obia-staging/cross-level-registry.csv",
+       "sha256": "db83b6b558a60bb6058d5ea83f0eefcf7a2c46dc1f88da9cae5ac12c78d396a1"
+      },
+      {
+       "bytes": 8487,
+       "path": "obia-staging/l1-top50.md",
+       "sha256": "1e3f88d72c44e2c60b178670576d4ee6983383dbb9918d45860482ecb972e47d"
+      },
+      {
+       "bytes": 5507,
+       "path": "obia-staging/l1-phone-top25.md",
+       "sha256": "2ea90fb68c97d1009726b49e96fae64d20dafab6f025ab61626b2cb60404aa3a"
+      },
+      {
+       "bytes": 26899,
+       "path": "obia-staging/l1-first25-proposals.md",
+       "sha256": "9a1b301af46a32e8a831e752c1afd9fda70f0cf1b2c6f7e845d64e12aad615cc"
+      },
+      {
+       "bytes": 7073,
+       "path": "obia-staging/l1-first10-costs.md",
+       "sha256": "b412e21971df7a1ed26c291eaa528351dc9994239b4ea7f6838836d2dab80d4f"
+      },
+      {
+       "bytes": 7796,
+       "path": "obia-staging/l2-top50-architectures.md",
+       "sha256": "bafbc4a1b15a6e46d69efb430c1f289e2fdc3928c7183455fa43c5c6197f0e34"
+      },
+      {
+       "bytes": 6939,
+       "path": "obia-staging/l2-top25-product-robotics.md",
+       "sha256": "a576cbf2a8e5fc1414621622252bfadce70784be5250bb15cef91be104ae5e1e"
+      },
+      {
+       "bytes": 426,
+       "path": "obia-staging/README.md",
+       "sha256": "83b1b892790ab114ce2c1085dfa82f38ffdbce0cdc362ce3b321ca789e46b0e0"
+      }
+     ],
+     "files": 11,
+     "manifest_file": "burst_out/obia-hash-20261102/manifest.json",
+     "missing_patterns": []
+    },
+    "status": "ok",
+    "type": "hash_manifest"
+   }
+  },
+  "obia-pack-rondo-001": {
+   "attempts": 0,
+   "batch_id": "local-drain",
+   "disposition": "completed",
+   "index": 38,
+   "note": null,
+   "packs": 0,
+   "result": {
+    "batch_id": "local-drain",
+    "index": 38,
+    "job_id": "obia-pack-rondo-001",
+    "metrics": {
+     "elapsed_s": 0.001
+    },
+    "outputs": {
+     "files": [
+      "burst_out/obia-pack-rondo-001/rondo-state-00.txt",
+      "burst_out/obia-pack-rondo-001/rondo-state-01.txt",
+      "burst_out/obia-pack-rondo-001/rondo-state-02.txt",
+      "burst_out/obia-pack-rondo-001/rondo-state-03.txt",
+      "burst_out/obia-pack-rondo-001/rondo-state-04.txt"
+     ],
+     "pack_file": "burst_out/obia-pack-rondo-001/pack.txt",
+     "records": 5
+    },
+    "status": "ok",
+    "type": "text_pack"
+   }
+  },
+  "obia-pack-seat-81": {
+   "attempts": 0,
+   "batch_id": "local-drain",
+   "disposition": "completed",
+   "index": 37,
+   "note": null,
+   "packs": 0,
+   "result": {
+    "batch_id": "local-drain",
+    "index": 37,
+    "job_id": "obia-pack-seat-81",
+    "metrics": {
+     "elapsed_s": 0.001
+    },
+    "outputs": {
+     "files": [
+      "burst_out/obia-pack-seat-81/seat-81-00.txt",
+      "burst_out/obia-pack-seat-81/seat-81-01.txt"
+     ],
+     "pack_file": "burst_out/obia-pack-seat-81/pack.txt",
+     "records": 2
+    },
+    "status": "ok",
+    "type": "text_pack"
+   }
+  },
+  "obia-pack-seat-82": {
+   "attempts": 0,
+   "batch_id": "local-drain",
+   "disposition": "completed",
+   "index": 33,
+   "note": null,
+   "packs": 0,
+   "result": {
+    "batch_id": "local-drain",
+    "index": 33,
+    "job_id": "obia-pack-seat-82",
+    "metrics": {
+     "elapsed_s": 0.001
+    },
+    "outputs": {
+     "files": [
+      "burst_out/obia-pack-seat-82/seat-82-00.txt",
+      "burst_out/obia-pack-seat-82/seat-82-01.txt",
+      "burst_out/obia-pack-seat-82/seat-82-02.txt"
+     ],
+     "pack_file": "burst_out/obia-pack-seat-82/pack.txt",
+     "records": 3
+    },
+    "status": "ok",
+    "type": "text_pack"
+   }
+  },
+  "obia-pack-seat-claude": {
+   "attempts": 0,
+   "batch_id": "local-drain",
+   "disposition": "completed",
+   "index": 36,
+   "note": null,
+   "packs": 0,
+   "result": {
+    "batch_id": "local-drain",
+    "index": 36,
+    "job_id": "obia-pack-seat-claude",
+    "metrics": {
+     "elapsed_s": 0.001
+    },
+    "outputs": {
+     "files": [
+      "burst_out/obia-pack-seat-claude/seat-claude-00.txt",
+      "burst_out/obia-pack-seat-claude/seat-claude-01.txt"
+     ],
+     "pack_file": "burst_out/obia-pack-seat-claude/pack.txt",
+     "records": 2
+    },
+    "status": "ok",
+    "type": "text_pack"
+   }
+  },
+  "obia-pack-seat-gemini": {
+   "attempts": 0,
+   "batch_id": "local-drain",
+   "disposition": "completed",
+   "index": 34,
+   "note": null,
+   "packs": 0,
+   "result": {
+    "batch_id": "local-drain",
+    "index": 34,
+    "job_id": "obia-pack-seat-gemini",
+    "metrics": {
+     "elapsed_s": 0.002
+    },
+    "outputs": {
+     "files": [
+      "burst_out/obia-pack-seat-gemini/seat-gemini-00.txt",
+      "burst_out/obia-pack-seat-gemini/seat-gemini-01.txt"
+     ],
+     "pack_file": "burst_out/obia-pack-seat-gemini/pack.txt",
+     "records": 2
+    },
+    "status": "ok",
+    "type": "text_pack"
+   }
+  },
+  "obia-pack-seat-perplexity": {
+   "attempts": 0,
+   "batch_id": "local-drain",
+   "disposition": "completed",
+   "index": 35,
+   "note": null,
+   "packs": 0,
+   "result": {
+    "batch_id": "local-drain",
+    "index": 35,
+    "job_id": "obia-pack-seat-perplexity",
+    "metrics": {
+     "elapsed_s": 0.001
+    },
+    "outputs": {
+     "files": [
+      "burst_out/obia-pack-seat-perplexity/seat-perplexity-00.txt",
+      "burst_out/obia-pack-seat-perplexity/seat-perplexity-01.txt"
+     ],
+     "pack_file": "burst_out/obia-pack-seat-perplexity/pack.txt",
+     "records": 2
+    },
+    "status": "ok",
+    "type": "text_pack"
+   }
+  },
   "relist-004a": {
    "attempts": 1,
    "batch_id": "batch-20261030-005",
@@ -434,6 +1175,142 @@
     },
     "status": "ok",
     "type": "text_pack"
+   }
+  },
+  "render-rr03-rogers": {
+   "attempts": 0,
+   "batch_id": "batch-20261103-008",
+   "disposition": "packed",
+   "index": 42,
+   "note": null,
+   "packs": 1,
+   "result": null
+  },
+  "t1audit-006-hash": {
+   "attempts": 0,
+   "batch_id": "batch-20261031-006",
+   "disposition": "completed",
+   "index": 30,
+   "note": null,
+   "packs": 1,
+   "result": {
+    "batch_id": "batch-20261031-006",
+    "index": 9,
+    "job_id": "t1audit-006-hash",
+    "metrics": {
+     "elapsed_s": 0.02
+    },
+    "outputs": {
+     "entries": [
+      {
+       "bytes": 10428,
+       "path": "fleet/gpu-engine/distilled/pack.json",
+       "sha256": "b4c31af96690c891ac73c6d5a66aafc20fe4374af03415c848631b8f5e2d17dc"
+      },
+      {
+       "bytes": 14170,
+       "path": "fleet/gpu-engine/distilled/sayed_test.jsonl",
+       "sha256": "1363d9bc6193241e8fb89beb329310344fcbd2d4255246adb790f4337019c0a7"
+      },
+      {
+       "bytes": 7426,
+       "path": "fleet/gpu-engine/distilled/eval.py",
+       "sha256": "1426442ac1604094cd24b53f03f40970ee7d093323660108df7cbc553e1e8af9"
+      },
+      {
+       "bytes": 9848,
+       "path": "fleet/gpu-engine/distilled/run_live_eval.py",
+       "sha256": "eaf5471251a0458817d5e508a22e42e4ce94c63248fce6b3207fc95d2f8b1fbb"
+      }
+     ],
+     "files": 4,
+     "manifest_file": "burst_out/t1audit-006-hash/manifest.json",
+     "missing_patterns": []
+    },
+    "status": "ok",
+    "type": "hash_manifest"
+   }
+  },
+  "t1audit-006-text": {
+   "attempts": 0,
+   "batch_id": "batch-20261031-006",
+   "disposition": "completed",
+   "index": 31,
+   "note": null,
+   "packs": 1,
+   "result": {
+    "batch_id": "batch-20261031-006",
+    "index": 10,
+    "job_id": "t1audit-006-text",
+    "metrics": {
+     "elapsed_s": 0.01
+    },
+    "outputs": {
+     "files": [
+      "burst_out/t1audit-006-text/audit-00.txt",
+      "burst_out/t1audit-006-text/audit-01.txt",
+      "burst_out/t1audit-006-text/audit-02.txt",
+      "burst_out/t1audit-006-text/audit-03.txt",
+      "burst_out/t1audit-006-text/audit-04.txt",
+      "burst_out/t1audit-006-text/audit-05.txt",
+      "burst_out/t1audit-006-text/audit-06.txt",
+      "burst_out/t1audit-006-text/audit-07.txt"
+     ],
+     "pack_file": "burst_out/t1audit-006-text/pack.txt",
+     "records": 8
+    },
+    "status": "ok",
+    "type": "text_pack"
+   }
+  },
+  "t2pack-006-hash": {
+   "attempts": 1,
+   "batch_id": "batch-20261031-007",
+   "disposition": "completed",
+   "index": 29,
+   "note": null,
+   "packs": 2,
+   "result": {
+    "batch_id": "batch-20261031-007",
+    "index": 0,
+    "job_id": "t2pack-006-hash",
+    "metrics": {
+     "elapsed_s": 0.01
+    },
+    "outputs": {
+     "entries": [
+      {
+       "bytes": 5009,
+       "path": "fleet/expansion-bot/harness/harness.py",
+       "sha256": "3d0416ed2d47d46f389dacfdd69f01973eae8fbb6139c7fa406a6e62638c8d47"
+      },
+      {
+       "bytes": 1868,
+       "path": "fleet/expansion-bot/harness/worker.py",
+       "sha256": "7a8ccc44886276f21cf3170ee6b6757a2f80c7dbafcfe302ffe12456acb2216b"
+      },
+      {
+       "bytes": 5325,
+       "path": "fleet/expansion-bot/harness/ledger.py",
+       "sha256": "ca14aa521dcb8b2f8b7e93b668aed7052f6b77fb0b7cedd111f532bc370d9f04"
+      },
+      {
+       "bytes": 547,
+       "path": "fleet/expansion-bot/harness/tasks.sample.json",
+       "sha256": "153c72019ae50bc658c99a53cb35bbf03e9366f1e5fcd1814173023ca68a7ac3"
+      },
+      {
+       "bytes": 2619,
+       "path": "fleet/expansion-bot/harness/tasks.expanded.json",
+       "sha256": "4465936c13563c52e1480ab01781f09ea9850e0b1231184e4270358ed6e81216"
+      }
+     ],
+     "files": 5,
+     "manifest_file": "burst_out/t2pack-006-hash/manifest.json",
+     "missing_patterns": []
+    },
+    "status": "ok",
+    "type": "hash_manifest"
    }
   },
   "text-001": {
@@ -538,6 +1415,6 @@
    }
   }
  },
- "next_unprocessed_index": 21,
+ "next_unprocessed_index": 42,
  "version": 1
 }

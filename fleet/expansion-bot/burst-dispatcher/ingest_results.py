@@ -58,6 +58,18 @@ def content_problem(job, r):
         b = out.get("benchmark")
         if not isinstance(b, dict) or "tasks_per_min" not in b:
             return "benchmark result missing tasks_per_min"
+    elif t == "render":
+        if not out.get("video_file") or not out.get("sha256"):
+            return "render result missing video_file/sha256"
+        if not out.get("duration_s"):
+            return "render result missing duration_s"
+        floor = p.get("min_duration_s")
+        if floor and float(out["duration_s"]) < float(floor):
+            return (f"render duration {out['duration_s']}s below job "
+                    f"floor {floor}s")
+        want_channel = p.get("channel_id")
+        if want_channel and out.get("channel_id") != want_channel:
+            return "render result channel label mismatch"
     return None
 
 
