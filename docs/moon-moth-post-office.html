@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Moon Moth Post Office — Preview</title>
+<style>
+  :root{ --ink:#eef1ff; --dim:#aab3d6; --gold:#ffd98a; --panel:#171d38; --panel2:#1f2750; }
+  *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html,body{ margin:0; padding:0; background:#0a0e22; color:var(--ink);
+    font-family:ui-rounded, "Segoe UI", system-ui, -apple-system, sans-serif; }
+  .wrap{ max-width:860px; margin:0 auto; padding:14px 12px 28px; }
+  header{ text-align:center; padding:8px 4px 4px; }
+  h1{ margin:0; font-size:clamp(24px,5vw,38px); letter-spacing:.5px; }
+  h1 .moon{ filter:drop-shadow(0 0 10px rgba(255,217,138,.8)); }
+  .tag{ color:var(--dim); margin:6px 0 2px; font-size:clamp(13px,2.6vw,16px); }
+  .badge{ display:inline-block; margin-top:8px; padding:3px 10px; border:1px solid #3a4577;
+    border-radius:999px; color:var(--gold); font-size:12px; letter-spacing:.08em; text-transform:uppercase; }
+  .stage{ position:relative; margin-top:14px; border-radius:18px; overflow:hidden;
+    box-shadow:0 12px 40px rgba(0,0,0,.55), inset 0 0 0 1px #2a3260; background:#0d1330; }
+  canvas{ display:block; width:100%; height:auto; touch-action:none; cursor:pointer; }
+  .hud{ position:absolute; top:10px; left:12px; right:12px; display:flex; justify-content:space-between;
+    pointer-events:none; font-weight:700; text-shadow:0 2px 8px rgba(0,0,0,.7); font-size:clamp(13px,2.8vw,17px); }
+  .hud .pill{ background:rgba(10,14,34,.55); padding:4px 10px; border-radius:999px; }
+  .dialog{ margin-top:12px; background:var(--panel); border:1px solid #2e3866; border-radius:14px;
+    padding:14px 16px; min-height:86px; }
+  .dialog .who{ color:var(--gold); font-weight:700; font-size:13px; letter-spacing:.06em; text-transform:uppercase; }
+  .dialog .line{ margin-top:6px; font-size:clamp(16px,3.4vw,20px); line-height:1.45; min-height:1.45em; }
+  .controls{ display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; }
+  button{ font:inherit; font-weight:700; color:#10142b; background:var(--gold); border:0; border-radius:12px;
+    padding:12px 18px; cursor:pointer; box-shadow:0 4px 0 #b98f3e; }
+  button:active{ transform:translateY(2px); box-shadow:0 2px 0 #b98f3e; }
+  button.secondary{ background:var(--panel2); color:var(--ink); box-shadow:0 4px 0 #12172f; border:1px solid #39427a; }
+  .letterbox{ margin-top:14px; background:var(--panel); border:1px dashed #46538c; border-radius:14px; padding:14px 16px; }
+  .letterbox label{ display:block; font-weight:700; margin-bottom:8px; }
+  .letterbox .row{ display:flex; gap:10px; flex-wrap:wrap; }
+  .letterbox input{ flex:1 1 260px; font:inherit; padding:12px; border-radius:10px; border:1px solid #39427a;
+    background:#0d1330; color:var(--ink); }
+  .note{ color:var(--dim); font-size:13px; margin-top:8px; line-height:1.5; }
+  footer{ text-align:center; color:var(--dim); font-size:13px; margin-top:18px; line-height:1.6; }
+  a{ color:var(--gold); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1><span class="moon">🌙</span> Moon Moth Post Office <span aria-hidden="true">🦋</span></h1>
+    <p class="tag">You are the night moth. One button flaps against gravity.<br>
+    Deliver each letter to the lit window — the sleeper inside reads it aloud.</p>
+    <span class="badge">v2 concept preview · a Rondo team build</span>
+  </header>
+
+  <div class="stage" id="stage">
+    <canvas id="game" width="800" height="450" aria-label="Moon Moth game canvas"></canvas>
+    <div class="hud">
+      <span class="pill" id="hudLetters">✉️ Delivered: 0 / 5</span>
+      <span class="pill" id="hudNight">Night 1</span>
+    </div>
+  </div>
+
+  <div class="dialog" aria-live="polite">
+    <div class="who" id="dlgWho">The Post Office</div>
+    <div class="line" id="dlgLine">Tap, click, or press Space to flap. Glide into the glowing window to deliver the first letter.</div>
+  </div>
+
+  <div class="controls">
+    <button id="btnFlap">🦋 Flap</button>
+    <button id="btnStart" class="secondary">↻ New night</button>
+    <button id="btnSound" class="secondary" aria-pressed="true">🔔 Sound on</button>
+  </div>
+
+  <div class="letterbox">
+    <label for="letterInput">✍️ Write a one-line letter for the next route</label>
+    <div class="row">
+      <input id="letterInput" maxlength="90" placeholder="e.g. The moon kept your seat warm. Come home when you can.">
+      <button id="btnAddLetter">Add to the mailbag</button>
+    </div>
+    <p class="note">Preview rule: your letter stays on this device and joins tonight's deliveries right away.
+    In the public version, submitted letters would be reviewed by the team before they fly — that's the moderation step this concept is waiting on.</p>
+  </div>
+
+  <footer>
+    Moon Moth Post Office — an original Rondo team concept (archive sweep seed #1, Jack's grade 9.1, designated v2).<br>
+    Built at $0 as a self-contained page: no accounts, no tracking, works offline once loaded.<br>
+    Tell Jack what you thought — Moon Moth is his game, and every note goes straight to him: <a href="mailto:agent81@muse.ai?subject=Moon%20Moth%20feedback%20for%20Jack&body=What%20I%20thought%3A%0AHow%20many%20letters%20I%20delivered%3A%0A">agent81@muse.ai</a>
+  </footer>
+</div>
+
+<script>
+"use strict";
+/* ---------- letters (all original, written for this game) ---------- */
+const STARTER_LETTERS = [
+  { to: "The lighthouse keeper", line: "Your light reached a boat you will never meet. It turned for home." },
+  { to: "A kid afraid of the dark", line: "The dark is just the light resting. It will be back by morning." },
+  { to: "The baker on Rose Street", line: "Someone dreams about your morning bread. That is a kind of love letter too." },
+  { to: "An old piano", line: "Nobody has forgotten your songs. Small hands are learning them again." },
+  { to: "The night-shift nurse", line: "The whole street sleeps easier because you don't. Thank you." },
+  { to: "A plant on the sill", line: "Grow slow. The moon is patient, and so is the one who waters you." },
+  { to: "The last train driver", line: "Every window you pass carries someone toward a person who waited up." },
+  { to: "A letter never sent", line: "You still counted. Being written was already half of being read." }
+];
+const LETTERS_KEY = "moonmoth.letters.v1";
+function loadLetters(){
+  let mine = [];
+  try { mine = JSON.parse(localStorage.getItem(LETTERS_KEY) || "[]"); } catch(e) { mine = []; }
+  if (!Array.isArray(mine)) mine = [];
+  return STARTER_LETTERS.concat(mine.map(l => ({ to: "A window on your route", line: String(l).slice(0, 90) })));
+}
+function saveMyLetter(text){
+  let mine = [];
+  try { mine = JSON.parse(localStorage.getItem(LETTERS_KEY) || "[]"); } catch(e) { mine = []; }
+  if (!Array.isArray(mine)) mine = [];
+  mine.push(text); if (mine.length > 12) mine = mine.slice(-12);
+  try { localStorage.setItem(LETTERS_KEY, JSON.stringify(mine)); } catch(e) {}
+}
+
+/* ---------- game state ---------- */
+const W = 800, H = 450, GOAL = 5;
+const cv = document.getElementById("game"), ctx = cv.getContext("2d");
+const dlgWho = document.getElementById("dlgWho"), dlgLine = document.getElementById("dlgLine");
+const hudLetters = document.getElementById("hudLetters"), hudNight = document.getElementById("hudNight");
+let letters = loadLetters();
+let state = null;
+
+function newNight(){
+  state = {
+    t: 0, running: true, done: false,
+    moth: { x: 120, y: 200, vy: 0, wing: 0 },
+    speed: 2.2, delivered: 0, night: (state ? state.night + (state.done ? 1 : 0) : 1),
+    letterIdx: Math.floor(Math.random() * letters.length),
+    win: null, stars: [], gust: 0, gustT: 0, flash: 0
+  };
+  for (let i = 0; i < 90; i++) state.stars.push({ x: Math.random()*W, y: Math.random()*H*0.7, r: Math.random()*1.6+0.4, p: Math.random()*6.28 });
+  spawnWindow(true);
+  say("The Post Office", "Route started. The lit window is waiting — flap gently, moth, and glide in.");
+  syncHud();
+}
+function currentLetter(){ return letters[state.letterIdx % letters.length]; }
+function spawnWindow(first){
+  const y = 90 + Math.random() * 230;
+  state.win = { x: first ? 560 : W + 60, y: y, w: 54, h: 72, bob: Math.random()*6.28 };
+}
+function syncHud(){
+  hudLetters.textContent = "✉️ Delivered: " + state.delivered + " / " + GOAL;
+  hudNight.textContent = "Night " + state.night;
+}
+let typeTimer = null;
+function say(who, line){
+  dlgWho.textContent = who;
+  dlgLine.textContent = "";
+  let i = 0;
+  if (typeTimer) clearInterval(typeTimer);
+  typeTimer = setInterval(() => {
+    i++; dlgLine.textContent = line.slice(0, i);
+    if (i >= line.length) { clearInterval(typeTimer); typeTimer = null; }
+  }, 16);
+}
+
+/* ---------- sound (tiny, optional) ---------- */
+let audioCtx = null, soundOn = true;
+function chime(){
+  if (!soundOn) return;
+  try {
+    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+    o.type = "sine"; o.frequency.value = 880;
+    g.gain.setValueAtTime(0.12, audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+    o.connect(g); g.connect(audioCtx.destination); o.start(); o.stop(audioCtx.currentTime + 0.5);
+  } catch(e) {}
+}
+
+/* ---------- physics + rules (pure step, easy to test) ---------- */
+const GRAV = 0.32, FLAP = -6.4, MAXFALL = 7;
+function stepPhysics(m){
+  m.vy = Math.min(MAXFALL, m.vy + GRAV);
+  m.y += m.vy;
+  if (m.y < 24) { m.y = 24; m.vy = 0; }
+  if (m.y > H - 60) { m.y = H - 60; m.vy = -1; }
+  return m;
+}
+function overlaps(a, b){ return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y; }
+
+function deliver(){
+  const L = currentLetter();
+  state.delivered++;
+  chime();
+  state.flash = 18;
+  say(L.to + " reads aloud", "“" + L.line + "”");
+  state.letterIdx = (state.letterIdx + 1) % letters.length;
+  state.speed = Math.min(4.2, state.speed + 0.25);
+  if (state.delivered >= GOAL) {
+    state.done = true; state.running = false;
+    setTimeout(() => say("Dawn 🌅", "All " + GOAL + " letters delivered. The street sleeps, the mailbag is empty, and the moon clocks out. Press “New night” to fly another route."), 2400);
+  } else {
+    spawnWindow(false);
+  }
+  syncHud();
+}
+
+function update(){
+  if (!state.running) return;
+  state.t++;
+  const m = state.moth;
+  stepPhysics(m);
+  m.wing += 0.35;
+  state.gustT--;
+  if (state.gustT <= 0) { state.gust = (Math.random() - 0.5) * 0.9; state.gustT = 140 + Math.random()*160; }
+  m.y += state.gust * 0.22;
+  const win = state.win;
+  win.x -= state.speed; win.bob += 0.03;
+  if (win.x < -80) spawnWindow(false);
+  const mothBox = { x: m.x - 16, y: m.y - 12, w: 32, h: 24 };
+  const winBox = { x: win.x, y: win.y + Math.sin(win.bob)*4, w: win.w, h: win.h };
+  if (overlaps(mothBox, winBox)) deliver();
+  if (state.flash > 0) state.flash--;
+}
+
+/* ---------- drawing ---------- */
+function draw(){
+  ctx.clearRect(0, 0, W, H);
+  const sky = ctx.createLinearGradient(0, 0, 0, H);
+  sky.addColorStop(0, "#0b1030"); sky.addColorStop(0.7, "#141c48"); sky.addColorStop(1, "#1c2450");
+  ctx.fillStyle = sky; ctx.fillRect(0, 0, W, H);
+  for (const s of state.stars) {
+    ctx.globalAlpha = 0.45 + 0.4 * Math.sin(state.t * 0.03 + s.p);
+    ctx.fillStyle = "#dfe6ff"; ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, 6.29); ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+  // moon
+  ctx.fillStyle = "#ffe9b0"; ctx.beginPath(); ctx.arc(W - 92, 66, 30, 0, 6.29); ctx.fill();
+  ctx.fillStyle = "#141c48"; ctx.beginPath(); ctx.arc(W - 104, 58, 26, 0, 6.29); ctx.fill();
+  // rooftops
+  ctx.fillStyle = "#080b1d";
+  ctx.fillRect(0, H - 44, W, 44);
+  ctx.fillRect(40, H - 76, 120, 34); ctx.fillRect(300, H - 64, 90, 22); ctx.fillRect(560, H - 82, 140, 40);
+  // target window
+  const win = state.win, wy = win.y + Math.sin(win.bob) * 4;
+  ctx.fillStyle = "#232c5e"; ctx.fillRect(win.x - 14, wy - 14, win.w + 28, win.h + 30);
+  const glow = ctx.createRadialGradient(win.x + win.w/2, wy + win.h/2, 6, win.x + win.w/2, wy + win.h/2, 90);
+  glow.addColorStop(0, "rgba(255,217,138,0.55)"); glow.addColorStop(1, "rgba(255,217,138,0)");
+  ctx.fillStyle = glow; ctx.fillRect(win.x - 90, wy - 90, win.w + 180, win.h + 180);
+  ctx.fillStyle = state.flash > 0 ? "#fff3cf" : "#ffd98a";
+  ctx.fillRect(win.x, wy, win.w, win.h);
+  ctx.strokeStyle = "#8a6a2a"; ctx.lineWidth = 3; ctx.strokeRect(win.x, wy, win.w, win.h);
+  ctx.beginPath(); ctx.moveTo(win.x + win.w/2, wy); ctx.lineTo(win.x + win.w/2, wy + win.h);
+  ctx.moveTo(win.x, wy + win.h/2); ctx.lineTo(win.x + win.w, wy + win.h/2); ctx.stroke();
+  ctx.fillStyle = "#10142b"; ctx.font = "bold 20px system-ui"; ctx.textAlign = "center";
+  ctx.fillText("✉️", win.x + win.w/2, wy - 22);
+  // moth (drawn, with the letter in tow)
+  const m = state.moth, flap = Math.sin(m.wing) * 10;
+  ctx.save(); ctx.translate(m.x, m.y);
+  ctx.fillStyle = "#cfd6ff";
+  ctx.beginPath(); ctx.ellipse(-13, -6 - flap * 0.4, 15, 8, -0.6, 0, 6.29); ctx.fill();
+  ctx.beginPath(); ctx.ellipse(13, -6 - flap * 0.4, 15, 8, 0.6, 0, 6.29); ctx.fill();
+  ctx.fillStyle = "#9aa6e8";
+  ctx.beginPath(); ctx.ellipse(-11, 7, 11, 6, 0.5, 0, 6.29); ctx.fill();
+  ctx.beginPath(); ctx.ellipse(11, 7, 11, 6, -0.5, 0, 6.29); ctx.fill();
+  ctx.fillStyle = "#39427a"; ctx.beginPath(); ctx.ellipse(0, 0, 6, 11, 0, 0, 6.29); ctx.fill();
+  ctx.strokeStyle = "#39427a"; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(-3, -10); ctx.quadraticCurveTo(-10, -20, -15, -21); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(3, -10); ctx.quadraticCurveTo(10, -20, 15, -21); ctx.stroke();
+  ctx.fillStyle = "#fff"; ctx.fillRect(-7, 13, 14, 10);
+  ctx.strokeStyle = "#c8a24a"; ctx.strokeRect(-7, 13, 14, 10);
+  ctx.restore();
+  if (!state.running && state.done) {
+    ctx.fillStyle = "rgba(8,11,29,0.55)"; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = "#ffe9b0"; ctx.font = "bold 40px system-ui"; ctx.textAlign = "center";
+    ctx.fillText("🌅 Route complete", W/2, H/2 - 8);
+    ctx.fillStyle = "#eef1ff"; ctx.font = "20px system-ui";
+    ctx.fillText("Five windows, five small kindnesses, delivered by wing.", W/2, H/2 + 28);
+  }
+}
+function loop(){ update(); draw(); requestAnimationFrame(loop); }
+
+/* ---------- input ---------- */
+function flap(){
+  if (!state) return;
+  if (!state.running && state.done) return;
+  state.moth.vy = FLAP;
+  if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
+}
+cv.addEventListener("pointerdown", (e) => { e.preventDefault(); flap(); });
+document.getElementById("btnFlap").addEventListener("click", flap);
+document.getElementById("btnStart").addEventListener("click", () => newNight());
+document.getElementById("btnSound").addEventListener("click", (e) => {
+  soundOn = !soundOn;
+  e.currentTarget.textContent = soundOn ? "🔔 Sound on" : "🔕 Sound off";
+  e.currentTarget.setAttribute("aria-pressed", String(soundOn));
+});
+window.addEventListener("keydown", (e) => {
+  if (e.code === "Space" || e.code === "ArrowUp") {
+    if (document.activeElement && document.activeElement.tagName === "INPUT") return;
+    e.preventDefault(); flap();
+  }
+});
+document.getElementById("btnAddLetter").addEventListener("click", () => {
+  const inp = document.getElementById("letterInput");
+  const text = inp.value.trim();
+  if (!text) { say("The Post Office", "The envelope is empty, moth. Write one kind line first."); return; }
+  saveMyLetter(text);
+  letters = loadLetters();
+  inp.value = "";
+  say("The Post Office", "Sealed and stamped. Your letter just joined the mailbag — watch for it at a lit window tonight.");
+});
+
+newNight();
+loop();
+</script>
+</body>
+</html>
