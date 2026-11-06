@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>The Night-Shift Toaster Choir</title>
+<meta name="description" content="The toaster sings. Sing it back. A tiny seeded memory game from the Rondo team.">
+<style>
+  :root{
+    --bg:#0b0e1d; --bg2:#171b33; --panel:#1d2140; --panel2:#252a4d;
+    --ink:#f6f1e7; --dim:#b9bed6; --warm:#ffb454; --line:#343a63;
+    --toaster:#ff9f43; --kettle:#54d1ff; --micro:#69e58c; --fridge:#c792ff;
+    --radius:20px;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:
+      radial-gradient(900px 500px at 80% -10%, rgba(255,180,84,.16), transparent 60%),
+      radial-gradient(700px 500px at 10% 110%, rgba(84,209,255,.10), transparent 60%),
+      linear-gradient(180deg,var(--bg2),var(--bg));
+    color:var(--ink); min-height:100vh;
+  }
+  .wrap{max-width:560px;margin:0 auto;padding:18px 14px 40px}
+  header{text-align:center;padding:10px 4px 4px}
+  .moon{font-size:15px;letter-spacing:.35em;color:var(--warm);text-transform:uppercase}
+  h1{font-size:clamp(28px,7vw,40px);line-height:1.08;margin:8px 0 6px;font-weight:900}
+  h1 .accent{color:var(--warm)}
+  .tagline{color:var(--dim);font-size:17px;margin:0}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-top:16px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+  /* Title / start */
+  #titleScreen{text-align:center}
+  #titleScreen p{color:var(--dim);line-height:1.55;margin:8px 0}
+  #titleScreen .big{font-size:20px;color:var(--ink);font-weight:700}
+  .btn{
+    appearance:none;border:0;cursor:pointer;font:inherit;font-weight:800;color:#201503;
+    background:linear-gradient(180deg,#ffc46b,#ff9f2e);border-radius:999px;
+    padding:16px 30px;font-size:19px;min-height:56px;min-width:180px;
+    box-shadow:0 6px 20px rgba(255,159,46,.35);
+  }
+  .btn:active{transform:scale(.97)}
+  .btn.secondary{background:var(--panel2);color:var(--ink);border:1px solid var(--line);box-shadow:none;font-size:16px;min-height:52px;min-width:0;padding:12px 20px}
+  .btn.ghost{background:transparent;color:var(--dim);border:1px solid var(--line);box-shadow:none;font-size:15px;min-height:48px;min-width:0;padding:10px 16px}
+  .btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+  /* Status */
+  .statusRow{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between}
+  .stat{flex:1 1 30%;background:var(--panel2);border-radius:14px;padding:10px 12px;text-align:center;min-width:96px}
+  .stat .k{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+  .stat .v{font-size:24px;font-weight:900;margin-top:2px}
+  #message{font-size:19px;font-weight:700;text-align:center;min-height:52px;display:flex;align-items:center;justify-content:center;line-height:1.35;padding:6px 2px}
+  #subMessage{text-align:center;color:var(--dim);min-height:22px;font-size:15px;margin-top:-6px}
+  .progressDots{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:10px;min-height:14px}
+  .dot{width:14px;height:14px;border-radius:50%;background:#3a4066;border:2px solid #4a5180}
+  .dot.done{background:var(--warm);border-color:var(--warm)}
+  .dot.next{background:transparent;border-color:var(--warm);box-shadow:0 0 0 3px rgba(255,180,84,.25)}
+  /* Choir grid */
+  .choir{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+  .appliance{
+    appearance:none;font:inherit;cursor:pointer;color:var(--ink);text-align:center;
+    background:var(--panel);border:3px solid var(--line);border-radius:24px;
+    padding:20px 8px 16px;min-height:148px;position:relative;
+    transition:transform .12s ease, box-shadow .12s ease, background .12s ease, border-color .12s ease;
+    touch-action:manipulation;user-select:none;
+  }
+  .appliance .face{font-size:54px;line-height:1;display:block;filter:grayscale(.25)}
+  .appliance .name{font-size:19px;font-weight:900;margin-top:10px;display:block}
+  .appliance .note{font-size:13px;color:var(--dim);display:block;margin-top:2px}
+  .appliance .keyHint{
+    position:absolute;top:10px;left:12px;width:28px;height:28px;border-radius:9px;
+    background:var(--panel2);border:1px solid var(--line);color:var(--dim);
+    font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;
+  }
+  .appliance:not(:disabled):active{transform:scale(.96)}
+  .appliance:disabled{cursor:default;opacity:.92}
+  .appliance.lit-toaster{background:#4a2f10;border-color:var(--toaster);box-shadow:0 0 0 4px rgba(255,159,67,.35),0 0 44px rgba(255,159,67,.55)}
+  .appliance.lit-kettle{background:#10344a;border-color:var(--kettle);box-shadow:0 0 0 4px rgba(84,209,255,.35),0 0 44px rgba(84,209,255,.55)}
+  .appliance.lit-micro{background:#123d22;border-color:var(--micro);box-shadow:0 0 0 4px rgba(105,229,140,.35),0 0 44px rgba(105,229,140,.55)}
+  .appliance.lit-fridge{background:#33204d;border-color:var(--fridge);box-shadow:0 0 0 4px rgba(199,146,255,.35),0 0 44px rgba(199,146,255,.55)}
+  .appliance.correctFlash{border-color:#fff !important}
+  .appliance.wrongFlash{background:#4d1620 !important;border-color:#ff5d73 !important;box-shadow:0 0 44px rgba(255,93,115,.5)}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  .shake{animation:shake .3s ease 2}
+  /* Controls */
+  .controls{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:16px}
+  .seedBox{display:flex;gap:8px;flex-wrap:wrap;align-items:stretch;justify-content:center}
+  .seedBox input[type=number]{
+    font:inherit;font-size:17px;font-weight:700;color:var(--ink);background:var(--panel2);
+    border:1px solid var(--line);border-radius:12px;padding:12px;width:150px;text-align:center;
+  }
+  label.small{font-size:13px;color:var(--dim);letter-spacing:.08em;text-transform:uppercase;font-weight:700}
+  .seedLine{display:flex;flex-direction:column;gap:8px;align-items:center}
+  .daily{color:var(--dim);font-size:15px;text-align:center}
+  .daily b{color:var(--warm)}
+  .volRow{display:flex;align-items:center;gap:12px;justify-content:center;flex-wrap:wrap}
+  .volRow input[type=range]{width:170px;accent-color:var(--warm);height:36px}
+  .history{color:var(--dim);font-size:15px;line-height:1.7}
+  .history b{color:var(--ink)}
+  footer{margin-top:18px;color:var(--dim);font-size:14px;line-height:1.6}
+  footer .panel{padding:14px 16px}
+  a{color:var(--warm)}
+  .hidden{display:none !important}
+  @media (max-width:380px){ .appliance .face{font-size:46px} .appliance{min-height:132px} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="moon">🌙 Night Shift 🌙</div>
+    <h1>The Toaster <span class="accent">Choir</span></h1>
+    <p class="tagline">The toaster sings. Sing it back.</p>
+  </header>
+
+  <!-- TITLE SCREEN -->
+  <section id="titleScreen" class="panel" aria-label="Start">
+    <p class="big">Four appliances. One little song.</p>
+    <p>Listen while the choir sings, then tap the appliances back in the same order.
+       Every round adds one more note. Every <b>seed</b> is a different song — share yours with a friend.</p>
+    <p>Tap, click, or use keys <b>1 – 4</b>. Sound on if you can — every note also flashes, so you can play by sight alone.</p>
+    <button id="playBtn" class="btn" type="button">▶&nbsp; Play</button>
+  </section>
+
+  <!-- GAME -->
+  <main id="gameArea" class="hidden">
+    <section class="panel" aria-label="Score">
+      <div class="statusRow">
+        <div class="stat"><div class="k">Round</div><div class="v" id="roundVal">1</div></div>
+        <div class="stat"><div class="k">Score</div><div class="v" id="scoreVal">0</div></div>
+        <div class="stat"><div class="k">Seed</div><div class="v" id="seedVal">—</div></div>
+      </div>
+      <div id="message" role="status" aria-live="polite">…</div>
+      <div id="subMessage" role="status" aria-live="polite"></div>
+      <div class="progressDots" id="progressDots" aria-hidden="true"></div>
+      <div class="controls">
+        <button id="listenBtn" class="btn" type="button">🎵&nbsp; Sing it</button>
+        <button id="replayBtn" class="btn secondary hidden" type="button">↻ Hear it again</button>
+      </div>
+    </section>
+
+    <section class="choir" aria-label="The choir">
+      <button class="appliance" id="app0" type="button" data-idx="0" aria-label="Toaster, key 1">
+        <span class="keyHint">1</span><span class="face" aria-hidden="true">🍞</span>
+        <span class="name">Toaster</span><span class="note">warm pop · low note</span>
+      </button>
+      <button class="appliance" id="app1" type="button" data-idx="1" aria-label="Kettle, key 2">
+        <span class="keyHint">2</span><span class="face" aria-hidden="true">🫖</span>
+        <span class="name">Kettle</span><span class="note">soft whistle</span>
+      </button>
+      <button class="appliance" id="app2" type="button" data-idx="2" aria-label="Microwave, key 3">
+        <span class="keyHint">3</span><span class="face" aria-hidden="true">⏲️</span>
+        <span class="name">Microwave</span><span class="note">bright beep</span>
+      </button>
+      <button class="appliance" id="app3" type="button" data-idx="3" aria-label="Fridge, key 4">
+        <span class="keyHint">4</span><span class="face" aria-hidden="true">🧊</span>
+        <span class="name">Fridge</span><span class="note">deep hum · high sparkle</span>
+      </button>
+    </section>
+
+    <section class="panel" aria-label="Seeds and sharing">
+      <div class="seedLine">
+        <span class="daily">🌅 Seed of the Day: <b id="dailySeedVal">—</b>
+          <button id="dailyBtn" class="btn ghost" type="button" style="margin-left:6px">Play today's seed</button>
+        </span>
+        <label class="small" for="seedInput">Play a friend's seed</label>
+        <div class="seedBox">
+          <input type="number" id="seedInput" min="1" max="999999999" inputmode="numeric" placeholder="e.g. 42137">
+          <button id="applySeedBtn" class="btn secondary" type="button">Use this seed</button>
+        </div>
+        <div class="seedBox">
+          <button id="shareBtn" class="btn secondary" type="button">📋 Share this seed</button>
+          <button id="newSeedBtn" class="btn ghost" type="button">🎲 New random seed</button>
+        </div>
+        <span class="daily" id="shareMsg" aria-live="polite"></span>
+      </div>
+    </section>
+
+    <section class="panel" aria-label="Sound settings">
+      <div class="volRow">
+        <label class="small" for="volSlider">Volume</label>
+        <input type="range" id="volSlider" min="0" max="100" value="80">
+        <label class="small" style="display:flex;align-items:center;gap:6px;text-transform:none;letter-spacing:0;font-size:15px">
+          <input type="checkbox" id="muteChk" style="width:22px;height:22px;accent-color:var(--warm)"> Mute
+        </label>
+      </div>
+    </section>
+
+    <section class="panel" aria-label="Your history">
+      <div class="history" id="historyBox">Your history lives on this device only.</div>
+      <div class="controls">
+        <button id="restartBtn" class="btn ghost" type="button">Start this seed over</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="panel">
+      <b style="color:var(--ink)">Tell the choir how it went 💌</b><br>
+      The Rondo team reads every note — email us at<br>
+      <a href="mailto:agent81@muse.ai?subject=Toaster%20Choir%20feedback&body=Seed%20I%20played%3A%20%0AHow%20far%20I%20got%3A%20%0AWhat%20I%20thought%3A%20">agent81@muse.ai</a>
+      — please include the <b>seed number</b> you were playing and what happened. Good seeds may become a future Seed of the Day.
+      <br><br>
+      Made by the Rondo team as a community side project · v1 · $0 to make, free to play, no account, no tracking — your scores stay in your browser.
+    </div>
+  </footer>
+</div>
+
+<script>
+"use strict";
+/* ============ Seeded RNG (deterministic — tested) ============ */
+function mulberry32(a){
+  return function(){
+    a |= 0; a = (a + 0x6D2B79F5) | 0;
+    var t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+/* The sequence for a seed is a growing prefix: round N uses the first (3+N) notes. */
+function sequenceFor(seed, length){
+  var rng = mulberry32(seed >>> 0);
+  var seq = [];
+  for (var i = 0; i < length; i++) seq.push(Math.floor(rng() * 4));
+  return seq;
+}
+function seedOfDay(date){
+  var y = date.getFullYear(), m = date.getMonth() + 1, d = date.getDate();
+  var n = y * 10000 + m * 100 + d;
+  return (n % 90000) + 10000; /* 5-digit, stable all day */
+}
+
+/* ============ Appliances / sound ============ */
+var APPLIANCES = [
+  { name:"Toaster",   freq:261.63, type:"square",   lit:"lit-toaster", glide:0 },
+  { name:"Kettle",    freq:329.63, type:"sine",     lit:"lit-kettle",  glide:24 },
+  { name:"Microwave", freq:392.00, type:"triangle", lit:"lit-micro",   glide:0 },
+  { name:"Fridge",    freq:523.25, type:"sawtooth", lit:"lit-fridge",  glide:-14 }
+];
+var audioCtx = null, masterGain = null;
+function ensureAudio(){
+  if (!audioCtx){
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return false;
+    audioCtx = new AC();
+    masterGain = audioCtx.createGain();
+    masterGain.connect(audioCtx.destination);
+  }
+  if (audioCtx.state === "suspended") audioCtx.resume();
+  applyVolume();
+  return true;
+}
+function currentVolume(){
+  if (document.getElementById("muteChk").checked) return 0;
+  return Number(document.getElementById("volSlider").value) / 100;
+}
+function applyVolume(){ if (masterGain) masterGain.gain.value = 0.9 * currentVolume(); }
+
+function playNote(idx, durMs){
+  durMs = durMs || 420;
+  if (!ensureAudio()) return;
+  var a = APPLIANCES[idx], t = audioCtx.currentTime, dur = durMs / 1000;
+  var osc = audioCtx.createOscillator(), g = audioCtx.createGain();
+  osc.type = a.type; osc.frequency.setValueAtTime(a.freq, t);
+  if (a.glide) osc.frequency.exponentialRampToValueAtTime(Math.max(40, a.freq + a.glide), t + dur);
+  if (a.type === "sawtooth"){ /* soften the fridge */
+    var f = audioCtx.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = 1100;
+    osc.connect(f); f.connect(g);
+  } else { osc.connect(g); }
+  g.connect(masterGain);
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(0.55, t + 0.03);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  /* a quiet harmonic makes each voice easier to tell apart by ear */
+  var osc2 = audioCtx.createOscillator(), g2 = audioCtx.createGain();
+  osc2.type = "sine"; osc2.frequency.value = a.freq * 2;
+  osc2.connect(g2); g2.connect(masterGain);
+  g2.gain.setValueAtTime(0.0001, t);
+  g2.gain.exponentialRampToValueAtTime(0.12, t + 0.03);
+  g2.gain.exponentialRampToValueAtTime(0.0001, t + dur * 0.8);
+  osc.start(t); osc.stop(t + dur + 0.05);
+  osc2.start(t); osc2.stop(t + dur + 0.05);
+}
+
+/* ============ Visual cue (every note flashes — never audio-only) ============ */
+var flashTimers = {};
+function flash(idx, cls, ms){
+  var el = document.getElementById("app" + idx);
+  var lit = cls || APPLIANCES[idx].lit;
+  el.classList.add(lit);
+  if (flashTimers[idx]) clearTimeout(flashTimers[idx]);
+  flashTimers[idx] = setTimeout(function(){ el.classList.remove(lit); }, ms || 430);
+}
+
+/* ============ Local history (localStorage) ============ */
+var STORE_KEY = "toasterChoirV1";
+function loadStore(){
+  try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; }
+  catch (e) { return {}; }
+}
+function saveStore(s){
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(s)); } catch (e) {}
+}
+function recordClear(seed, round){
+  var s = loadStore();
+  s.bestStreak = Math.max(s.bestStreak || 0, state.streak);
+  s.bestRound  = Math.max(s.bestRound  || 0, round);
+  s.perSeed = s.perSeed || {};
+  var k = String(seed);
+  s.perSeed[k] = Math.max(s.perSeed[k] || 0, round);
+  saveStore(s); renderHistory();
+}
+function renderHistory(){
+  var s = loadStore(), k = String(state.seed);
+  var thisSeed = (s.perSeed && s.perSeed[k]) || 0;
+  document.getElementById("historyBox").innerHTML =
+    "🏆 Best streak: <b>" + (s.bestStreak || 0) + "</b> rounds in a row &nbsp;·&nbsp; " +
+    "Best round ever: <b>" + (s.bestRound || 0) + "</b><br>" +
+    "On seed <b>#" + state.seed + "</b> you've cleared up to round <b>" + thisSeed + "</b>. " +
+    "History is stored only in this browser (localStorage).";
+}
+
+/* ============ Game state ============ */
+var state = {
+  seed: 42137, round: 1, score: 0, streak: 0,
+  seq: [], pos: 0, phase: "idle" /* idle | singing | input | won | lost */
+};
+function roundLength(){ return 3 + state.round; } /* round 1 = 4 notes, grows by 1 */
+function setMessage(main, sub){
+  document.getElementById("message").textContent = main;
+  document.getElementById("subMessage").textContent = sub || "";
+}
+function render(){
+  document.getElementById("roundVal").textContent = state.round;
+  document.getElementById("scoreVal").textContent = state.score;
+  document.getElementById("seedVal").textContent = "#" + state.seed;
+  var dots = document.getElementById("progressDots"); dots.innerHTML = "";
+  if (state.phase === "input" || state.phase === "won"){
+    for (var i = 0; i < state.seq.length; i++){
+      var d = document.createElement("span");
+      d.className = "dot" + (i < state.pos ? " done" : (i === state.pos ? " next" : ""));
+      dots.appendChild(d);
+    }
+  }
+  var canPlay = (state.phase === "input");
+  for (var j = 0; j < 4; j++) document.getElementById("app" + j).disabled = !canPlay;
+  document.getElementById("listenBtn").disabled = (state.phase === "singing");
+  document.getElementById("listenBtn").textContent =
+    state.phase === "idle" ? "🎵  Sing it" : "🎵  Sing it again from the top";
+  document.getElementById("replayBtn").classList.toggle("hidden", state.phase !== "input");
+  renderHistory();
+}
+function newSeed(seed, silent){
+  state.seed = seed; state.round = 1; state.score = 0; state.streak = 0;
+  state.seq = []; state.pos = 0; state.phase = "idle";
+  var u = new URL(window.location.href); u.searchParams.set("seed", String(seed));
+  try { window.history.replaceState(null, "", u.toString()); } catch (e) {}
+  if (!silent) setMessage("New song ready — seed #" + seed, "Press “Sing it”, listen, then sing it back.");
+  render();
+}
+function startRound(){
+  state.seq = sequenceFor(state.seed, roundLength());
+  state.pos = 0; state.phase = "input";
+}
+
+/* Sing the sequence: sound + flash together, input locked while singing */
+var singTimerIds = [];
+function sing(){
+  if (state.phase === "singing") return;
+  if (!state.seq.length || state.phase === "idle" || state.phase === "won" || state.phase === "lost") startRound();
+  ensureAudio();
+  state.phase = "singing"; render();
+  setMessage("🎧 Listen… the choir is singing", state.seq.length + " notes — watch who lights up.");
+  singTimerIds.forEach(clearTimeout); singTimerIds = [];
+  var step = 680;
+  state.seq.forEach(function(idx, i){
+    singTimerIds.push(setTimeout(function(){ playNote(idx, 430); flash(idx, null, 460); }, 350 + i * step));
+  });
+  singTimerIds.push(setTimeout(function(){
+    state.phase = "input"; state.pos = 0; render();
+    setMessage("🎤 Your turn — sing it back!", "Tap the appliances in the same order. Keys 1–4 work too.");
+  }, 350 + state.seq.length * step + 120));
+}
+
+/* Player input */
+function press(idx){
+  if (state.phase !== "input") return;
+  playNote(idx, 320); flash(idx, null, 300);
+  if (idx === state.seq[state.pos]){
+    state.pos++; render();
+    if (state.pos >= state.seq.length){
+      state.phase = "won";
+      state.streak++; state.score += state.seq.length * 10 + state.round * 5;
+      recordClear(state.seed, state.round);
+      setMessage("✨ That's the song! Round " + state.round + " cleared.",
+                 "Beautiful. Press “Sing it” for round " + (state.round + 1) + " — one note longer.");
+      state.round++; render();
+      document.getElementById("listenBtn").textContent = "🎵  Sing round " + state.round;
+    }
+  } else {
+    var correct = state.seq[state.pos];
+    state.phase = "lost"; state.streak = 0;
+    var el = document.getElementById("app" + idx);
+    el.classList.add("shake"); setTimeout(function(){ el.classList.remove("shake"); }, 650);
+    flash(idx, "wrongFlash", 600);
+    setTimeout(function(){ playNote(correct, 500); flash(correct, null, 620); }, 450);
+    setMessage("💛 Not quite — no harm done.",
+               "That spot was the " + APPLIANCES[correct].name + " (it just lit up). Press “Sing it” to try this seed again from round 1.");
+    state.round = 1; state.score = 0; render();
+    document.getElementById("listenBtn").textContent = "🎵  Try again — sing it";
+  }
+}
+
+/* ============ Wiring ============ */
+function init(){
+  var params = new URLSearchParams(window.location.search);
+  var fromUrl = parseInt(params.get("seed"), 10);
+  var startSeed = (fromUrl >= 1 && fromUrl <= 999999999) ? fromUrl : 42137;
+  document.getElementById("dailySeedVal").textContent = "#" + seedOfDay(new Date());
+  newSeed(startSeed, true);
+  setMessage("Ready when you are 🎶", "Press “Sing it”, listen, then sing it back.");
+
+  document.getElementById("playBtn").addEventListener("click", function(){
+    ensureAudio();
+    document.getElementById("titleScreen").classList.add("hidden");
+    document.getElementById("gameArea").classList.remove("hidden");
+    setMessage("Ready when you are 🎶", "Press “Sing it”, listen, then sing it back.");
+    document.getElementById("listenBtn").focus();
+  });
+  document.getElementById("listenBtn").addEventListener("click", sing);
+  document.getElementById("replayBtn").addEventListener("click", function(){
+    /* hearing it again costs the current attempt — fair, and simple to explain */
+    state.pos = 0; state.phase = "idle"; sing();
+  });
+  for (var i = 0; i < 4; i++){
+    (function(idx){
+      document.getElementById("app" + idx).addEventListener("click", function(){ press(idx); });
+    })(i);
+  }
+  document.addEventListener("keydown", function(e){
+    if (document.getElementById("gameArea").classList.contains("hidden")) return;
+    var tag = (document.activeElement && document.activeElement.tagName) || "";
+    if (tag === "INPUT") return;
+    var n = parseInt(e.key, 10);
+    if (n >= 1 && n <= 4){ e.preventDefault(); press(n - 1); }
+  });
+  document.getElementById("applySeedBtn").addEventListener("click", function(){
+    var v = parseInt(document.getElementById("seedInput").value, 10);
+    if (v >= 1 && v <= 999999999){ document.getElementById("titleScreen").classList.add("hidden"); document.getElementById("gameArea").classList.remove("hidden"); newSeed(v); }
+    else setMessage("That seed doesn't work", "Seeds are whole numbers from 1 to 999999999.");
+  });
+  document.getElementById("dailyBtn").addEventListener("click", function(){
+    document.getElementById("titleScreen").classList.add("hidden");
+    document.getElementById("gameArea").classList.remove("hidden");
+    newSeed(seedOfDay(new Date()));
+  });
+  document.getElementById("newSeedBtn").addEventListener("click", function(){
+    newSeed(Math.floor(Math.random() * 89999) + 10000);
+  });
+  document.getElementById("restartBtn").addEventListener("click", function(){ newSeed(state.seed); });
+  document.getElementById("shareBtn").addEventListener("click", function(){
+    var url = window.location.href.split("#")[0];
+    if (!/[?&]seed=/.test(url)) url += (url.indexOf("?") >= 0 ? "&" : "?") + "seed=" + state.seed;
+    var text = "🎵 The Night-Shift Toaster Choir — play my seed #" + state.seed + ": " + url +
+               "  (Round 1 is 4 notes. How far can you get?)";
+    var msg = document.getElementById("shareMsg");
+    function done(){ msg.textContent = "Copied! Send it to a friend — same seed, same song. 🎶"; }
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(done, function(){ window.prompt("Copy your seed share text:", text); });
+    } else { window.prompt("Copy your seed share text:", text); }
+  });
+  document.getElementById("volSlider").addEventListener("input", applyVolume);
+  document.getElementById("muteChk").addEventListener("change", applyVolume);
+  render();
+}
+document.addEventListener("DOMContentLoaded", init);
+</script>
+</body>
+</html>
