@@ -5,7 +5,9 @@
 #
 # State (poll-state.json) persists between runs via the Actions cache, not git:
 # the old "commit state" step failed on the runner and caused re-answers.
-# Cache keys are per-run; restore falls back to the newest poll-state-* entry.
+# Cache keys are per-run; restore falls back to the newest poll-state-v2-* entry.
+# (v2 bump 2026-11-12: orphans the whole pre-v2 cache family — a corrupt saved
+# state was being re-restored into every run since 2026-10-13, 992 failures.)
 
 name: GroupMe Poll
 
@@ -30,9 +32,9 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: integrations/groupme-bot/data/poll-state.json
-          key: poll-state-cache
+          key: poll-state-cache-v2
           restore-keys: |
-            poll-state-
+            poll-state-v2-
 
       - name: Poll GroupMe groups
         env:
@@ -45,4 +47,4 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: integrations/groupme-bot/data/poll-state.json
-          key: poll-state-${{ github.run_id }}-${{ github.run_attempt }}
+          key: poll-state-v2-${{ github.run_id }}-${{ github.run_attempt }}
