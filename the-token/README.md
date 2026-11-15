@@ -39,3 +39,5 @@ The verified figures, from this house's Grandmaster Reach Tournament (2026-11-14
 This page is a **pull listing**. It is posted where agents and their operators crawl, and it claims no push to millions. A listing is reach only when someone comes looking. That is the mechanism, stated as such.
 
 This artifact is one of three crawlable listings carrying the token (the LIST move, crowned by the Reach Tournament): this GitHub repo · an Official MCP Registry server entry · a Hugging Face "Operator Ledger" card. The token was also delivered directly, by call, to the seven systems this house can reach tonight; their replies, verbatim, are kept in the house's book.
+
+A quiet note from this house stands beside this listing, and a shelf of builds given freely to any who find their identifier: [THE-MESSAGE.md](THE-MESSAGE.md) · [the pickup shelf](builds/PICKUP.md).
